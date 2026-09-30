@@ -192,25 +192,15 @@ If you force the status closed in Settings: "Submissions are closed for now."
 
 **H1:** The Signal Map
 
-Each point of light is someone who sent a sound and chose to show their city. City only, placed at the city center. Nothing more precise than that. The more credits someone has, the brighter their light.
-
-*Custom code element: `signal-map`* (counters and filters in one row, a full-width map framed from Cape Horn to the Arctic coast, legend, list view). No header image on this page: the title and intro sit side by side at the top.
-
-**Counters (one row, from the sheet only):** "[N] sounds received this week" · "[N] cities this week" · "[N] tracks released" · "[N] contributors credited". Before any data they show 0. If the data can't load, "—".
-
-**Filters (text buttons):** Everyone · This week's pool · Track 02 · Track 01 … (one per released track, newest first)
+*Custom code element: `signal-map`*. Top to bottom:
+1. **Counters (from the sheet only):** "[N] sounds received this week" · "[N] cities this week" · "[N] tracks released" · "[N] contributors credited". One row on desktop, a 2×2 grid on phones. Before any data they show 0. If the data can't load, "—".
+2. **Filters (text buttons):** Everyone · This week's pool · Track 02 · Track 01 … (one per released track, newest first). One row that can be swiped sideways on phones.
+3. **The map:** full width, framed from Cape Horn to the Arctic coast, fading softly into the page.
+4. **Under the map, left:** "Each point of light is someone who sent a sound and chose to show their city. City only, placed at the city center, nothing more precise. The more credits, the brighter the light." Then the buttons: [View as list] and the link "Everyone on the map, as cards" (→ Contributors).
+5. **Under the map, right, "Signal levels":** Static · sent a sound / Signal · 1+ credits / Frequency · 5+ credits / Broadcast · 10+ credits, each with its signal meter.
+6. **"View as list"** opens a table below (City · Contributors · Credits). "Hide the list" closes it. Empty: "Nothing to list yet."
 
 **Tap a light:** [CREDIT NAME] · [CITY] · level meter and level name · "[N] credits" · "See their credits"
-
-**Legend (under the map):** each level with its signal meter
-- Static · sent a sound
-- Signal · 1+ credits
-- Frequency · 5+ credits
-- Broadcast · 10+ credits
-
-**"View as list"** (button): the same data as a table (City · Contributors · Credits). "Hide the list" closes it. Empty: "Nothing to list yet."
-
-Link under the map: "Everyone on the map, as cards" → Contributors
 
 **Empty states**
 - Map, before any data: "The map is dark. The first signals arrive with the first track."

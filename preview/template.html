@@ -86,10 +86,7 @@ main > .page > section > h2 + .lede, main > .page > section > h2 + p { margin-to
 .motto { font-family: var(--display); font-weight: 600; font-size: var(--t-h2); line-height: 1.05; color: var(--fog); margin: 0 0 1.75rem; }
 
 /* Locked Submit page */
-.map-head { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.5rem 3rem; align-items: end; }
-.map-head h1 { margin: 0; }
-.map-head .lede { margin: 0; color: var(--fog); }
-@media (min-width: 900px) { .map-head { grid-template-columns: auto minmax(0, 30rem); justify-content: space-between; } }
+.vn h1.map-title { margin: 0 0 1.75rem; }
 .locked-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; align-items: center; }
 @media (min-width: 900px) { .locked-grid { grid-template-columns: minmax(0, 32rem) minmax(0, 26rem); justify-content: space-between; } }
 .locked h2 { font-size: var(--t-h2); }
@@ -316,12 +313,8 @@ main > .page > section > h2 + .lede, main > .page > section > h2 + p { margin-to
     <!-- SIGNAL MAP -->
     <div class="page" data-page="map" hidden>
       <section class="wrap">
-        <div class="map-head">
-          <h1>The Signal Map</h1>
-          <p class="lede">Each point of light is someone who sent a sound and chose to show their city. City only, placed at the city center. Nothing more precise than that. The more credits someone has, the brighter their light.</p>
-        </div>
-        <div id="vn-signal-map" style="margin-top:1.75rem"></div>
-        <p style="margin-top:1.5rem"><a href="#contributors">Everyone on the map, as cards</a></p>
+        <h1 class="map-title">The Signal Map</h1>
+        <div id="vn-signal-map"></div>
       </section>
       <section class="wrap" id="vn-broadcast"></section>
     </div>

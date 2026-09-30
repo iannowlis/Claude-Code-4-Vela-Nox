@@ -415,11 +415,16 @@
           return '<button type="button" class="vn-filter" data-f="' + esc(f[0]) + '" aria-pressed="' + (i === 0) + '">' + esc(f[1]) + '</button>';
         }).join('') + '</div></div>' +
         '<div class="vn-bleed vn-map-box vn-map-page"></div>' +
-        '<div class="vn-legend">' + LEVELS.map(function (l, i) {
-          return '<span>' + meter(l) + '<span>· ' + ['sent a sound', '1+ credits', '5+ credits', '10+ credits'][i] + '</span></span>';
-        }).join('') + '</div>' +
-        '<p class="vn-list-toggle"><button type="button" class="vn-btn-2" aria-expanded="false">View as list</button></p><div class="vn-list" hidden></div>');
-      var box = el.querySelector('.vn-map-box'), list = el.querySelector('.vn-list'), tog = el.querySelector('.vn-list-toggle button');
+        '<div class="vn-map-foot">' +
+          '<div><p class="vn-map-note">Each point of light is someone who sent a sound and chose to show their city. City only, placed at the city center, nothing more precise. The more credits, the brighter the light.</p>' +
+          '<div class="vn-map-actions"><button type="button" class="vn-btn-2 vn-list-btn" aria-expanded="false" aria-controls="vn-map-list">View as list</button>' +
+          '<a href="' + esc(C.paths.contributors) + '">Everyone on the map, as cards</a></div></div>' +
+          '<div class="vn-map-key"><p class="vn-key-title">Signal levels</p><ul class="vn-legend">' + LEVELS.map(function (l, i) {
+            return '<li>' + meter(l) + '<span class="vn-fog">' + ['sent a sound', '1+ credits', '5+ credits', '10+ credits'][i] + '</span></li>';
+          }).join('') + '</ul></div>' +
+        '</div>' +
+        '<div class="vn-list" id="vn-map-list" hidden></div>');
+      var box = el.querySelector('.vn-map-box'), list = el.querySelector('.vn-list'), tog = el.querySelector('.vn-list-btn');
       var current = 'all';
       function selected() {
         var all = people(d);
