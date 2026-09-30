@@ -80,6 +80,13 @@ Every Monday, the finished track arrives by email in WAV, FLAC and MP3, with the
 *Custom code element: `home-latest-track`.* One row: cover, "Track [NN] · [TITLE]", "[THEME] · Sent [DATE]", "[N] contributors · [N] cities", then the button "See the credits".
 Empty state (before the first track): "Track 01 lands in subscribers' inboxes on Monday, October 12."
 
+### H2: Who's Vela
+Vela Nox is an AI persona. She began as an archive: a few sound engineers built her to save twelve years of recordings from Ströme, a club on the coast, before it was demolished. DJ sets, crowd noise, bar chatter, rain on the roof. She spent so long inside those nights that she learned the culture itself.
+
+She lives, as the story goes, on a decommissioned radio tower on a foggy Baltic coast, and she's only around at night. She talks about records, clubs and the rules nobody writes down on [Instagram](https://www.instagram.com/velanoxmusic/) and [TikTok](https://www.tiktok.com/@velanox_music). The tracks released under her name are made by a human producer, from the sounds you send.
+
+*(Beside it on desktop, when you send it: one portrait of Vela, cropped at the shoulder, looking into the page.)*
+
 ### H2: The rules, briefly
 - Send only your own recording. No one else's music, and no one's voice without their permission.
 - Not every sound makes the track. Every sound is heard.
@@ -315,7 +322,7 @@ Empty state: "No one here yet. Cards appear once people send sounds and choose t
 - Cancel anytime, using the "manage subscription" link in your Stripe billing emails, or by emailing [velanox@gmail.com](mailto:velanox@gmail.com) from the address you subscribed with. You keep access until the end of the week you've paid for. See the [Cancellation Policy](/cancellation).
 
 ### H2: About Vela
-- Vela Nox is an AI persona. The music is made by a human producer from subscribers' sounds.
+- Vela Nox is an AI persona. She began as an archive of twelve years of recordings from Ströme, a coastal club that was demolished, and learned the culture from those nights. The music released under her name is made by a human producer from subscribers' sounds.
 
 ### H2: FAQ
 *An accordion: each question opens and closes with a plus icon.*
@@ -364,7 +371,7 @@ Email [velanox@gmail.com](mailto:velanox@gmail.com). You'll be removed from the 
 Anytime. Use the "manage subscription" link in your Stripe billing emails, or email [velanox@gmail.com](mailto:velanox@gmail.com) from the address you subscribed with. You keep access until the end of the week you've paid for, and you won't be charged again. The details are in the [Cancellation Policy](/cancellation).
 
 **H3: Is Vela real?**
-No. Vela Nox is an AI persona. The music is made by a human producer from subscribers' sounds.
+No. Vela Nox is an AI persona. She began as a system built to archive the recordings of Ströme, a coastal club, before it was demolished. The tower, the fog and the nights are her story. The music is real: a human producer makes every track from subscribers' sounds.
 
 Questions not answered here: [velanox@gmail.com](mailto:velanox@gmail.com)
 
@@ -423,4 +430,10 @@ Headings: one H1 per page. Sections are H2, cards and FAQ questions are H3. The 
 | Signal Map (full) | Night map of the world with points of light for contributors' cities. Tap a light for details. |
 | Signal Map (home preview) | Night map of the world. Each point of light is the city of someone who sent a sound. |
 | Track mini map | Night map with the cities of people credited on Track [NN]. |
+| Vela portrait (home, beside the theme strip or "Who's Vela") | Vela Nox, platinum buzzcut and a long thin braid, in a translucent smoke-blue coat, looking into the fog at night. *(adjust to the photo you pick)* |
+| Vela profile photo (footer) | Vela Nox |
+| Radio tower (if used) | A rusted radio tower platform above a foggy sea at blue hour, a red warning light on top. |
+| Ströme ruins (if used) | A demolished club in the rain, lit by one orange streetlamp through a torn roof. |
+| The vault (if used) | An underground club in an old bank basement, a wall of rusted safe-deposit boxes, a strobe cutting through fog. |
+| The stairwell (if used) | A raw concrete stairwell at 4am, a caged bulb over a steel door. |
 | Waveform | Decorative. Each marker is a labeled button: "[sound title] · [credit name] · [city] · [timestamp]" |
