@@ -18,7 +18,7 @@ Layout, colour, type and motion follow the Vela Nox design system (see `copy/bui
 Every week, a techno track built from your sounds.
 
 **Subhead**
-$3 a week. Send one sound for the week's theme. Vote on next week's. If your sound is used, you're credited to the exact second. The finished track reaches your inbox before it's on streaming platforms.
+Send one sound for the week's theme. Vote on next week's. If your sound is used, you're credited to the exact second. The finished track reaches your inbox before it's on streaming platforms.
 
 [Button] Send me a sound — $3/week
 
