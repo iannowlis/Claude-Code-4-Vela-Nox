@@ -5,7 +5,7 @@ Every subscribe button, sitewide, reads exactly: **Send me a sound — $3/week**
 The submission button reads exactly: **Send it**
 Layout, colour, type and motion follow the Vela Nox design system (see `copy/build-note.md` → Design). Sentence case everywhere, no all-caps labels.
 
-**Header (every page):** "Vela Nox" (links home) on the left. Submit · Map · Tracks · Rules on the right. On phones: a "Menu" button that opens a full-screen list: Home, Submit, Map, Tracks, Contributors, Rules.
+**Header (every page):** "Vela Nox" (links home) on the left. Home · Submit · Map · Tracks · Rules on the right. The current page is underlined. On phones: a "Menu" button that opens a full-screen list: Home, Submit, Map, Tracks, Contributors, Rules.
 
 ---
 
