@@ -1,0 +1,442 @@
+<title>Vela Nox Site Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/*{{CSS}}*/
+/* Preview page chrome. Night only: the site has one look, so there is no light theme. */
+:root { color-scheme: dark; --pv-bar: #1a1410; --pv-bar-line: #4a3421; }
+html, body { background: var(--vn-navy); }
+body { margin: 0; color: var(--vn-fog); font-family: var(--vn-sans); }
+.pv-bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--pv-bar); border-bottom: 1px solid var(--pv-bar-line); padding: 0.55rem 16px; display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; align-items: center; font-family: var(--vn-mono); font-size: 0.8rem; }
+.pv-bar b { color: var(--vn-sodium); letter-spacing: 0.12em; font-weight: 500; }
+.pv-bar label { display: flex; gap: 0.4rem; align-items: center; color: var(--vn-fog-dim); }
+.pv-bar select { background: var(--vn-night); color: var(--vn-fog); border: 1px solid var(--pv-bar-line); font: inherit; padding: 0.25rem 0.4rem; max-width: 100%; }
+.pv-note { background: #2a1a0c; color: var(--vn-sodium-soft); font-family: var(--vn-mono); font-size: 0.8rem; padding: 0.45rem 16px; border-bottom: 1px solid var(--pv-bar-line); }
+
+.site-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem 1.5rem; padding: 1rem 16px; border-bottom: 1px solid var(--vn-line); max-width: 1120px; margin: 0 auto; }
+.wordmark { font-family: var(--vn-mono); letter-spacing: 0.32em; color: #eef0f2; text-decoration: none; font-size: 0.95rem; }
+.site-nav { display: flex; flex-wrap: wrap; gap: 0.35rem 1.1rem; align-items: center; font-size: 0.9rem; }
+.site-nav a { color: var(--vn-fog); text-decoration: none; }
+.site-nav a[aria-current="page"] { color: var(--vn-sodium); }
+.site-nav .vn-btn { padding: 0.5rem 0.85rem; font-size: 0.85rem; }
+
+main { max-width: 1120px; margin: 0 auto; padding: 0 16px 4rem; }
+main h1 { color: #eef0f2; font-weight: 400; font-size: clamp(2rem, 6vw, 3.4rem); line-height: 1.05; letter-spacing: -0.01em; text-wrap: balance; margin: 2.5rem 0 1rem; }
+main h2 { color: #e6e8ea; font-weight: 500; font-size: 1.35rem; text-wrap: balance; margin: 0 0 0.75rem; }
+main h3 { color: #e6e8ea; font-weight: 500; font-size: 1.05rem; margin: 0 0 0.4rem; }
+.page > section { padding-block: 2.75rem; border-top: 1px solid var(--vn-line); }
+.page > section:first-of-type { border-top: 0; }
+.lede { max-width: 62ch; font-size: 1.08rem; }
+.prose { max-width: 66ch; }
+.prose li { margin-bottom: 0.4rem; }
+
+.hero { padding-block: 3.5rem 2.5rem !important; position: relative; }
+.hero-freq { font-family: var(--vn-mono); font-size: 0.75rem; letter-spacing: 0.22em; color: var(--vn-fog-dim); text-transform: uppercase; }
+.hero-freq span { color: var(--vn-sodium); }
+.hero h1 { font-weight: 300; font-size: clamp(2.3rem, 7.5vw, 4.6rem); max-width: 14ch; margin-top: 1.25rem; }
+.hero .lede { margin-bottom: 1.75rem; }
+.hero-strip { margin-top: 2.5rem; }
+
+.steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1px; background: var(--vn-line); border: 1px solid var(--vn-line); }
+.steps li { background: var(--vn-navy); padding: 1rem; min-width: 0; }
+.steps .day { display: block; font-family: var(--vn-mono); font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--vn-sodium-soft); margin-bottom: 0.4rem; }
+.steps p { margin: 0; font-size: 0.95rem; }
+.fine { font-family: var(--vn-mono); font-size: 0.8rem; color: var(--vn-fog-dim); margin-top: 0.75rem; }
+
+.perks { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+.perk { background: var(--vn-night); border: 1px solid var(--vn-line); padding: 1.1rem; min-width: 0; }
+.perk .no { font-family: var(--vn-mono); color: var(--vn-sodium); font-size: 0.8rem; }
+.perk p, .perk ul { font-size: 0.95rem; }
+.perk ul { padding-left: 1.1rem; margin: 0.5rem 0; }
+.perk li { margin-bottom: 0.35rem; }
+.perk q { color: #eef0f2; }
+
+.rules-short { list-style: none; padding: 0; margin: 0 0 1rem; display: grid; gap: 0.5rem; max-width: 66ch; }
+.rules-short li { padding-left: 1.2rem; position: relative; }
+.rules-short li::before { content: ""; position: absolute; left: 0; top: 0.7em; width: 6px; height: 1px; background: var(--vn-sodium); }
+
+.final { text-align: left; padding-block: 4.5rem !important; }
+.final h2 { font-weight: 300; font-size: clamp(1.8rem, 5vw, 2.8rem); margin-bottom: 1.5rem; }
+
+.faq h3 { margin-top: 1.5rem; }
+.faq p { max-width: 66ch; }
+.gate { background: var(--vn-night); border: 1px solid var(--vn-line); padding: 1.5rem; max-width: 62ch; }
+.portal-tag { display: inline-block; font-family: var(--vn-mono); font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--vn-fog-dim); border: 1px solid var(--vn-line); padding: 0.2rem 0.5rem; margin: 2rem 0 0; }
+
+/* Mock of the GoHighLevel form, preview only */
+.mock-form { display: grid; gap: 0.9rem; max-width: 560px; margin-top: 1.25rem; }
+.mock-form label { display: grid; gap: 0.3rem; font-size: 0.92rem; color: #e6e8ea; }
+.mock-form small { color: var(--vn-fog-dim); font-family: var(--vn-mono); font-size: 0.78rem; }
+.mock-form input[type=text], .mock-form input[type=email], .mock-form input[type=file] { background: var(--vn-night); color: var(--vn-fog); border: 1px solid var(--vn-navy-3); padding: 0.6rem; font: inherit; width: 100%; }
+.mock-form .check { display: grid; grid-template-columns: auto 1fr; gap: 0.6rem; align-items: start; font-size: 0.9rem; color: var(--vn-fog); }
+.mock-form .check input { margin-top: 0.3rem; accent-color: var(--vn-sodium); }
+.mock-form .above { font-size: 0.9rem; color: var(--vn-fog); border-top: 1px solid var(--vn-line); padding-top: 0.9rem; }
+.mock-form button { justify-self: start; border: 0; cursor: pointer; font-size: 1rem; }
+
+.legal h1 { font-size: clamp(1.6rem, 4vw, 2.1rem); }
+.site-foot { border-top: 1px solid var(--vn-line); background: var(--vn-night); }
+.site-foot .in { max-width: 1120px; margin: 0 auto; padding: 2rem 16px; display: flex; flex-wrap: wrap; gap: 0.75rem 2rem; align-items: baseline; font-size: 0.9rem; }
+.site-foot .ai { font-family: var(--vn-mono); font-size: 0.8rem; color: var(--vn-fog-dim); margin-left: auto; }
+.site-foot nav { display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; }
+@media (max-width: 560px) { .site-foot .ai { margin-left: 0; } }
+</style>
+
+<div class="vn">
+  <div class="pv-bar" role="region" aria-label="Preview controls">
+    <b>PREVIEW</b>
+    <label for="pv-data">Data
+      <select id="pv-data">
+        <option value="example">Example data (made up)</option>
+        <option value="empty">Launch day (empty sheet)</option>
+      </select>
+    </label>
+    <label for="pv-date">Date (ET)
+      <select id="pv-date">
+        <option value="2026-09-30T12:00:00-04:00">Wed Sep 30 · launch, open</option>
+        <option value="2026-10-10T12:00:00-04:00">Sat Oct 10 · launch, track being made</option>
+        <option value="2026-10-12T12:00:00-04:00">Mon Oct 12 · Track 01 goes out</option>
+        <option value="2026-10-20T12:00:00-04:00" selected>Tue Oct 20 · regular week, open</option>
+        <option value="2026-10-23T12:00:00-04:00">Fri Oct 23 · regular week, closed</option>
+      </select>
+    </label>
+  </div>
+  <div class="pv-note" id="pv-note"></div>
+
+  <header class="site-head">
+    <a class="wordmark" href="#home" aria-label="Vela Nox, home">VELA NOX</a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="#home">Home</a>
+      <a href="#submit">Submit</a>
+      <a href="#map">The Signal Map</a>
+      <a href="#tracks">Tracks &amp; Credits</a>
+      <a href="#contributors">Contributors</a>
+      <a href="#rules">Rules &amp; FAQ</a>
+      <a class="vn-btn" href="#subscribe">Send me a sound — $3/week</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HOME -->
+    <div class="page" data-page="home">
+      <section class="hero">
+        <div class="hero-freq">Weekly broadcast <span>·</span> community-made techno <span>·</span> from the tower on the coast</div>
+        <h1>Your sound could be in this week’s techno track.</h1>
+        <p class="lede">$3 a week. Send one sound for the week’s theme. Vote on next week’s. If your sound is used, you’re credited to the exact second. The finished track reaches your inbox before it’s on streaming platforms.</p>
+        <a class="vn-btn" href="#subscribe">Send me a sound — $3/week</a>
+        <div class="hero-strip" id="vn-strip"></div>
+      </section>
+
+      <section>
+        <h2>How a week works</h2>
+        <ol class="steps">
+          <li><span class="day">Monday</span><p>The theme is announced, in Vela’s Close Friends story and on this site. Last week’s vote picked it.</p></li>
+          <li><span class="day">Tuesday–Thursday</span><p>Record one sound for the theme and send it. The form closes Thursday at 11:59 pm ET.</p></li>
+          <li><span class="day">Monday–Sunday</span><p>The vote for next week’s theme runs all week in Vela’s Close Friends story. It closes Sunday at 11:59 pm ET. You’re voting for next week, not this one.</p></li>
+          <li><span class="day">Friday–Sunday</span><p>The track is made from the sounds that came in.</p></li>
+          <li><span class="day">The next Monday</span><p>The finished track lands in your inbox, with the credits and timestamps. About a month later, once the distributor has reviewed everything, it reaches streaming platforms. You’ll get an email when it’s out.</p></li>
+        </ol>
+        <p class="fine">All times Eastern Time.</p>
+        <div id="vn-launch"></div>
+      </section>
+
+      <section>
+        <h2>What $3 a week gets you</h2>
+        <p>Four things. That’s the whole list.</p>
+        <div class="perks">
+          <article class="perk"><div class="no">01</div><h3>One sound a week</h3><p>Record something for the week’s theme and send it through the Submit page. One sound, up to 10 seconds, up to 3 MB, any audio format.</p></article>
+          <article class="perk"><div class="no">02</div><h3>A vote on next week’s theme</h3><p>The vote runs Monday to Sunday through a Google Form in Vela’s Close Friends story on Instagram, pinned in a Close Friends highlight. You give your Instagram handle when you subscribe and get added to Close Friends. You’ll need an Instagram account for this.</p></article>
+          <article class="perk"><div class="no">03</div><h3>Credit, to the second</h3><p>If your sound is used, you’re credited.</p>
+            <ul>
+              <li><b>Instagram:</b> your credit name, your city and the exact second it plays. <q>Your kettle, Lyon, at 2:14.</q></li>
+              <li><b>Subscriber email:</b> credit name, city and timestamp.</li>
+              <li><b>Streaming platforms:</b> your credit name only, in the release credits or notes where the platform allows it. The artist field says Vela Nox.</li>
+              <li><b>This website:</b> your credit name. If you choose to show your city, also your city and timestamp, on the track’s credits page and the Signal Map.</li>
+            </ul>
+            <p>Your city only appears if you choose to show it.</p></article>
+          <article class="perk"><div class="no">04</div><h3>The track, first</h3><p>Every Monday, the finished track arrives by email. Download it in WAV, FLAC or MP3, with the full credits and timestamps. It gets to you before it’s on streaming platforms.</p></article>
+        </div>
+      </section>
+
+      <section>
+        <h2>The Signal Map</h2>
+        <p>Every light is someone who sent a sound and chose to show their city. The more credits, the brighter the light.</p>
+        <div id="vn-map-preview"></div>
+      </section>
+
+      <section>
+        <h2>Latest transmission</h2>
+        <div id="vn-latest"></div>
+      </section>
+
+      <section>
+        <h2>The rules, briefly</h2>
+        <ul class="rules-short">
+          <li>Send only your own recording. No one else’s music, and no one’s voice without their permission.</li>
+          <li>Not every sound makes the track. Every sound is heard.</li>
+          <li>You’re credited if your sound is used. There’s no payment and no share of streaming income.</li>
+          <li>Your city shows only if you tick the box. Cancel anytime. You keep access until the end of the week you’ve paid for.</li>
+        </ul>
+        <a class="vn-link-quiet" href="#rules">Read the rules and FAQ</a>
+      </section>
+
+      <section class="final">
+        <h2>Stay for the last record.</h2>
+        <a class="vn-btn" href="#subscribe">Send me a sound — $3/week</a>
+      </section>
+    </div>
+
+    <!-- SUBMIT (public) -->
+    <div class="page" data-page="submit" hidden>
+      <section>
+        <h1>Send this week’s sound</h1>
+        <div class="gate">
+          <p>The Submit form is for subscribers. For $3 a week, you send one sound for that week’s theme. If it’s used, you’re credited to the second.</p>
+          <p><a class="vn-btn" href="#subscribe">Send me a sound — $3/week</a></p>
+          <p style="margin:0">Already subscribed? <a href="#portal">Log in to send your sound</a><br>Can’t get in? Write to <a href="mailto:velanox@gmail.com">velanox@gmail.com</a>.</p>
+        </div>
+        <p class="fine">Preview: <a href="#portal">see what a logged-in subscriber sees</a></p>
+      </section>
+    </div>
+
+    <!-- SUBMIT (portal lesson) -->
+    <div class="page" data-page="portal" hidden>
+      <div class="portal-tag">Subscriber portal · Submit lesson</div>
+      <section><div id="vn-submit"></div></section>
+      <section>
+        <p class="fine">After “Send it”, subscribers land on this confirmation:</p>
+        <div id="vn-sent"></div>
+      </section>
+      <section>
+        <p class="fine">A second attempt in the same week shows:</p>
+        <div id="vn-already"></div>
+      </section>
+    </div>
+
+    <!-- SUBSCRIBE (placeholder for the Stripe checkout page) -->
+    <div class="page" data-page="subscribe" hidden>
+      <section>
+        <h1>Send me a sound — $3/week</h1>
+        <div class="gate"><p>This is where the GoHighLevel order form with the Stripe checkout goes: the weekly $3 subscription and a required Instagram handle field.</p><p style="margin:0">It isn’t part of this preview.</p></div>
+      </section>
+    </div>
+
+    <!-- SIGNAL MAP -->
+    <div class="page" data-page="map" hidden>
+      <section>
+        <h1>The Signal Map</h1>
+        <p class="lede">Each point of light is someone who sent a sound and chose to show their city. City only, placed at the city center. Nothing more precise than that.</p>
+        <p class="lede">The more credits someone has, the brighter their light. Pick a track to see only the cities in it.</p>
+        <div id="vn-signal-map"></div>
+      </section>
+      <section id="vn-broadcast"></section>
+    </div>
+
+    <!-- TRACKS INDEX -->
+    <div class="page" data-page="tracks" hidden>
+      <section>
+        <h1>Tracks &amp; Credits</h1>
+        <p class="lede">Every track so far, newest first. Each one is built from sounds people sent that week. A track shows up here once subscribers have it in their inbox.</p>
+        <div id="vn-tracks"></div>
+      </section>
+    </div>
+
+    <!-- TRACK PAGE -->
+    <div class="page" data-page="track" hidden>
+      <section><div id="vn-track"></div></section>
+    </div>
+
+    <!-- CONTRIBUTORS -->
+    <div class="page" data-page="contributors" hidden>
+      <section>
+        <h1>Contributors</h1>
+        <p class="lede">Everyone here sent a sound and chose to show their city. People who didn’t are credited by name only and aren’t listed here.</p>
+        <div id="vn-contributors"></div>
+      </section>
+      <section>
+        <h2>The levels</h2>
+        <ul class="rules-short">
+          <li><b>Static:</b> sent a sound, not credited yet.</li>
+          <li><b>Signal:</b> 1 credit or more.</li>
+          <li><b>Frequency:</b> 5 credits or more.</li>
+          <li><b>Broadcast:</b> 10 credits or more.</li>
+        </ul>
+        <p>Levels come from real credits only. They move up on their own as the sheet fills in.</p>
+      </section>
+    </div>
+
+    <!-- RULES & FAQ -->
+    <div class="page prose-page" data-page="rules" hidden>
+      <section class="prose">
+        <h1>Rules &amp; FAQ</h1>
+        <h2>Your sound</h2>
+        <ul>
+          <li>You need to be 13 or over to subscribe or send a sound. If you’re under 18, you need a parent’s or guardian’s permission.</li>
+          <li>Send only a recording you made. It can’t have anyone else’s music in it, or anyone’s voice without their permission. By sending it, you let Vela Nox use it and release it. The full terms are at <a href="#terms">/terms</a>.</li>
+          <li>Nothing unlawful, hateful, harassing, sexually explicit or harmful.</li>
+          <li>One sound a week, for that week’s theme. Up to 10 seconds, up to 3 MB, any audio format.</li>
+          <li>Not every sound makes the track. Every sound is heard.</li>
+        </ul>
+        <h2>Credit, not payment</h2>
+        <ul>
+          <li>If your sound is used, you’re credited. You don’t receive payment or a share of streaming income.</li>
+          <li>On Instagram: your credit name, your city (if you chose to show it) and the exact second your sound plays.</li>
+          <li>In the subscriber email: credit name, city (if you chose to show it) and timestamp.</li>
+          <li>On this website: your credit name. If you chose to show your city, also your city and timestamp, on the track’s credits page and the Signal Map.</li>
+          <li>On streaming platforms: your credit name only, in the release credits or notes where the platform allows it. Cities and timestamps don’t appear there. The artist field lists Vela Nox only.</li>
+        </ul>
+        <h2>Your city and your name</h2>
+        <ul>
+          <li>Your city appears only if you tick “Show my city with my credit”. City only, never your address.</li>
+          <li>If you don’t tick it, you’re credited by your credit name only, everywhere, and you don’t appear on the Signal Map.</li>
+          <li>You can ask to be removed from the Signal Map and the public website credits at any time by emailing <a href="mailto:velanox@gmail.com">velanox@gmail.com</a>. Sounds already released in a track stay in that track.</li>
+        </ul>
+        <h2>The track and streaming</h2>
+        <ul>
+          <li>Subscribers get the finished track by email every Monday, before it’s on streaming platforms.</li>
+          <li>Tracks reach streaming platforms about a month after that email, once the distributor has reviewed everything. Subscribers get an email when a track is out. No specific release date is promised.</li>
+          <li>The early-access files are for personal listening. Please don’t share or upload them before the public release.</li>
+        </ul>
+        <h2>Vela</h2>
+        <ul><li>Vela Nox is an AI persona. The music is made by a human producer from subscribers’ sounds.</li></ul>
+        <h2>Cancelling</h2>
+        <ul><li>Cancel anytime, using the “manage subscription” link in your Stripe billing emails, or by emailing <a href="mailto:velanox@gmail.com">velanox@gmail.com</a> from the address you subscribed with. You keep access until the end of the week you’ve paid for. Payments aren’t refunded, except for charges made in error. See the <a href="#cancellation">Cancellation Policy</a>.</li></ul>
+      </section>
+      <section class="prose faq">
+        <h2>FAQ</h2>
+        <h3>What sound can I send?</h3>
+        <p>Something you recorded yourself, for that week’s theme. No one else’s music, and no one’s voice without their permission. Any audio format.</p>
+        <h3>How long can it be?</h3>
+        <p>Up to 10 seconds, and up to 3 MB.</p>
+        <h3>When is the deadline?</h3>
+        <div id="vn-faq-deadline"></div>
+        <h3>Will my sound definitely be used?</h3>
+        <p>No. Every sound is heard, but not every sound makes the track.</p>
+        <h3>Do I get paid?</h3>
+        <p>No. If your sound is used, you’re credited. There’s no payment and no share of streaming income.</p>
+        <h3>Where will I be credited?</h3>
+        <p>On Instagram and in the subscriber email: your credit name, the exact second your sound plays, and your city if you chose to show it. On this website: your credit name, plus your city and timestamp if you chose to show your city. On streaming platforms: credit name only, where the platform allows it.</p>
+        <h3>How do I get the track early?</h3>
+        <p>Subscribe. Every Monday, subscribers get an email with the finished track to download in WAV, FLAC and MP3, plus the full credits and timestamps. That’s before it’s on streaming platforms. The files are for personal listening, so please don’t share or upload them before the public release.</p>
+        <h3>When is it on streaming platforms?</h3>
+        <p>About a month after subscribers get it by email. That’s how long the distributor takes to review everything. Subscribers get an email when it’s out. No specific date is promised.</p>
+        <h3>How does the theme vote work?</h3>
+        <div id="vn-faq-vote"></div>
+        <h3>Do I need Instagram?</h3>
+        <p>Yes. The vote happens in Vela’s Close Friends story. You give your Instagram handle when you subscribe, and you’re added to Close Friends.</p>
+        <h3>Will my name and city be public?</h3>
+        <p>Your credit name, yes, if your sound is used. You choose the name. Your city only if you tick the box, and only the city, never your address. If you tick it, you also show up on the Signal Map once you’ve sent a sound. Streaming platforms only ever get the name.</p>
+        <h3>How do I get off the map?</h3>
+        <p>Email <a href="mailto:velanox@gmail.com">velanox@gmail.com</a>. You’ll be removed from the Signal Map and the public website credits. Sounds already released in a track stay in that track.</p>
+        <h3>How do I cancel?</h3>
+        <p>Anytime. Use the “manage subscription” link in your Stripe billing emails, or email <a href="mailto:velanox@gmail.com">velanox@gmail.com</a> from the address you subscribed with. You keep access until the end of the week you’ve paid for, and you won’t be charged again. The details are in the <a href="#cancellation">Cancellation Policy</a>.</p>
+        <h3>Is Vela real?</h3>
+        <p>No. Vela Nox is an AI persona. The music is made by a human producer from subscribers’ sounds.</p>
+        <p class="fine">Questions not answered here: <a href="mailto:velanox@gmail.com">velanox@gmail.com</a></p>
+      </section>
+    </div>
+
+    <div class="page legal" data-page="terms" hidden><section>{{TERMS}}</section></div>
+    <div class="page legal" data-page="privacy" hidden><section>{{PRIVACY}}</section></div>
+    <div class="page legal" data-page="cancellation" hidden><section>{{CANCELLATION}}</section></div>
+  </main>
+
+  <footer class="site-foot">
+    <div class="in">
+      <span style="color:#eef0f2">Vela Nox</span>
+      <a href="mailto:velanox@gmail.com">velanox@gmail.com</a>
+      <nav aria-label="Social"><a href="https://www.instagram.com/velanoxmusic/" rel="noopener" target="_blank">Instagram</a><a href="https://www.tiktok.com/@velanox_music" rel="noopener" target="_blank">TikTok</a></nav>
+      <nav aria-label="Legal"><a href="#terms">Terms</a><a href="#privacy">Privacy</a><a href="#cancellation">Cancellation</a></nav>
+      <span class="ai">AI persona · music by humans</span>
+    </div>
+  </footer>
+</div>
+
+<script>
+window.VELA_CONFIG = {
+  paths: { home: '#home', submit: '#submit', map: '#map', tracks: '#tracks', track: '#track', contributors: '#contributors', rules: '#rules', terms: '#terms', cancellation: '#cancellation' },
+  subscribeUrl: '#subscribe',
+  land: /*{{LAND}}*/null
+};
+/*{{JS}}*/
+</script>
+<script>
+/* Example data for the preview only. Made-up names and places, in the exact shape the Google Sheet endpoint sends. */
+var EXAMPLE = /*{{EXAMPLE}}*/null;
+var EMPTY = { settings: { current_week: '1', theme: "The room you're in right now", theme_note: "Vela's pick", status_override: 'auto', deadline_override: '' },
+  counters: { weekSounds: 0, weekCities: 0, tracks: 0, credited: 0 }, tracks: [], contributors: [] };
+
+var MOCK_FORM = '<form class="mock-form" id="mock-form" novalidate>' +
+  '<label for="f-email">Email<input id="f-email" type="email"><small>The one you subscribed with.</small></label>' +
+  '<label for="f-name">Credit name<input id="f-name" type="text"><small>How you want to be credited. This is the name people will see.</small></label>' +
+  '<label for="f-city">City<input id="f-city" type="text"><small>Just the city.</small></label>' +
+  '<label for="f-country">Country<input id="f-country" type="text"></label>' +
+  '<label for="f-ig">Instagram handle<input id="f-ig" type="text" placeholder="@yourhandle"></label>' +
+  '<label for="f-title">Sound title<input id="f-title" type="text" placeholder="my kettle"></label>' +
+  '<label for="f-desc">One line about the sound<input id="f-desc" type="text"><small>What it is, in one line.</small></label>' +
+  '<label for="f-file">Your sound<input id="f-file" type="file" accept="audio/*"><small>Any audio format. 10 seconds max. 3 MB max.</small></label>' +
+  '<div class="check"><input id="c1" type="checkbox"><label for="c1">This recording is mine. It has no one else’s music in it, and no one’s voice without their permission. You can use it and release it. <a href="#terms">Read the terms</a></label></div>' +
+  '<div class="check"><input id="c2" type="checkbox"><label for="c2">I understand not every sound makes the track. Every sound is heard.</label></div>' +
+  '<div class="check"><input id="c3" type="checkbox"><label for="c3">I understand I’ll be credited if my sound is used, but I won’t receive payment or a share of streaming income.</label></div>' +
+  '<div class="check"><input id="c4" type="checkbox"><label for="c4">Show my city with my credit (Instagram, subscriber email, and the Signal Map on this website). City only, never my address.<br><small>Leave this unticked and you’re credited by name only, everywhere, and you won’t appear on the Signal Map.</small></label></div>' +
+  '<p class="above">If your sound makes the track, you’ll be credited when it’s released: name, city and the exact second it plays on Instagram and in the subscriber email, and your name on streaming platforms.</p>' +
+  '<button class="vn-btn" type="submit">Send it</button></form>';
+
+(function () {
+  var C = VELA.config, R = VELA.render, current = 'home', trackN = null;
+  var dataSel = document.getElementById('pv-data'), dateSel = document.getElementById('pv-date'), note = document.getElementById('pv-note');
+
+  function setData() {
+    C.data = dataSel.value === 'example' ? EXAMPLE : EMPTY;
+    C.now = dateSel.value;
+    VELA.reset();
+    try { sessionStorage.removeItem('vela:data'); } catch (e) { /* ignore */ }
+    note.textContent = dataSel.value === 'example'
+      ? 'Example data: every name, city and track here is made up to show the layout. The live site only shows what’s in your Google Sheet.'
+      : 'Launch day: an empty sheet, exactly what visitors see before any sounds or tracks exist.';
+  }
+
+  function renderPage(p) {
+    if (p === 'home') { R.strip('#vn-strip'); R.launchNote('#vn-launch'); R.mapPreview('#vn-map-preview'); R.latest('#vn-latest'); }
+    if (p === 'map') { R.signalMap('#vn-signal-map'); R.broadcastWall('#vn-broadcast'); }
+    if (p === 'tracks') R.tracksIndex('#vn-tracks');
+    if (p === 'track') R.track('#vn-track', { n: trackN });
+    if (p === 'contributors') R.contributors('#vn-contributors');
+    if (p === 'portal') { R.submit('#vn-submit', { formHtml: MOCK_FORM }); R.confirmation('#vn-sent'); R.alreadySent('#vn-already'); }
+    if (p === 'rules') { R.voteAnswer('#vn-faq-vote'); R.deadlineAnswer('#vn-faq-deadline'); }
+  }
+
+  function go(href, keepScroll) {
+    var h = href.replace(/^#/, ''), anchor = null;
+    var parts = h.split('#'); h = parts[0]; anchor = parts[1] || null;
+    var q = h.split('?'); h = q[0] || 'home';
+    if (q[1]) trackN = new URLSearchParams(q[1]).get('n');
+    if (!document.querySelector('[data-page="' + h + '"]')) h = 'home';
+    current = h;
+    document.querySelectorAll('[data-page]').forEach(function (el) { el.hidden = el.getAttribute('data-page') !== h; });
+    document.querySelectorAll('.site-nav a').forEach(function (a) {
+      if (a.getAttribute('href') === '#' + h) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+    });
+    renderPage(h);
+    if (anchor) setTimeout(function () {
+      var el = document.getElementById(anchor);
+      if (el) { document.querySelectorAll('.is-target').forEach(function (c) { c.classList.remove('is-target'); }); el.classList.add('is-target'); el.scrollIntoView({ block: 'center' }); }
+    }, 150);
+    else if (!keepScroll) window.scrollTo(0, 0);
+  }
+
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    e.preventDefault();
+    go(a.getAttribute('href'));
+  });
+  document.addEventListener('submit', function (e) {
+    if (e.target.id === 'mock-form') { e.preventDefault(); document.getElementById('vn-sent').scrollIntoView({ block: 'center' }); }
+  });
+  [dataSel, dateSel].forEach(function (s) { s.addEventListener('change', function () { setData(); go('#' + current, true); }); });
+
+  setData();
+  go('#home');
+})();
+</script>

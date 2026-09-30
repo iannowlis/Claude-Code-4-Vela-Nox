@@ -63,7 +63,7 @@
   });
   function et(d) {
     var p = {};
-    etFmt.formatToParts(d || new Date()).forEach(function (x) { p[x.type] = x.value; });
+    etFmt.formatToParts(d || (C.now ? new Date(C.now) : new Date())).forEach(function (x) { p[x.type] = x.value; });
     var date = p.year + '-' + p.month + '-' + p.day;
     return { date: date, iso: date + 'T' + p.hour + ':' + p.minute + ':' + p.second,
       wd: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(p.weekday) };
@@ -125,6 +125,8 @@
   var dataPromise = null;
   function data() {
     if (dataPromise) return dataPromise;
+    // C.data: inline data, used only by the local preview page
+    if (C.data !== undefined) { dataPromise = Promise.resolve(C.data); return dataPromise; }
     if (!C.dataUrl) { dataPromise = Promise.resolve(null); return dataPromise; }
     var key = 'vela:data', cached = null;
     try { cached = JSON.parse(sessionStorage.getItem(key) || 'null'); } catch (e) { /* storage unavailable */ }
@@ -147,11 +149,11 @@
 
   /* ---------- geo (loaded only on pages with a map) ---------- */
   var LIBS = [
-    'https://cdn.jsdelivr.net/npm/d3-array@3/dist/d3-array.min.js',
-    'https://cdn.jsdelivr.net/npm/d3-geo@3/dist/d3-geo.min.js',
-    'https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js'
+    'https://cdn.jsdelivr.net/npm/d3-array@3.2.4/dist/d3-array.min.js',
+    'https://cdn.jsdelivr.net/npm/d3-geo@3.1.1/dist/d3-geo.min.js',
+    'https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js'
   ];
-  var LAND = C.landUrl || 'https://cdn.jsdelivr.net/npm/world-atlas@2/land-110m.json';
+  var LAND = C.landUrl || 'https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/land-110m.json';
   function loadScript(src) {
     return new Promise(function (ok, fail) {
       var s = document.createElement('script');
@@ -164,7 +166,7 @@
     var libs = (C.libs || LIBS).reduce(function (p, src) { return p.then(function () { return loadScript(src); }); },
       (window.d3 && window.d3.geoPath && window.topojson) ? Promise.reject('skip') : Promise.resolve())
       .catch(function (e) { if (e !== 'skip') throw e; });
-    geoPromise = Promise.all([libs, fetch(LAND).then(function (r) { return r.json(); })])
+    geoPromise = Promise.all([libs, C.land ? C.land : fetch(LAND).then(function (r) { return r.json(); })])
       .then(function (res) { return window.topojson.feature(res[1], res[1].objects.land); });
     return geoPromise;
   }
@@ -449,9 +451,9 @@
   }
 
   // Tracks & Credits: one track (the page reads ?n=)
-  render.track = function (el) {
+  render.track = function (el, opts) {
     el = mount(el, '');
-    var n = new URLSearchParams(location.search).get('n');
+    var n = (opts && opts.n) || new URLSearchParams(location.search).get('n');
     data().then(function (d) {
       if (!d) return mount(el, '<div class="vn-empty">' + MSG_ERROR + '</div>');
       var t = tracks(d).filter(function (x) { return String(x.n) === String(n); })[0];
@@ -542,7 +544,9 @@
       mount(el, head + '<p class="vn-submit-deadline">' + esc(s.submitDeadline) + '</p>' +
         '<p class="vn-reminder">Your sound only. No one else’s voice, no music playing.</p>' + vote +
         '<div class="vn-form-frame"></div>');
-      var frame = el.querySelector('.vn-form-frame'), src = safeUrl(opts && opts.form);
+      var frame = el.querySelector('.vn-form-frame');
+      if (opts && opts.formHtml) return (frame.innerHTML = opts.formHtml); // preview only
+      var src = safeUrl(opts && opts.form);
       if (!src) return (frame.innerHTML = '<div class="vn-empty">Form not connected. Add the GoHighLevel form URL to this element.</div>');
       var f = document.createElement('iframe');
       f.src = src; f.title = 'Send this week’s sound'; f.loading = 'lazy';
@@ -591,5 +595,5 @@
       : '<p>Submissions open Tuesday and close Thursday at 11:59 pm ET, every week.</p>');
   };
 
-  window.VELA = { config: C, render: render, schedule: schedule, data: data, esc: esc, CTA: CTA };
+  window.VELA = { reset: function () { dataPromise = null; }, config: C, render: render, schedule: schedule, data: data, esc: esc, CTA: CTA };
 })();
