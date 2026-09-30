@@ -20,8 +20,8 @@ body { margin: 0; color: var(--mist); font-family: var(--text); }
 
 /* Header: transparent over the hero map, night with a border once scrolled */
 .site-head { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 30; border-bottom: 1px solid transparent; transition: background 0.2s, border-color 0.2s; }
-.site-head.is-solid { background: var(--night); border-bottom-color: var(--concrete); }
-.is-home .site-head:not(.is-solid) { background: transparent; }
+.site-head.is-solid { background: rgba(7, 12, 22, 0.92); backdrop-filter: blur(8px); border-bottom-color: var(--concrete); }
+.has-hero .site-head:not(.is-solid) { background: transparent; }
 .site-head .wrap { display: flex; align-items: center; justify-content: space-between; min-height: 68px; gap: 1rem; }
 .wordmark { font-family: var(--display); font-weight: 800; font-size: 22px; color: var(--mist) !important; text-decoration: none !important; }
 .site-nav { display: flex; gap: 1.75rem; font-size: 16px; }
@@ -41,22 +41,33 @@ main > .page > :last-child { padding-bottom: 144px; }
 .lede { max-width: var(--read); }
 .fine { color: var(--fog); font-size: var(--t-small); }
 
-/* Home hero: the map, full-bleed, headline over the dark sea in the lower-left.
-   The map fills the section; the section grows if the headline needs more room. */
-.hero { position: relative; min-height: 70vh; display: flex; align-items: flex-end; margin-top: -69px; }
-.hero #vn-hero-map { position: absolute; inset: 0; }
-.hero #vn-hero-map .vn-map-wrap.is-full { height: 100%; min-height: 0; }
-.hero-text { position: relative; width: 100%; padding: 170px 0 56px; pointer-events: none; }
-.hero-text > .wrap > * { pointer-events: auto; }
-.hero h1 { font-family: var(--display); font-weight: 800; font-size: var(--t-hero); line-height: var(--t-hero-lh); max-width: 13ch; margin: 0 0 1.1rem; text-wrap: balance; }
-.hero .sub { max-width: 34rem; margin: 0 0 1.5rem; }
-@media (min-width: 600px) and (max-width: 899px) { .hero { min-height: 60vh; } }
+/* Home hero: Vela on the tower, full-bleed. Headline over the dark left side. */
+.hero { position: relative; min-height: 88vh; display: flex; align-items: flex-end; margin-top: -69px; overflow: hidden; }
+.hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 72% center; }
+.hero::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(7, 12, 22, 0.75) 0%, rgba(7, 12, 22, 0) 22%), linear-gradient(90deg, rgba(7, 12, 22, 0.85) 0%, rgba(7, 12, 22, 0.45) 42%, rgba(7, 12, 22, 0) 68%), linear-gradient(180deg, rgba(7, 12, 22, 0) 60%, var(--night) 100%); }
+.hero-text { position: relative; z-index: 1; width: 100%; padding: 170px 0 72px; }
+.hero h1 { font-family: var(--display); font-weight: 800; font-size: var(--t-hero); line-height: var(--t-hero-lh); max-width: 12ch; margin: 0 0 1.1rem; text-wrap: balance; text-shadow: 0 0 48px var(--ice-glow); }
+.hero .sub { max-width: 32rem; margin: 0 0 1.75rem; }
+@media (min-width: 600px) and (max-width: 899px) { .hero { min-height: 70vh; } }
 @media (max-width: 599px) {
   .hero { display: block; min-height: 0; margin-top: 0; }
-  .hero #vn-hero-map { position: static; }
-  .hero #vn-hero-map .vn-map-wrap.is-full { height: 55vh; min-height: 320px; }
-  .hero-text { padding: 28px 0 0; }
+  .hero-img { position: static; height: 58vh; object-position: 80% center; }
+  .hero::after { background: linear-gradient(180deg, rgba(7, 12, 22, 0) 35%, var(--night) 58vh); }
+  .hero-text { padding: 0; margin-top: -72px; }
 }
+/* Page header bands: a scene behind the page title */
+.band { position: relative; min-height: 46vh; display: flex; align-items: flex-end; margin-top: -69px; background: var(--img) center / cover no-repeat; }
+.band::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7, 12, 22, 0.25) 0%, rgba(7, 12, 22, 0.55) 55%, var(--night) 100%); }
+.band .wrap { position: relative; z-index: 1; width: 100%; padding-bottom: 8px; }
+.band h1 { margin: 0; }
+main > .page > .band + section { padding-top: 32px; }
+@media (max-width: 599px) { .band { margin-top: 0; min-height: 34vh; } }
+.who-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; align-items: center; }
+@media (min-width: 900px) { .who-grid { grid-template-columns: minmax(0, 38rem) minmax(0, 24rem); justify-content: space-between; } }
+.who-img { margin: 0; }
+.who-img img { display: block; width: 100%; max-width: 24rem; aspect-ratio: 4 / 5; object-fit: cover; border: 1px solid var(--concrete); box-shadow: 0 0 60px rgba(166, 220, 255, 0.12); }
+.sent-bg { background: linear-gradient(180deg, rgba(7, 12, 22, 0.6), rgba(7, 12, 22, 0.85)), var(--img) center / cover no-repeat; }
 .home-strip { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem; }
 @media (min-width: 900px) { .home-strip { grid-template-columns: minmax(0, 38rem) 1fr; } }
 
@@ -132,6 +143,8 @@ main > .page > :last-child { padding-bottom: 144px; }
 .site-foot { border-top: 1px solid var(--concrete); background: var(--night); }
 .site-foot .wrap { padding-block: 2.5rem; display: grid; gap: 1.25rem; }
 @media (min-width: 800px) { .site-foot .top { display: flex; justify-content: space-between; gap: 2rem; } }
+.site-foot .who { display: grid; grid-template-columns: 48px auto; gap: 0 0.9rem; align-items: center; }
+.site-foot .who img { grid-row: span 2; width: 48px; height: 48px; object-fit: cover; border: 1px solid var(--concrete); }
 .site-foot .who b { font-family: var(--text); font-weight: 700; display: block; }
 .site-foot nav { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; }
 .site-foot nav a { display: inline-block; padding: 0.6rem 0; }
@@ -180,7 +193,7 @@ main > .page > :last-child { padding-bottom: 144px; }
     <!-- HOME -->
     <div class="page" data-page="home">
       <div class="hero" style="padding:0">
-        <div id="vn-hero-map"></div>
+        <img class="hero-img" src="{{IMG:hero-vela-tower}}" alt="Vela Nox seen from behind on a rusted radio tower platform above a foggy sea at night, strands of cold blue light hanging from the tower, a red warning light above.">
         <div class="hero-text"><div class="wrap">
           <h1>Every week, a techno track built from your sounds.</h1>
           <p class="sub">Send one sound for the week’s theme. Vote on next week’s. If your sound is used, you’re credited to the exact second. The finished track reaches your inbox before it’s on streaming platforms.</p>
@@ -188,7 +201,14 @@ main > .page > :last-child { padding-bottom: 144px; }
         </div></div>
       </div>
 
-      <div class="wrap"><div class="home-strip"><div id="vn-strip"></div><div aria-hidden="true"><!-- Vela portrait goes here --></div></div></div>
+      <div class="wrap"><div class="home-strip"><div id="vn-strip"></div></div></div>
+
+      <section class="wrap">
+        <h2>The Signal Map</h2>
+        <p class="lede">Every light is someone who sent a sound and chose to show their city. The more credits, the brighter the light.</p>
+        <div class="vn-bleed" id="vn-hero-map" style="margin-top:1.5rem"></div>
+        <p style="margin-top:1.25rem"><a href="#map">Open the Signal Map</a></p>
+      </section>
 
       <section class="wrap">
         <h2>How a week works</h2>
@@ -219,9 +239,13 @@ main > .page > :last-child { padding-bottom: 144px; }
       </section>
 
       <section class="wrap">
+        <div class="who-grid"><div>
         <h2>Who’s Vela</h2>
         <p class="lede">Vela Nox is an AI persona. She began as an archive: a few sound engineers built her to save twelve years of recordings from Ströme, a club on the coast, before it was demolished. DJ sets, crowd noise, bar chatter, rain on the roof. She spent so long inside those nights that she learned the culture itself.</p>
         <p class="lede">She lives, as the story goes, on a decommissioned radio tower on a foggy Baltic coast, and she’s only around at night. She talks about records, clubs and the rules nobody writes down on <a href="https://www.instagram.com/velanoxmusic/" rel="noopener" target="_blank">Instagram</a> and <a href="https://www.tiktok.com/@velanox_music" rel="noopener" target="_blank">TikTok</a>. The tracks released under her name are made by a human producer, from the sounds you send.</p>
+        </div>
+        <figure class="who-img"><img src="{{IMG:vela-portrait}}" alt="Vela Nox, platinum buzzcut and a thin braid, in a translucent smoke-blue coat on the tower at night, strands of blue light behind her."></figure>
+        </div>
       </section>
 
       <section class="wrap">
@@ -260,7 +284,7 @@ main > .page > :last-child { padding-bottom: 144px; }
         <p class="portal-note">Preview: what a logged-in subscriber sees</p>
         <div class="vn-read" style="margin-top:1.5rem"><div id="vn-submit"></div></div>
       </section>
-      <section class="wrap" id="sent-demo">
+      <section class="wrap sent-bg" id="sent-demo" style="--img:url({{IMG:strands-texture}})">
         <p class="portal-note">After “Send it”</p>
         <div id="vn-sent"></div>
       </section>
@@ -274,7 +298,7 @@ main > .page > :last-child { padding-bottom: 144px; }
     <div class="page" data-page="subscribe" hidden>
       <section class="wrap">
         <h1>Send me a sound — $3/week</h1>
-        <p class="lede vn-fog">This is where the GoHighLevel order form with the Stripe checkout goes: the weekly $3 subscription and a required Instagram handle field, on a night background with sodium buttons. It isn’t part of this preview.</p>
+        <p class="lede vn-fog">This is where the GoHighLevel order form with the Stripe checkout goes: the weekly $3 subscription and a required Instagram handle field, on a night background with ice-blue buttons. It isn’t part of this preview.</p>
       </section>
     </div>
 
@@ -291,8 +315,8 @@ main > .page > :last-child { padding-bottom: 144px; }
 
     <!-- TRACKS -->
     <div class="page" data-page="tracks" hidden>
+      <div class="band" style="--img:url({{IMG:vault}})" role="img" aria-label="An underground club in an old bank vault, glowing cables spilling from rusted safe-deposit boxes."><div class="wrap"><h1>Tracks &amp; Credits</h1></div></div>
       <section class="wrap">
-        <h1>Tracks &amp; Credits</h1>
         <p class="lede">Every track so far, newest first. Each one is built from sounds people sent that week. A track shows up here once subscribers have it in their inbox.</p>
         <div id="vn-tracks" style="margin-top:2rem"></div>
       </section>
@@ -304,8 +328,8 @@ main > .page > :last-child { padding-bottom: 144px; }
 
     <!-- CONTRIBUTORS -->
     <div class="page" data-page="contributors" hidden>
+      <div class="band" style="--img:url({{IMG:tower-strands}})" role="img" aria-label="A radio tower in fog on the coast at night, veiled in hanging strands of blue light."><div class="wrap"><h1>Contributors</h1></div></div>
       <section class="wrap">
-        <h1>Contributors</h1>
         <p class="lede">Everyone here sent a sound and chose to show their city. People who didn’t are credited by name only and aren’t listed here.</p>
         <div id="vn-contributors" style="margin-top:2rem"></div>
       </section>
@@ -318,8 +342,8 @@ main > .page > :last-child { padding-bottom: 144px; }
 
     <!-- RULES & FAQ -->
     <div class="page" data-page="rules" hidden>
+      <div class="band" style="--img:url({{IMG:stromen-ruins}})" role="img" aria-label="The ruins of Ströme, a demolished club on the coast, in the rain under one orange streetlamp."><div class="wrap"><h1>Rules &amp; FAQ</h1></div></div>
       <section class="wrap prose">
-        <h1>Rules &amp; FAQ</h1>
         <h2>Your sound</h2>
         <ul>
           <li>You need to be 13 or over to subscribe or send a sound. If you’re under 18, you need a parent’s or guardian’s permission.</li>
@@ -389,7 +413,7 @@ main > .page > :last-child { padding-bottom: 144px; }
   <footer class="site-foot">
     <div class="wrap">
       <div class="top">
-        <div class="who"><b>Vela Nox</b><a href="mailto:velanox@gmail.com">velanox@gmail.com</a></div>
+        <div class="who"><img src="{{IMG:vela-face}}" alt="Vela Nox" width="48" height="48"><b>Vela Nox</b><a href="mailto:velanox@gmail.com">velanox@gmail.com</a></div>
         <nav aria-label="Footer">
           <a href="https://www.instagram.com/velanoxmusic/" rel="noopener" target="_blank">Instagram</a>
           <a href="https://www.tiktok.com/@velanox_music" rel="noopener" target="_blank">TikTok</a>
@@ -480,7 +504,7 @@ var MOCK_FORM =
     else if (h === 'track') trackC = null;
     if (!document.querySelector('[data-page="' + h + '"]')) h = 'home';
     current = h;
-    document.body.classList.toggle('is-home', h === 'home');
+    document.body.classList.toggle('has-hero', ['home', 'tracks', 'rules', 'contributors'].indexOf(h) >= 0);
     document.querySelectorAll('[data-page]').forEach(function (el) { el.hidden = el.getAttribute('data-page') !== h; });
     document.querySelectorAll('.site-nav a').forEach(function (a) {
       var on = a.getAttribute('href') === '#' + h || (h === 'portal' && a.getAttribute('href') === '#submit') || (h === 'track' && a.getAttribute('href') === '#tracks');
@@ -496,7 +520,7 @@ var MOCK_FORM =
     else if (!keepScroll) window.scrollTo(0, 0);
   }
 
-  function solid() { head.classList.toggle('is-solid', current !== 'home' || window.scrollY > 40); }
+  function solid() { head.classList.toggle('is-solid', !document.body.classList.contains('has-hero') || window.scrollY > 40); }
   window.addEventListener('scroll', solid, { passive: true });
 
   var menu = document.getElementById('menu'), mOpen = document.getElementById('menu-open');

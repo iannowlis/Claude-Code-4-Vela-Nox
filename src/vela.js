@@ -173,10 +173,10 @@
   var W = 960, H = 500;
   // Lights, per the design system: radius in screen px, colour, opacity, glow in px
   var LIGHT = [
-    { r: 3, c: '#95A0AD', o: 0.6, g: 0 },   // Static
-    { r: 4, c: '#E8963D', o: 0.7, g: 0 },   // Signal
-    { r: 5, c: '#E8963D', o: 0.9, g: 8 },   // Frequency
-    { r: 6, c: '#E8963D', o: 1, g: 14 }     // Broadcast
+    { r: 3, c: '#8E9AAE', o: 0.6, g: 0 },   // Static
+    { r: 4, c: '#F2A14E', o: 0.75, g: 6 },   // Signal
+    { r: 5, c: '#F2A14E', o: 0.9, g: 10 },   // Frequency
+    { r: 6, c: '#FFC27A', o: 1, g: 16 }     // Broadcast
   ];
   var METER = [0, 1, 3, 4];
   var CLOSE_ICON = '<svg viewBox="0 0 14 14" aria-hidden="true"><path d="M1 1l12 12M13 1L1 13" fill="none"/></svg>';
@@ -219,9 +219,9 @@
     var groups = groupByCity(opts.people);
     var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="' + (opts.full ? 'xMidYMid slice' : 'xMidYMid meet') + '" role="img" aria-label="' + esc(opts.label) + '">' +
       '<defs><filter id="' + id + 'g" x="-300%" y="-300%" width="700%" height="700%"><feGaussianBlur stdDeviation="4"/></filter>' +
-      (opts.full ? '<linearGradient id="' + id + 'f" x1="0" y1="0" x2="0" y2="1"><stop offset="0.55" stop-color="#16243A" stop-opacity="0"/><stop offset="1" stop-color="#0F1A2A"/></linearGradient>' : '') +
-      '</defs><rect width="' + W + '" height="' + H + '" fill="#16243A"/>' +
-      '<path d="' + path(land) + '" fill="#34404F" fill-opacity="0.6"/>' +
+      (opts.full ? '<linearGradient id="' + id + 'f" x1="0" y1="0" x2="0" y2="1"><stop offset="0.55" stop-color="#0D1624" stop-opacity="0"/><stop offset="1" stop-color="#070C16"/></linearGradient>' : '') +
+      '</defs><rect width="' + W + '" height="' + H + '" fill="#0D1624"/>' +
+      '<path d="' + path(land) + '" fill="#243048" fill-opacity="0.55" stroke="#A6DCFF" stroke-opacity="0.14" stroke-width="0.5"/>' +
       groups.map(function (g, i) {
         var xy = proj([g.lng, g.lat]);
         if (!xy) return '';

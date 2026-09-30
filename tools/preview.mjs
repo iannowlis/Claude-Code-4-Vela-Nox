@@ -102,6 +102,7 @@ const html = read('preview/template.html')
   .replace('/*{{JS}}*/', () => read('src/vela.js'))
   .replace('/*{{LAND}}*/null', () => read('preview/land-110m.json').trim())
   .replace('/*{{EXAMPLE}}*/null', () => JSON.stringify(example))
+  .replace(/\{\{IMG:([\w-]+)\}\}/g, (m, n) => 'data:image/webp;base64,' + readFileSync(root + 'assets/' + n + '.webp').toString('base64'))
   .replace('{{TERMS}}', () => legal('terms'))
   .replace('{{PRIVACY}}', () => legal('privacy'))
   .replace('{{CANCELLATION}}', () => legal('cancellation'));

@@ -96,27 +96,41 @@ If you use different page URLs, change `paths` in `src/vela.js` and rebuild. The
 ## 6. Design (from the Vela Nox design system)
 The site head code loads the fonts and defines the tokens; it also paints every page `--night`, so no white page flashes. Style the native GoHighLevel sections to match:
 
+Two kinds of light: **cold ice-blue is Vela** (the machine: buttons, links, focus, the glow on titles), **warm sodium orange is people** (everything that comes from subscribers). This replaces the design file's "sodium is the only accent" rule, to give the site its futuristic, cold-light look.
+
 | Token | Hex | Use |
 |---|---|---|
-| `--night` | #0F1A2A | Page background everywhere, including funnel, checkout and portal pages |
-| `--deep` | #16243A | Raised surfaces: theme strip, cards, the map sea |
-| `--concrete` | #34404F | Borders, input outlines, list separators, map land |
-| `--fog` | #95A0AD | Secondary text, helper text |
-| `--mist` | #E7EAED | Primary text and headings; links (1px `--fog` underline, orange on hover) |
-| `--sodium` | #E8963D | Only: subscribe and Send it buttons (dark `--night` text), map lights, waveform markers, a contributor's own name on their card, keyboard focus |
-| `--beacon` | #D23B32 | Only: the live submission deadline |
+| `--night` | #070C16 | Page background everywhere, including funnel, checkout and portal pages |
+| `--deep` | #0D1624 | Raised surfaces: theme strip, cards, the map sea |
+| `--concrete` | #243048 | Borders, input outlines, list separators, map land |
+| `--fog` | #8E9AAE | Secondary text, helper text |
+| `--mist` | #E6EDF5 | Primary text and headings; links (1px `--fog` underline, ice-blue on hover) |
+| `--ice` | #A6DCFF | Vela's light: primary buttons (dark `--night` text, soft ice glow), link hover, keyboard focus, active filters, the "this week" dot on the timeline. Glow: `rgba(166, 220, 255, 0.32)` |
+| `--sodium` | #F2A14E | People only: map lights, waveform markers, a contributor's own name, level meters, the light on the confirmation screen |
+| `--beacon` | #E5483D | Only: the live submission deadline |
 
 - **Fonts:** Big Shoulders Display 800 for page titles and the theme, 600 for section headings (never below 24px). Atkinson Hyperlegible for everything else. No monospace; numbers use tabular figures.
 - **Type sizes (phone → desktop at 900px):** hero 44→88px, page H1 36→60px, H2 26→36px, H3 19→21px, body 17→18px, small 14→15px, theme 34→56px.
-- **Shape:** radius 0 on buttons, inputs, panels and cards. No shadows. No divider lines between sections: 96px between sections on phones, 144px on desktop.
+- **Shape:** radius 0 on buttons, inputs, panels and cards. No drop shadows; the only glow is the soft ice light on buttons and titles. No divider lines between sections: 96px between sections on phones, 144px on desktop.
 - **Layout:** one left-aligned reading column (38rem) inside a 72rem page, side padding 20/40/64px. Only the Signal Map runs full width.
-- **Buttons:** primary is sodium with dark text, Atkinson bold 17px, padding 18×28px, full width on phones, lighter (#F0A456) on hover. Secondary ("See the credits", "See the Signal Map", "View as list") is transparent with a 1px concrete border.
-- **Header:** "Vela Nox" in Big Shoulders 800 at 22px on the left; Submit, Map, Tracks, Rules on the right. Transparent over the home map, night with a bottom border once scrolled. On phones, a "Menu" text button opens a full-screen night panel with the links in Big Shoulders 36px.
-- **Form (GoHighLevel form builder → Styles/Custom CSS):** night inputs, 52px tall, 1px concrete border that turns sodium on focus, bold 16px labels above, grey 14px help below, 28px between fields, square 22px checkboxes. Order: Your sound, then Your credit, then Before you send it (use the form's section/heading blocks for the three H2s).
+- **Buttons:** primary is ice-blue (#A6DCFF) with dark text and a soft ice glow, Atkinson bold 17px, padding 18×28px, full width on phones, lighter (#C9ECFF) on hover. Secondary ("See the credits", "See the Signal Map", "View as list") is transparent with a 1px concrete border.
+- **Header:** "Vela Nox" in Big Shoulders 800 at 22px on the left; Submit, Map, Tracks, Rules on the right. Transparent over the home hero and the page header images, night with a bottom border once scrolled. On phones, a "Menu" text button opens a full-screen night panel with the links in Big Shoulders 36px.
+- **Form (GoHighLevel form builder → Styles/Custom CSS):** night inputs, 52px tall, 1px concrete border that turns ice-blue on focus, bold 16px labels above, grey 14px help below, 28px between fields, square 22px checkboxes. Order: Your sound, then Your credit, then Before you send it (use the form's section/heading blocks for the three H2s).
 - **FAQ:** GoHighLevel's FAQ/accordion element, with a thin plus icon that rotates when open.
 - **Stripe checkout:** set the order form and checkout colors to the palette so paying doesn't jump to a white page.
 - **Motion:** only the map's first-visit fade-in, the pulsing deadline dot, the confirmation line, waveform highlights and the accordion. All of them respect "reduce motion".
-- **Images:** night only, colour-matched (shadows toward navy, warm highlights). At most two photos of Vela on the home page, cropped at the shoulder and placed on the right, looking into the page. Her profile photo goes in the footer (48px) and becomes the favicon. The multiview character sheet never goes on the site.
+- **Images** (in `assets/`, made on Higgsfield from your multiview; upload them to GoHighLevel's media library):
+  | File | Where |
+  |---|---|
+  | `hero-vela-tower.webp` (2200px) | Home hero, full-bleed background. Headline over the dark left side, a dark fade at the top behind the header |
+  | `vela-portrait.webp` | Home, "Who's Vela", on the right of the text |
+  | `vela-face.webp`, `vela-footer-96.png` | Footer photo (48px) |
+  | `favicon-64.png`, `apple-touch-icon.png` | Site favicon and phone home-screen icon (GoHighLevel → Settings → favicon) |
+  | `vault.webp` | Header image behind the "Tracks & Credits" title |
+  | `stromen-ruins.webp` | Header image behind the "Rules & FAQ" title |
+  | `tower-strands.webp` | Header image behind the "Contributors" title |
+  | `strands-texture.webp` | Background of the `/sent` confirmation page |
+  Page header images: a section about 46% of the screen tall with the image as its background, a dark gradient into `--night` at the bottom, and the page H1 sitting on it. The Signal Map moved out of the home hero into its own full-width section under the theme strip.
 
 **What only the preview shows (GoHighLevel limits):** the preview's upload box, which shows the file's length and a small waveform, checks the 10-second and 3 MB limits, and shows the red-bar error messages. The live GoHighLevel form loads in a frame that the site's code can't reach, so on the live site the upload field is GoHighLevel's own, restyled with the form's CSS. The limits are stated next to the field, and anything over is skipped at review, as before.
 
@@ -152,3 +166,4 @@ The site head code loads the fonts and defines the tokens; it also paints every 
     - **Navigation:** the design lists four links (Submit, Map, Tracks, Rules). Contributors is reached from the map, from the credits, and from the phone menu.
 17. **Not built (yet):** the waveform play button (only if you want to host a low-quality preview, which would put audio in public before streaming), and the Monday email template (build it in GoHighLevel's email builder with the same palette: night background, the title in Big Shoulders, tabular timestamps, and sodium WAV/FLAC/MP3 buttons).
 18. **Your Vela Nox overview disagrees with the site in two places.** The site follows your later instructions: tracks reach streaming about a month after the email (the overview says one to three weeks), and there are no lines to a tower on the Signal Map (the overview describes them). If you reuse the overview elsewhere (press notes, pinned posts), update those two lines.
+19. **Color and look changes from the design file (your go-ahead):** ice-blue is now the button, link and focus color, with a soft glow; orange is kept for everything from subscribers; the navy is darker; the home hero is a photo of Vela on the tower instead of the map (the map is its own section right below). The images are original. Your reference images were used only as a style direction in words, not as inputs, so nothing copies another artist's work.

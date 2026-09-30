@@ -11,18 +11,16 @@ Layout, colour, type and motion follow the Vela Nox design system (see `copy/bui
 
 ## HOME
 
-### Hero: the Signal Map, full width
-*Custom code element: `home-hero-map`.* The map fills the hero. Lights fade in city by city on the first visit. On phones the text sits under the map instead of over it.
+### Hero: Vela on the tower, full width
+Background image `assets/hero-vela-tower.webp`. Headline, subhead and button over the dark left side (under the image on phones).
 
-**H1 (over the map, lower left)**
+**H1**
 Every week, a techno track built from your sounds.
 
 **Subhead**
 Send one sound for the week's theme. Vote on next week's. If your sound is used, you're credited to the exact second. The finished track reaches your inbox before it's on streaming platforms.
 
 [Button] Send me a sound — $3/week
-
-Before any data, the map is dark: no lights, just the world at night.
 
 ### Theme strip
 *Custom code element: `home-this-week-strip`. Updates itself from the Settings tab and the clock. On desktop, the right side is kept for a Vela portrait.*
@@ -41,6 +39,11 @@ Submission status, by date:
 
 During launch week, the vote line adds: "The vote closes Sunday, October 11, 11:59 pm ET."
 The vote form link is never shown on the site.
+
+### H2: The Signal Map
+Every light is someone who sent a sound and chose to show their city. The more credits, the brighter the light.
+*Custom code element: `home-hero-map`, full width.* Lights fade in city by city on the first visit. Before any data, the map is dark.
+Link: "Open the Signal Map"
 
 ### H2: How a week works
 *Custom code element: `home-timeline`. A vertical timeline. An orange dot marks where this week is.*
@@ -85,7 +88,7 @@ Vela Nox is an AI persona. She began as an archive: a few sound engineers built 
 
 She lives, as the story goes, on a decommissioned radio tower on a foggy Baltic coast, and she's only around at night. She talks about records, clubs and the rules nobody writes down on [Instagram](https://www.instagram.com/velanoxmusic/) and [TikTok](https://www.tiktok.com/@velanox_music). The tracks released under her name are made by a human producer, from the sounds you send.
 
-*(Beside it on desktop, when you send it: one portrait of Vela, cropped at the shoulder, looking into the page.)*
+*(Beside it: `assets/vela-portrait.webp`.)*
 
 ### H2: The rules, briefly
 - Send only your own recording. No one else's music, and no one's voice without their permission.
@@ -393,7 +396,7 @@ Still to fill in, in the text itself: `[YOUR DOMAIN]` (Terms intro and §2, Priv
 
 ## FOOTER (every page, including the subscriber portal)
 
-Left: Vela's profile photo (48px, square, once you send it), then **Vela Nox** and [velanox@gmail.com](mailto:velanox@gmail.com)
+Left: Vela's profile photo (`assets/vela-face.webp`, 48px, square), then **Vela Nox** and [velanox@gmail.com](mailto:velanox@gmail.com)
 Right: [Instagram](https://www.instagram.com/velanoxmusic/) · [TikTok](https://www.tiktok.com/@velanox_music) · [Terms](/terms) · [Privacy](/privacy) · [Cancellation](/cancellation)
 Bottom line, small and grey: AI persona · music by humans
 
@@ -430,10 +433,11 @@ Headings: one H1 per page. Sections are H2, cards and FAQ questions are H3. The 
 | Signal Map (full) | Night map of the world with points of light for contributors' cities. Tap a light for details. |
 | Signal Map (home preview) | Night map of the world. Each point of light is the city of someone who sent a sound. |
 | Track mini map | Night map with the cities of people credited on Track [NN]. |
-| Vela portrait (home, beside the theme strip or "Who's Vela") | Vela Nox, platinum buzzcut and a long thin braid, in a translucent smoke-blue coat, looking into the fog at night. *(adjust to the photo you pick)* |
+| Home hero (`hero-vela-tower.webp`) | Vela Nox seen from behind on a rusted radio tower platform above a foggy sea at night, strands of cold blue light hanging from the tower, a red warning light above. |
+| Vela portrait (`vela-portrait.webp`) | Vela Nox, platinum buzzcut and a thin braid, in a translucent smoke-blue coat on the tower at night, strands of blue light behind her. |
 | Vela profile photo (footer) | Vela Nox |
-| Radio tower (if used) | A rusted radio tower platform above a foggy sea at blue hour, a red warning light on top. |
-| Ströme ruins (if used) | A demolished club in the rain, lit by one orange streetlamp through a torn roof. |
-| The vault (if used) | An underground club in an old bank basement, a wall of rusted safe-deposit boxes, a strobe cutting through fog. |
-| The stairwell (if used) | A raw concrete stairwell at 4am, a caged bulb over a steel door. |
+| Contributors header (`tower-strands.webp`) | A radio tower in fog on the coast at night, veiled in hanging strands of blue light. |
+| Rules & FAQ header (`stromen-ruins.webp`) | The ruins of Ströme, a demolished club on the coast, in the rain under one orange streetlamp. |
+| Tracks & Credits header (`vault.webp`) | An underground club in an old bank vault, glowing cables spilling from rusted safe-deposit boxes. |
+| Confirmation background (`strands-texture.webp`) | Decorative, no alt text. |
 | Waveform | Decorative. Each marker is a labeled button: "[sound title] · [credit name] · [city] · [timestamp]" |
