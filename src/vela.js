@@ -143,6 +143,9 @@
   function pick(el) { return typeof el === 'string' ? document.querySelector(el) : el; }
   function mount(el, html) { el = pick(el); if (el) { el.classList.add('vn'); el.innerHTML = html; } return el; }
   function tracks(d) { return (d && d.tracks) || []; }
+  // Real releases only. The test transmission (type "demo" in the sheet) is never a release.
+  function releases(d) { return tracks(d).filter(function (t) { return !t.demo; }); }
+  function demoTrack(d) { return tracks(d).filter(function (t) { return t.demo; })[0]; }
   function people(d) { return (d && d.contributors) || []; }
   function bySlug(d) { var m = {}; people(d).forEach(function (p) { m[p.slug] = p; }); return m; }
 
@@ -365,6 +368,11 @@
       : '<div class="vn-cover-ph" aria-hidden="true">' + pad2(Number(t.n)) + '</div>';
   }
   function trackRow(t) {
+    if (t.demo) return '<li><a class="vn-row" href="' + trackUrl(t.n) + '">' + cover(t, 96) + '<div>' +
+      '<p class="vn-row-title">' + esc(trackNo(t.n)) + ' · ' + esc(t.title) + '</p>' +
+      '<p class="vn-meta">Test transmission · by the human producer behind Vela Nox</p>' +
+      '<p class="vn-count">Not built from subscriber sounds.</p>' +
+      '</div></a></li>';
     return '<li><a class="vn-row" href="' + trackUrl(t.n) + '">' + cover(t, 96) + '<div>' +
       '<p class="vn-row-title">' + esc(trackNo(t.n)) + ' · ' + esc(t.title) + '</p>' +
       '<p class="vn-meta">' + esc(t.theme) + ' · Sent ' + esc(longDate(t.sent, true)) + '</p>' +
@@ -376,11 +384,13 @@
   render.latest = function (el) {
     el = mount(el, '');
     data().then(function (d) {
-      var t = tracks(d)[0];
+      var t = releases(d)[0], demo = demoTrack(d);
       if (t) return mount(el, '<ul class="vn-rows">' + trackRow(t) + '</ul><p style="margin-top:1.25rem"><a class="vn-btn-2" href="' + trackUrl(t.n) + '">See the credits</a></p>');
-      mount(el, '<p class="vn-fog">' + (et().date <= C.launch.firstEmail
+      mount(el, '<p>' + (et().date <= C.launch.firstEmail
         ? 'Track 01 lands in subscribers’ inboxes on Monday, October 12.'
-        : 'Track 01 is on its way to subscribers’ inboxes.') + '</p>');
+        : 'Track 01 is on its way to subscribers’ inboxes.') + '</p>' +
+        (demo ? '<p class="vn-fog vn-read">Until then, a test transmission shows how a release page works.</p>' +
+          '<ul class="vn-rows">' + trackRow(demo) + '</ul><p style="margin-top:1.25rem"><a class="vn-btn-2" href="' + trackUrl(demo.n) + '">See how credits work</a></p>' : ''));
     });
   };
 
@@ -408,7 +418,7 @@
         [n(c.tracks), c.tracks === 1 ? 'track released' : 'tracks released'],
         [n(c.credited), c.credited === 1 ? 'contributor credited' : 'contributors credited']
       ];
-      var filters = [['all', 'Everyone'], ['week', 'This week’s pool']].concat(tracks(d).map(function (t) { return ['t' + t.n, trackNo(t.n)]; }));
+      var filters = [['all', 'Everyone'], ['week', 'This week’s pool']].concat(releases(d).map(function (t) { return ['t' + t.n, trackNo(t.n)]; }));
       mount(el,
         '<div class="vn-map-top"><div class="vn-counters">' + counters.map(function (x) { return '<span class="vn-counter"><b>' + x[0] + '</b>' + x[1] + '</span>'; }).join('') + '</div>' +
         '<div class="vn-filters" role="group" aria-label="Show on the map">' + filters.map(function (f, i) {
@@ -493,9 +503,13 @@
     el = mount(el, '');
     data().then(function (d) {
       if (!d) return mount(el, '<p class="vn-fog">' + MSG_ERROR + '</p>');
-      var list = tracks(d);
-      if (!list.length) return mount(el, '<p class="vn-fog">No tracks yet. Track 01 is being built from the rooms you’re in right now.</p>');
-      mount(el, '<ul class="vn-rows">' + list.map(trackRow).join('') + '</ul>');
+      var list = releases(d), demo = demoTrack(d);
+      mount(el, (list.length
+        ? '<ul class="vn-rows">' + list.map(trackRow).join('') + '</ul>'
+        : '<p class="vn-fog">No tracks yet. Track 01 is being built from the rooms you’re in right now.</p>') +
+        (demo ? '<div class="vn-demo-block"><p class="vn-key-title">Test transmission</p>' +
+          '<p class="vn-fog vn-read">Not a release. It shows how a release page works until Track 01 arrives.</p>' +
+          '<ul class="vn-rows">' + trackRow(demo) + '</ul></div>' : ''));
     });
   };
 
@@ -529,7 +543,7 @@
     if (!url) return Promise.resolve(null);
     return peaksFromAudio(url).catch(function () { return durationFromAudio(url); });
   }
-  function creditLine(c) { return [c.sound, c.name, c.city, c.t].filter(Boolean).join(' · '); }
+  function creditLine(c) { return (c.example ? 'Example · ' : '') + [c.sound, c.name, c.city, c.t].filter(Boolean).join(' · '); }
 
   // Waveform credits: thin concrete bars, ice-blue markers under them at each timestamp.
   // Hover, focus or tap a marker: nearby bars brighten, the panel shows the credit, its row lights up.
@@ -583,6 +597,7 @@
       if (!d) return mount(el, '<p class="vn-fog">' + MSG_ERROR + '</p>');
       var t = tracks(d).filter(function (x) { return String(x.n) === String(n); })[0];
       if (!t) return mount(el, '<h1>No track here</h1><p class="vn-fog">This track hasn’t gone out yet, or the link is wrong. <a href="' + esc(C.paths.tracks) + '">All tracks</a></p>');
+      if (t.demo) return demoPage(el, t);
       document.title = trackNo(t.n) + ', ' + t.title + ': credits | Vela Nox';
       var credits = t.credits; // already in timestamp order; name-only entries carry no time
       var links = (t.links || []).filter(function (l) { return safeUrl(l.url); });
@@ -623,6 +638,42 @@
       }).catch(function () { mapBox.innerHTML = '<p class="vn-fog">' + MSG_ERROR + '</p>'; });
     });
   };
+
+  // The test transmission: the producer's own track, shown with example marks so people can see
+  // how a release page works. No real people, no real credits, nothing on the map.
+  function demoPage(el, t) {
+    document.title = t.title + ', a test transmission | Vela Nox';
+    var links = (t.links || []).filter(function (l) { return safeUrl(l.url); });
+    var ex = (t.marks && t.marks.length ? t.marks : [{ t: '—:—' }, { t: '—:—' }, { t: '—:—' }]).map(function (m) {
+      return { example: true, slug: 'example', s: m.s, t: m.t, sound: 'your sound', name: 'your name', city: 'your city' };
+    });
+    mount(el,
+      '<div class="vn-track-head"><div>' +
+      '<p class="vn-track-no">' + esc(trackNo(t.n)) + ' · Test transmission</p><h1>' + esc(t.title) + '</h1>' +
+      (links.length ? '<div class="vn-links">' + links.map(function (l) { return '<a class="vn-btn-2" href="' + esc(safeUrl(l.url)) + '" rel="noopener" target="_blank">' + esc(l.label || 'Listen') + '</a>'; }).join('') + '</div>' : '') +
+      '<div class="vn-demo-note"><p><b>This one isn’t built from your sounds.</b> ' + esc(t.title) + ' is a track by the human producer behind Vela Nox, sent out ahead of Track 01 so you can see how a release page works.</p>' +
+      '<p>The marks on the waveform show where credits go. From Track 01, every mark is someone’s sound: their credit name, their city if they chose to show it, and the exact second it plays.</p></div>' +
+      '</div>' + cover(t) + '</div>' +
+      '<section class="vn-section"><h2>Waveform credits</h2><p class="vn-fog vn-read">Example marks. Hover or tap one to see how a credit will read.</p><div class="vn-wave-box"><p class="vn-fog">Reading the waveform…</p></div></section>' +
+      '<section class="vn-section"><h2>Credits</h2><p class="vn-fog vn-read">No subscriber sounds in this one. From Track 01, the list looks like this, in the order the sounds play:</p>' +
+      '<ol class="vn-credits vn-credits-example">' + ex.map(function (c, i) {
+        return '<li data-i="' + i + '"><span class="vn-ts">' + esc(c.t) + '</span><span>' + c.sound + ' · ' + c.name + ' · <span class="vn-fog">' + c.city + '</span></span></li>';
+      }).join('') + '</ol></section>' +
+      '<section class="vn-section"><h2>Streaming credits</h2><p class="vn-fog vn-read">' + esc(t.title) + ' is credited to Vela Nox. From Track 01, contributors’ names go here, in the order their sounds play, and on streaming platforms where they allow it.</p></section>' +
+      '<section class="vn-section"><h2>Where this track came from</h2><div class="vn-track-map"></div></section>');
+    var waveBox = el.querySelector('.vn-wave-box'), rows = el.querySelector('.vn-credits');
+    waveformData(t.waveform).then(function (wf) {
+      if (!wf) return (waveBox.innerHTML = '<p class="vn-fog">The waveform for ' + esc(t.title) + ' appears here once its audio is added.</p>');
+      drawWave(waveBox, wf, ex, rows, null);
+    });
+    var mapBox = el.querySelector('.vn-track-map');
+    geo().then(function (land) {
+      drawMap(mapBox, land, {
+        people: [], popups: false, empty: 'No lights for this one: ' + t.title + ' has no contributors. The first ones arrive with Track 01.',
+        label: 'Night map with no lights: the test transmission has no contributors.'
+      });
+    }).catch(function () { mapBox.innerHTML = ''; });
+  }
 
   // Contributor profiles: one card each, opted-in only
   render.contributors = function (el) {

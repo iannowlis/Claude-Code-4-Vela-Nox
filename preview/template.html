@@ -162,18 +162,12 @@ main > .page > section > h2 + .lede, main > .page > section > h2 + p { margin-to
 <div class="vn" id="top">
   <div class="pv-bar" role="region" aria-label="Preview controls">
     <strong>Preview</strong>
-    <label for="pv-data">Data
-      <select id="pv-data">
-        <option value="example">Example data (made up)</option>
-        <option value="empty">Launch day (empty sheet)</option>
-      </select>
-    </label>
     <label for="pv-date">Date (ET)
       <select id="pv-date">
-        <option value="2026-09-30T12:00:00-04:00">Wed Sep 30: launch, open</option>
+        <option value="2026-09-30T12:00:00-04:00" selected>Wed Sep 30: launch, open</option>
         <option value="2026-10-10T12:00:00-04:00">Sat Oct 10: launch, track being made</option>
         <option value="2026-10-12T12:00:00-04:00">Mon Oct 12: Track 01 goes out</option>
-        <option value="2026-10-20T12:00:00-04:00" selected>Tue Oct 20: regular week, open</option>
+        <option value="2026-10-20T12:00:00-04:00">Tue Oct 20: regular week, open</option>
         <option value="2026-10-23T12:00:00-04:00">Fri Oct 23: regular week, closed</option>
       </select>
     </label>
@@ -444,10 +438,8 @@ window.VELA_CONFIG = {
 /*{{JS}}*/
 </script>
 <script>
-/* Example data for the preview only. Made-up names and places, in the exact shape the Google Sheet endpoint sends. */
-var EXAMPLE = /*{{EXAMPLE}}*/null;
-var EMPTY = { settings: { current_week: '1', theme: "The room you're in right now", theme_note: "Vela's pick", status_override: 'auto', deadline_override: '' },
-  counters: { weekSounds: 0, weekCities: 0, tracks: 0, credited: 0 }, tracks: [], contributors: [] };
+/* Launch-day data: exactly what the Google Sheet sends on day one. Nobody has submitted yet; the only track is the Tumult test transmission. */
+var LAUNCH = /*{{LAUNCH}}*/null;
 
 var PLUS = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1v14M1 8h14" fill="none"/></svg>';
 var MOCK_FORM =
@@ -477,17 +469,15 @@ var MOCK_FORM =
 
 (function () {
   var C = VELA.config, R = VELA.render, current = 'home', trackN = null, trackC = null, fileOk = false;
-  var dataSel = document.getElementById('pv-data'), dateSel = document.getElementById('pv-date'), note = document.getElementById('pv-note');
+  var dateSel = document.getElementById('pv-date'), note = document.getElementById('pv-note');
   var head = document.getElementById('site-head');
 
   function setData() {
-    C.data = dataSel.value === 'example' ? EXAMPLE : EMPTY;
+    C.data = LAUNCH;
     C.now = dateSel.value;
     VELA.reset();
     try { sessionStorage.removeItem('vela:data'); } catch (e) { /* ignore */ }
-    note.textContent = dataSel.value === 'example'
-      ? 'Example data: every name, city and track here is made up to show the layout. The live site only shows what’s in your Google Sheet.'
-      : 'Launch day: an empty sheet, exactly what visitors see before any sounds or tracks exist.';
+    note.textContent = 'Launch day: nobody has submitted yet, so the map is dark and the counters read 0. Tumult is the test transmission. Use the date to see the site through launch week and a regular week.';
   }
 
   function levels() {
@@ -600,7 +590,7 @@ var MOCK_FORM =
       setTimeout(function () { document.getElementById('sent-demo').scrollIntoView({ block: 'start' }); }, 50);
     }, 1400);
   });
-  [dataSel, dateSel].forEach(function (s) { s.addEventListener('change', function () { setData(); go('#' + current, true); }); });
+  [dateSel].forEach(function (s) { s.addEventListener('change', function () { setData(); go('#' + current, true); }); });
 
   setData();
   go('#home');

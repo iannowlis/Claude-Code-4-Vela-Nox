@@ -204,6 +204,14 @@
 .vn-credits .vn-fog { color: var(--fog); }
 .vn-stream-credits { max-width: var(--read); }
 
+/* The test transmission */
+.vn-demo-note { margin-top: 1.75rem; max-width: var(--read); padding: 1.1rem 1.35rem; background: linear-gradient(90deg, rgba(166, 220, 255, 0.07), transparent 80%), var(--deep); border-left: 2px solid var(--ice); }
+.vn .vn-demo-note p { margin: 0 0 0.6rem; }
+.vn .vn-demo-note p:last-child { margin: 0; color: var(--fog); }
+.vn-demo-note b { color: var(--mist); }
+.vn-credits-example li { font-style: italic; color: var(--fog); }
+.vn-demo-block { margin-top: 2.5rem; }
+
 /* Submit */
 .vn-theme-h { margin: 0; }
 .vn-theme-h .k { display: block; font-family: var(--text); font-weight: 400; font-size: 15px; line-height: 1.4; color: var(--fog); margin-bottom: 0.9rem; }

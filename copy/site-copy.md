@@ -224,6 +224,28 @@ Every track so far, newest first. Each one is built from sounds people sent that
 *Custom code element: `tracks-index`.* One row per track, separated by thin lines: cover, "Track [NN] · [TITLE]", "[THEME] · Sent [DATE]", "[N] contributors · [N] cities".
 Empty state: "No tracks yet. Track 01 is being built from the rooms you're in right now."
 
+### The test transmission: Track 00 · Tumult (/track?n=0)
+Tumult is a track by the human producer behind Vela Nox. It's on the site from launch to show how a release page works. It's never presented as a subscriber release.
+
+**On the Tracks & Credits page**, under the real releases (or under "No tracks yet…"):
+> **Test transmission**
+> Not a release. It shows how a release page works until Track 01 arrives.
+> Track 00 · Tumult / Test transmission · by the human producer behind Vela Nox / Not built from subscriber sounds.
+
+**On Home, "Latest track"**, until Track 01 exists:
+> Track 01 lands in subscribers' inboxes on Monday, October 12.
+> Until then, a test transmission shows how a release page works.
+> [Tumult row] [See how credits work]
+
+**Its page:**
+- Track 00 · Test transmission
+- **H1:** Tumult
+- Note (blue edge): "**This one isn't built from your sounds.** Tumult is a track by the human producer behind Vela Nox, sent out ahead of Track 01 so you can see how a release page works. / The marks on the waveform show where credits go. From Track 01, every mark is someone's sound: their credit name, their city if they chose to show it, and the exact second it plays."
+- **H2: Waveform credits:** "Example marks. Hover or tap one to see how a credit will read." Marker label: "Example · your sound · your name · your city · [TIMESTAMP]". Before the audio is added: "The waveform for Tumult appears here once its audio is added."
+- **H2: Credits:** "No subscriber sounds in this one. From Track 01, the list looks like this, in the order the sounds play:" then example rows in grey italics: "[TIMESTAMP] your sound · your name · your city"
+- **H2: Streaming credits:** "Tumult is credited to Vela Nox. From Track 01, contributors' names go here, in the order their sounds play, and on streaming platforms where they allow it."
+- **H2: Where this track came from:** dark map, "No lights for this one: Tumult has no contributors. The first ones arrive with Track 01."
+
 ### Track page: /track?n=[NUMBER]
 *Custom code element: `track-page`. It writes the H1 and the page title.*
 

@@ -209,6 +209,14 @@
 .vn-credits .vn-fog { color: var(--fog); }
 .vn-stream-credits { max-width: var(--read); }
 
+/* The test transmission */
+.vn-demo-note { margin-top: 1.75rem; max-width: var(--read); padding: 1.1rem 1.35rem; background: linear-gradient(90deg, rgba(166, 220, 255, 0.07), transparent 80%), var(--deep); border-left: 2px solid var(--ice); }
+.vn .vn-demo-note p { margin: 0 0 0.6rem; }
+.vn .vn-demo-note p:last-child { margin: 0; color: var(--fog); }
+.vn-demo-note b { color: var(--mist); }
+.vn-credits-example li { font-style: italic; color: var(--fog); }
+.vn-demo-block { margin-top: 2.5rem; }
+
 /* Submit */
 .vn-theme-h { margin: 0; }
 .vn-theme-h .k { display: block; font-family: var(--text); font-weight: 400; font-size: 15px; line-height: 1.4; color: var(--fog); margin-bottom: 0.9rem; }
@@ -390,18 +398,12 @@ main > .page > section > h2 + .lede, main > .page > section > h2 + p { margin-to
 <div class="vn" id="top">
   <div class="pv-bar" role="region" aria-label="Preview controls">
     <strong>Preview</strong>
-    <label for="pv-data">Data
-      <select id="pv-data">
-        <option value="example">Example data (made up)</option>
-        <option value="empty">Launch day (empty sheet)</option>
-      </select>
-    </label>
     <label for="pv-date">Date (ET)
       <select id="pv-date">
-        <option value="2026-09-30T12:00:00-04:00">Wed Sep 30: launch, open</option>
+        <option value="2026-09-30T12:00:00-04:00" selected>Wed Sep 30: launch, open</option>
         <option value="2026-10-10T12:00:00-04:00">Sat Oct 10: launch, track being made</option>
         <option value="2026-10-12T12:00:00-04:00">Mon Oct 12: Track 01 goes out</option>
-        <option value="2026-10-20T12:00:00-04:00" selected>Tue Oct 20: regular week, open</option>
+        <option value="2026-10-20T12:00:00-04:00">Tue Oct 20: regular week, open</option>
         <option value="2026-10-23T12:00:00-04:00">Fri Oct 23: regular week, closed</option>
       </select>
     </label>
@@ -926,6 +928,9 @@ window.VELA_CONFIG = {
   function pick(el) { return typeof el === 'string' ? document.querySelector(el) : el; }
   function mount(el, html) { el = pick(el); if (el) { el.classList.add('vn'); el.innerHTML = html; } return el; }
   function tracks(d) { return (d && d.tracks) || []; }
+  // Real releases only. The test transmission (type "demo" in the sheet) is never a release.
+  function releases(d) { return tracks(d).filter(function (t) { return !t.demo; }); }
+  function demoTrack(d) { return tracks(d).filter(function (t) { return t.demo; })[0]; }
   function people(d) { return (d && d.contributors) || []; }
   function bySlug(d) { var m = {}; people(d).forEach(function (p) { m[p.slug] = p; }); return m; }
 
@@ -1148,6 +1153,11 @@ window.VELA_CONFIG = {
       : '<div class="vn-cover-ph" aria-hidden="true">' + pad2(Number(t.n)) + '</div>';
   }
   function trackRow(t) {
+    if (t.demo) return '<li><a class="vn-row" href="' + trackUrl(t.n) + '">' + cover(t, 96) + '<div>' +
+      '<p class="vn-row-title">' + esc(trackNo(t.n)) + ' · ' + esc(t.title) + '</p>' +
+      '<p class="vn-meta">Test transmission · by the human producer behind Vela Nox</p>' +
+      '<p class="vn-count">Not built from subscriber sounds.</p>' +
+      '</div></a></li>';
     return '<li><a class="vn-row" href="' + trackUrl(t.n) + '">' + cover(t, 96) + '<div>' +
       '<p class="vn-row-title">' + esc(trackNo(t.n)) + ' · ' + esc(t.title) + '</p>' +
       '<p class="vn-meta">' + esc(t.theme) + ' · Sent ' + esc(longDate(t.sent, true)) + '</p>' +
@@ -1159,11 +1169,13 @@ window.VELA_CONFIG = {
   render.latest = function (el) {
     el = mount(el, '');
     data().then(function (d) {
-      var t = tracks(d)[0];
+      var t = releases(d)[0], demo = demoTrack(d);
       if (t) return mount(el, '<ul class="vn-rows">' + trackRow(t) + '</ul><p style="margin-top:1.25rem"><a class="vn-btn-2" href="' + trackUrl(t.n) + '">See the credits</a></p>');
-      mount(el, '<p class="vn-fog">' + (et().date <= C.launch.firstEmail
+      mount(el, '<p>' + (et().date <= C.launch.firstEmail
         ? 'Track 01 lands in subscribers’ inboxes on Monday, October 12.'
-        : 'Track 01 is on its way to subscribers’ inboxes.') + '</p>');
+        : 'Track 01 is on its way to subscribers’ inboxes.') + '</p>' +
+        (demo ? '<p class="vn-fog vn-read">Until then, a test transmission shows how a release page works.</p>' +
+          '<ul class="vn-rows">' + trackRow(demo) + '</ul><p style="margin-top:1.25rem"><a class="vn-btn-2" href="' + trackUrl(demo.n) + '">See how credits work</a></p>' : ''));
     });
   };
 
@@ -1191,7 +1203,7 @@ window.VELA_CONFIG = {
         [n(c.tracks), c.tracks === 1 ? 'track released' : 'tracks released'],
         [n(c.credited), c.credited === 1 ? 'contributor credited' : 'contributors credited']
       ];
-      var filters = [['all', 'Everyone'], ['week', 'This week’s pool']].concat(tracks(d).map(function (t) { return ['t' + t.n, trackNo(t.n)]; }));
+      var filters = [['all', 'Everyone'], ['week', 'This week’s pool']].concat(releases(d).map(function (t) { return ['t' + t.n, trackNo(t.n)]; }));
       mount(el,
         '<div class="vn-map-top"><div class="vn-counters">' + counters.map(function (x) { return '<span class="vn-counter"><b>' + x[0] + '</b>' + x[1] + '</span>'; }).join('') + '</div>' +
         '<div class="vn-filters" role="group" aria-label="Show on the map">' + filters.map(function (f, i) {
@@ -1276,9 +1288,13 @@ window.VELA_CONFIG = {
     el = mount(el, '');
     data().then(function (d) {
       if (!d) return mount(el, '<p class="vn-fog">' + MSG_ERROR + '</p>');
-      var list = tracks(d);
-      if (!list.length) return mount(el, '<p class="vn-fog">No tracks yet. Track 01 is being built from the rooms you’re in right now.</p>');
-      mount(el, '<ul class="vn-rows">' + list.map(trackRow).join('') + '</ul>');
+      var list = releases(d), demo = demoTrack(d);
+      mount(el, (list.length
+        ? '<ul class="vn-rows">' + list.map(trackRow).join('') + '</ul>'
+        : '<p class="vn-fog">No tracks yet. Track 01 is being built from the rooms you’re in right now.</p>') +
+        (demo ? '<div class="vn-demo-block"><p class="vn-key-title">Test transmission</p>' +
+          '<p class="vn-fog vn-read">Not a release. It shows how a release page works until Track 01 arrives.</p>' +
+          '<ul class="vn-rows">' + trackRow(demo) + '</ul></div>' : ''));
     });
   };
 
@@ -1312,7 +1328,7 @@ window.VELA_CONFIG = {
     if (!url) return Promise.resolve(null);
     return peaksFromAudio(url).catch(function () { return durationFromAudio(url); });
   }
-  function creditLine(c) { return [c.sound, c.name, c.city, c.t].filter(Boolean).join(' · '); }
+  function creditLine(c) { return (c.example ? 'Example · ' : '') + [c.sound, c.name, c.city, c.t].filter(Boolean).join(' · '); }
 
   // Waveform credits: thin concrete bars, ice-blue markers under them at each timestamp.
   // Hover, focus or tap a marker: nearby bars brighten, the panel shows the credit, its row lights up.
@@ -1366,6 +1382,7 @@ window.VELA_CONFIG = {
       if (!d) return mount(el, '<p class="vn-fog">' + MSG_ERROR + '</p>');
       var t = tracks(d).filter(function (x) { return String(x.n) === String(n); })[0];
       if (!t) return mount(el, '<h1>No track here</h1><p class="vn-fog">This track hasn’t gone out yet, or the link is wrong. <a href="' + esc(C.paths.tracks) + '">All tracks</a></p>');
+      if (t.demo) return demoPage(el, t);
       document.title = trackNo(t.n) + ', ' + t.title + ': credits | Vela Nox';
       var credits = t.credits; // already in timestamp order; name-only entries carry no time
       var links = (t.links || []).filter(function (l) { return safeUrl(l.url); });
@@ -1406,6 +1423,42 @@ window.VELA_CONFIG = {
       }).catch(function () { mapBox.innerHTML = '<p class="vn-fog">' + MSG_ERROR + '</p>'; });
     });
   };
+
+  // The test transmission: the producer's own track, shown with example marks so people can see
+  // how a release page works. No real people, no real credits, nothing on the map.
+  function demoPage(el, t) {
+    document.title = t.title + ', a test transmission | Vela Nox';
+    var links = (t.links || []).filter(function (l) { return safeUrl(l.url); });
+    var ex = (t.marks && t.marks.length ? t.marks : [{ t: '—:—' }, { t: '—:—' }, { t: '—:—' }]).map(function (m) {
+      return { example: true, slug: 'example', s: m.s, t: m.t, sound: 'your sound', name: 'your name', city: 'your city' };
+    });
+    mount(el,
+      '<div class="vn-track-head"><div>' +
+      '<p class="vn-track-no">' + esc(trackNo(t.n)) + ' · Test transmission</p><h1>' + esc(t.title) + '</h1>' +
+      (links.length ? '<div class="vn-links">' + links.map(function (l) { return '<a class="vn-btn-2" href="' + esc(safeUrl(l.url)) + '" rel="noopener" target="_blank">' + esc(l.label || 'Listen') + '</a>'; }).join('') + '</div>' : '') +
+      '<div class="vn-demo-note"><p><b>This one isn’t built from your sounds.</b> ' + esc(t.title) + ' is a track by the human producer behind Vela Nox, sent out ahead of Track 01 so you can see how a release page works.</p>' +
+      '<p>The marks on the waveform show where credits go. From Track 01, every mark is someone’s sound: their credit name, their city if they chose to show it, and the exact second it plays.</p></div>' +
+      '</div>' + cover(t) + '</div>' +
+      '<section class="vn-section"><h2>Waveform credits</h2><p class="vn-fog vn-read">Example marks. Hover or tap one to see how a credit will read.</p><div class="vn-wave-box"><p class="vn-fog">Reading the waveform…</p></div></section>' +
+      '<section class="vn-section"><h2>Credits</h2><p class="vn-fog vn-read">No subscriber sounds in this one. From Track 01, the list looks like this, in the order the sounds play:</p>' +
+      '<ol class="vn-credits vn-credits-example">' + ex.map(function (c, i) {
+        return '<li data-i="' + i + '"><span class="vn-ts">' + esc(c.t) + '</span><span>' + c.sound + ' · ' + c.name + ' · <span class="vn-fog">' + c.city + '</span></span></li>';
+      }).join('') + '</ol></section>' +
+      '<section class="vn-section"><h2>Streaming credits</h2><p class="vn-fog vn-read">' + esc(t.title) + ' is credited to Vela Nox. From Track 01, contributors’ names go here, in the order their sounds play, and on streaming platforms where they allow it.</p></section>' +
+      '<section class="vn-section"><h2>Where this track came from</h2><div class="vn-track-map"></div></section>');
+    var waveBox = el.querySelector('.vn-wave-box'), rows = el.querySelector('.vn-credits');
+    waveformData(t.waveform).then(function (wf) {
+      if (!wf) return (waveBox.innerHTML = '<p class="vn-fog">The waveform for ' + esc(t.title) + ' appears here once its audio is added.</p>');
+      drawWave(waveBox, wf, ex, rows, null);
+    });
+    var mapBox = el.querySelector('.vn-track-map');
+    geo().then(function (land) {
+      drawMap(mapBox, land, {
+        people: [], popups: false, empty: 'No lights for this one: ' + t.title + ' has no contributors. The first ones arrive with Track 01.',
+        label: 'Night map with no lights: the test transmission has no contributors.'
+      });
+    }).catch(function () { mapBox.innerHTML = ''; });
+  }
 
   // Contributor profiles: one card each, opted-in only
   render.contributors = function (el) {
@@ -1496,10 +1549,8 @@ window.VELA_CONFIG = {
 
 </script>
 <script>
-/* Example data for the preview only. Made-up names and places, in the exact shape the Google Sheet endpoint sends. */
-var EXAMPLE = {"settings":{"current_week":"3","theme":"Public transport","theme_note":"","status_override":"auto","deadline_override":""},"generated":"2026-09-30T18:55:15.759Z","counters":{"weekSounds":7,"weekCities":6,"tracks":2,"credited":15},"tracks":[{"n":2,"title":"Pipes","theme":"Water","sent":"2026-10-19","links":[],"cover":"","coverAlt":"","waveform":"{\"d\":326,\"p\":[0.36,0.26,0.22,0.21,0.21,0.2,0.19,0.17,0.31,0.27,0.25,0.24,0.23,0.22,0.2,0.37,0.31,0.29,0.28,0.27,0.25,0.23,0.43,0.35,0.33,0.32,0.31,0.29,0.26,0.5,0.4,0.37,0.36,0.34,0.32,0.29,0.57,0.45,0.41,0.39,0.38,0.36,0.33,0.64,0.5,0.45,0.43,0.42,0.39,0.36,0.72,0.55,0.49,0.47,0.45,0.43,0.39,0.79,0.59,0.51,0.48,0.46,0.43,0.4,0.83,0.6,0.51,0.48,0.46,0.44,0.4,0.87,0.61,0.52,0.49,0.47,0.44,0.41,0.36,0.62,0.52,0.49,0.47,0.44,0.41,0.37,0.64,0.53,0.49,0.47,0.45,0.41,0.37,0.65,0.53,0.49,0.47,0.45,0.42,0.38,0.67,0.54,0.49,0.47,0.45,0.42,0.38,0.69,0.54,0.49,0.48,0.46,0.43,0.39,0.71,0.55,0.5,0.48,0.46,0.43,0.39,0.73,0.56,0.5,0.48,0.46,0.43,0.4,0.76,0.57,0.5,0.48,0.46,0.44,0.4,0.8,0.58,0.5,0.48,0.46,0.44,0.41,0.84,0.59,0.51,0.48,0.47,0.44,0.41,0.89,0.6,0.51,0.48,0.47,0.45,0.42,0.37,0.61,0.51,0.48,0.47,0.45,0.42,0.38,0.63,0.52,0.48,0.47,0.45,0.42,0.38,0.64,0.52,0.49,0.47,0.45,0.43,0.39,0.66,0.53,0.49,0.47,0.46,0.43,0.39,0.68,0.54,0.49,0.47,0.46,0.43,0.4,0.71,0.54,0.49,0.47,0.46,0.44,0.4,0.74,0.55,0.49,0.47,0.46,0.44,0.41,0.78,0.56,0.49,0.48,0.46,0.44,0.41,0.82,0.57,0.5,0.48,0.47,0.45,0.42,0.86,0.58,0.5,0.48,0.47,0.45,0.42,0.91,0.59,0.5,0.48,0.47,0.45,0.42,0.38,0.6,0.51,0.48,0.47,0.45,0.43,0.39,0.62,0.51,0.48,0.47,0.46,0.43,0.39,0.64,0.52,0.48,0.47,0.46,0.43,0.4,0.66,0.52,0.48,0.47,0.46,0.44,0.4,0.69,0.53,0.48,0.47,0.46,0.44,0.41,0.73,0.19,0.17,0.16,0.16,0.16,0.14,0.27,0.19,0.17,0.16,0.16,0.16,0.15,0.28,0.19,0.17,0.16,0.16,0.16,0.15,0.29,0.2,0.17,0.17,0.16,0.16,0.15,0.31,0.2,0.17,0.17,0.16,0.16,0.15,0.32,0.2,0.17,0.17,0.16,0.16,0.15,0.14,0.21,0.17,0.17,0.16,0.16,0.15,0.14,0.22,0.18,0.17,0.16,0.16,0.15,0.14,0.23,0.18,0.17,0.16,0.16,0.15,0.14,0.24,0.18,0.17,0.16,0.16,0.16,0.14,0.25,0.18,0.17,0.16,0.16,0.16,0.15,0.74,0.52,0.48,0.47,0.46,0.45,0.42,0.78,0.53,0.48,0.47,0.46,0.45,0.42,0.81,0.54,0.48,0.47,0.46,0.45,0.43,0.85,0.55,0.48,0.47,0.46,0.45,0.43,0.89,0.57,0.48,0.47,0.46,0.46,0.43,0.94,0.59,0.49,0.47,0.46,0.46,0.44,0.41,0.61,0.49,0.46,0.46,0.46,0.44,0.41,0.64,0.49,0.46,0.46,0.46,0.44,0.41,0.67,0.5,0.47,0.46,0.46,0.45,0.42,0.69,0.5,0.47,0.46,0.46,0.45,0.42,0.72,0.51,0.47,0.46,0.46,0.45,0.43,0.76,0.52,0.47,0.46,0.46,0.45,0.43,0.79,0.52,0.47,0.46,0.46,0.45,0.43,0.83,0.54,0.47,0.46,0.46,0.46,0.44,0.87,0.56,0.47,0.46,0.46,0.46,0.44,0.91,0.58,0.47,0.46,0.46,0.46,0.44,0.96,0.6,0.48,0.46,0.46,0.46,0.44,0.41,0.63,0.48,0.46,0.46,0.46,0.45,0.42,0.65,0.48,0.46,0.46,0.46,0.45,0.42,0.68,0.49,0.46,0.46,0.46,0.45,0.43,0.71,0.49,0.46,0.46,0.46,0.45,0.43,0.74,0.5,0.46,0.45,0.46,0.45,0.43,0.77,0.52,0.46,0.45,0.46,0.45,0.44,0.81,0.53,0.46,0.45,0.46,0.46,0.44,0.84,0.55,0.46,0.45,0.46,0.46,0.44,0.88,0.57,0.46,0.45,0.46,0.46,0.44,0.93,0.59,0.46,0.45,0.46,0.46,0.45,0.42,0.62,0.47,0.45,0.45,0.46,0.45,0.42,0.64,0.47,0.45,0.45,0.46,0.45,0.43,0.67,0.47,0.45,0.45,0.46,0.45,0.43,0.69,0.48,0.45,0.45,0.46,0.45,0.43,0.72,0.5,0.45,0.45,0.46,0.45,0.44,0.75,0.51,0.45,0.45,0.46,0.45,0.44,0.79,0.53,0.45,0.45,0.45,0.46,0.44,0.82,0.55,0.45,0.44,0.45,0.46,0.44,0.86,0.57,0.45,0.44]}","contributors":9,"cities":8,"credits":[{"name":"Ferro","sound":"sink drip","t":"0:22","s":22,"slug":"ferro","city":"Lyon, France"},{"name":"tin roof","sound":"rain on metal","t":"0:55","s":55,"slug":"tin-roof","city":"Porto, Portugal"},{"name":"Ode","sound":"bucket","t":"1:19","s":79,"slug":"ode","city":"Lagos, Nigeria"},{"name":"low floor","sound":"kettle boil","t":"1:52","s":112,"slug":"low-floor","city":"Montreal, Canada"},{"name":"Ines","sound":"glass rim","t":"2:30","s":150,"slug":"ines","city":"Mexico City, Mexico"},{"name":"Mara K","sound":"bath drain","t":"3:06","s":186,"slug":"mara-k","city":"Berlin, Germany"},{"name":"vent","sound":"pipe tap","t":"3:44","s":224,"slug":"vent","city":"Berlin, Germany"},{"name":"Noor","sound":"fountain","t":"4:17","s":257,"slug":"noor","city":"Cairo, Egypt"},{"name":"cold tap","sound":"ice cube","t":"4:51","s":291,"slug":"cold-tap","city":"Oslo, Norway"}]},{"n":1,"title":"Low Ceiling","theme":"The room you're in right now","sent":"2026-10-12","links":[],"cover":"","coverAlt":"","waveform":"{\"d\":312,\"p\":[0.36,0.31,0.23,0.24,0.2,0.21,0.2,0.2,0.21,0.19,0.23,0.45,0.39,0.28,0.3,0.25,0.27,0.25,0.25,0.26,0.25,0.27,0.54,0.46,0.33,0.36,0.28,0.32,0.29,0.31,0.3,0.3,0.32,0.62,0.53,0.39,0.41,0.32,0.38,0.32,0.37,0.34,0.36,0.36,0.7,0.59,0.46,0.47,0.36,0.43,0.35,0.42,0.37,0.42,0.4,0.78,0.64,0.52,0.52,0.42,0.47,0.37,0.46,0.38,0.44,0.4,0.79,0.63,0.53,0.51,0.43,0.47,0.38,0.46,0.37,0.45,0.39,0.77,0.6,0.53,0.49,0.44,0.46,0.39,0.46,0.36,0.45,0.91,0.75,0.58,0.53,0.48,0.45,0.45,0.4,0.45,0.37,0.45,0.86,0.74,0.55,0.53,0.46,0.46,0.44,0.41,0.45,0.38,0.45,0.82,0.72,0.52,0.53,0.45,0.46,0.43,0.43,0.44,0.4,0.45,0.8,0.7,0.5,0.53,0.43,0.47,0.42,0.44,0.43,0.41,0.44,0.79,0.68,0.49,0.53,0.41,0.47,0.41,0.44,0.42,0.42,0.43,0.77,0.66,0.5,0.52,0.39,0.47,0.39,0.45,0.41,0.43,0.42,0.76,0.64,0.5,0.51,0.4,0.47,0.37,0.45,0.39,0.44,0.41,0.75,0.62,0.51,0.5,0.41,0.47,0.36,0.46,0.38,0.45,0.92,0.73,0.59,0.51,0.49,0.43,0.46,0.38,0.46,0.36,0.45,0.87,0.72,0.57,0.52,0.48,0.44,0.46,0.39,0.45,0.36,0.45,0.82,0.71,0.54,0.52,0.46,0.45,0.45,0.41,0.45,0.37,0.45,0.78,0.69,0.52,0.52,0.45,0.45,0.44,0.42,0.44,0.39,0.45,0.75,0.68,0.5,0.52,0.43,0.46,0.43,0.43,0.43,0.4,0.44,0.74,0.66,0.47,0.52,0.42,0.47,0.41,0.44,0.42,0.41,0.44,0.73,0.64,0.48,0.51,0.4,0.47,0.4,0.45,0.41,0.43,0.98,0.72,0.62,0.48,0.51,0.39,0.47,0.38,0.45,0.4,0.43,0.93,0.71,0.6,0.49,0.5,0.4,0.47,0.37,0.45,0.39,0.15,0.31,0.24,0.2,0.17,0.17,0.14,0.16,0.13,0.16,0.13,0.16,0.29,0.24,0.2,0.18,0.17,0.15,0.16,0.13,0.16,0.12,0.16,0.28,0.24,0.19,0.18,0.16,0.15,0.16,0.14,0.16,0.13,0.16,0.26,0.23,0.18,0.18,0.16,0.16,0.16,0.14,0.16,0.13,0.16,0.25,0.23,0.17,0.18,0.15,0.16,0.15,0.15,0.15,0.14,0.16,0.24,0.22,0.16,0.18,0.15,0.16,0.15,0.15,0.15,0.14,0.34,0.24,0.22,0.16,0.18,0.14,0.16,0.14,0.15,0.15,0.15,0.93,0.68,0.61,0.47,0.5,0.39,0.47,0.39,0.45,0.41,0.43,0.89,0.68,0.59,0.47,0.5,0.39,0.47,0.38,0.45,0.39,0.44,0.85,0.67,0.57,0.48,0.49,0.4,0.47,0.36,0.45,0.38,0.44,0.8,0.66,0.55,0.49,0.48,0.41,0.46,0.37,0.45,0.37,0.45,0.76,0.65,0.53,0.49,0.47,0.43,0.46,0.39,0.45,0.36,0.45,0.72,0.64,0.51,0.5,0.46,0.44,0.45,0.4,0.45,0.37,0.45,0.68,0.63,0.49,0.5,0.44,0.45,0.44,0.41,0.44,0.38,0.97,0.66,0.62,0.47,0.5,0.43,0.45,0.43,0.42,0.44,0.4,0.93,0.65,0.61,0.45,0.5,0.41,0.46,0.41,0.43,0.43,0.41,0.89,0.65,0.6,0.45,0.5,0.39,0.46,0.4,0.44,0.42,0.42,0.85,0.64,0.58,0.46,0.5,0.38,0.46,0.38,0.45,0.4,0.43,0.81,0.64,0.57,0.46,0.49,0.39,0.46,0.37,0.45,0.39,0.44,0.77,0.63,0.55,0.47,0.48,0.4,0.46,0.36,0.45,0.37,0.45,0.74,0.63,0.53,0.48,0.47,0.41,0.46,0.38,0.45,0.36,1,0.7,0.62,0.51,0.49,0.46,0.43,0.45,0.39,0.45,0.36,0.96,0.66,0.61,0.49,0.49,0.45,0.44,0.44,0.4,0.45,0.37,0.93,0.63,0.61,0.47,0.49,0.43,0.45,0.43,0.42,0.44,0.39,0.89,0.62,0.6,0.45,0.5,0.42,0.45,0.42,0.43,0.43,0.4,0.85,0.61,0.59,0.43,0.49,0.4,0.46,0.41,0.44,0.42,0.41,0.82,0.61,0.57,0.44,0.49,0.38,0.46,0.39,0.44,0.41,0.43,0.78,0.61,0.56,0.45,0.49,0.38,0.46,0.38,0.45,0.4,0.43,0.75,0.61,0.54,0.46,0.48,0.39,0.46,0.36,0.45,0.38,0.98,0.71,0.6,0.53,0.47,0.47,0.4,0.46,0.37,0.45,0.37,0.95,0.68]}","contributors":9,"cities":7,"credits":[{"name":"Ferro","sound":"my kettle","t":"0:14","s":14,"slug":"ferro","city":"Lyon, France"},{"name":"radiator"},{"name":"Mara K","sound":"fridge door","t":"1:02","s":62,"slug":"mara-k","city":"Berlin, Germany"},{"name":"night bus","sound":"window rattle","t":"1:37","s":97,"slug":"night-bus","city":"Glasgow, United Kingdom"},{"name":"Ode","sound":"ceiling fan","t":"2:14","s":134,"slug":"ode","city":"Lagos, Nigeria"},{"name":"hum","sound":"lamp buzz","t":"2:58","s":178,"slug":"hum","city":"Detroit, United States"},{"name":"Kaito","sound":"floorboard","t":"3:31","s":211,"slug":"kaito","city":"Osaka, Japan"},{"name":"Sasha V"},{"name":"June R","sound":"chair creak","t":"4:48","s":288,"slug":"june-r","city":"Melbourne, Australia"}]}],"contributors":[{"slug":"ferro","name":"Ferro","city":"Lyon, France","lat":45.76,"lng":4.84,"level":"Signal","credits":2,"submitted":3,"tracks":[{"n":2,"title":"Pipes","t":"0:22"},{"n":1,"title":"Low Ceiling","t":"0:14"}],"inPool":true},{"slug":"night-bus","name":"night bus","city":"Glasgow, United Kingdom","lat":55.86,"lng":-4.25,"level":"Signal","credits":1,"submitted":1,"tracks":[{"n":1,"title":"Low Ceiling","t":"1:37"}],"inPool":false},{"slug":"mara-k","name":"Mara K","city":"Berlin, Germany","lat":52.52,"lng":13.4,"level":"Signal","credits":2,"submitted":2,"tracks":[{"n":2,"title":"Pipes","t":"3:06"},{"n":1,"title":"Low Ceiling","t":"1:02"}],"inPool":false},{"slug":"tin-roof","name":"tin roof","city":"Porto, Portugal","lat":41.15,"lng":-8.61,"level":"Signal","credits":1,"submitted":1,"tracks":[{"n":2,"title":"Pipes","t":"0:55"}],"inPool":false},{"slug":"ode","name":"Ode","city":"Lagos, Nigeria","lat":6.52,"lng":3.38,"level":"Signal","credits":2,"submitted":2,"tracks":[{"n":2,"title":"Pipes","t":"1:19"},{"n":1,"title":"Low Ceiling","t":"2:14"}],"inPool":false},{"slug":"hum","name":"hum","city":"Detroit, United States","lat":42.33,"lng":-83.05,"level":"Signal","credits":1,"submitted":1,"tracks":[{"n":1,"title":"Low Ceiling","t":"2:58"}],"inPool":false},{"slug":"low-floor","name":"low floor","city":"Montreal, Canada","lat":45.5,"lng":-73.57,"level":"Signal","credits":1,"submitted":1,"tracks":[{"n":2,"title":"Pipes","t":"1:52"}],"inPool":false},{"slug":"ines","name":"Ines","city":"Mexico City, Mexico","lat":19.43,"lng":-99.13,"level":"Signal","credits":1,"submitted":1,"tracks":[{"n":2,"title":"Pipes","t":"2:30"}],"inPool":false},{"slug":"kaito","name":"Kaito","city":"Osaka, Japan","lat":34.69,"lng":135.5,"level":"Signal","credits":1,"submitted":2,"tracks":[{"n":1,"title":"Low Ceiling","t":"3:31"}],"inPool":true},{"slug":"june-r","name":"June R","city":"Melbourne, Australia","lat":-37.81,"lng":144.96,"level":"Signal","credits":1,"submitted":2,"tracks":[{"n":1,"title":"Low Ceiling","t":"4:48"}],"inPool":true},{"slug":"vent","name":"vent","city":"Berlin, Germany","lat":52.52,"lng":13.4,"level":"Signal","credits":1,"submitted":1,"tracks":[{"n":2,"title":"Pipes","t":"3:44"}],"inPool":false},{"slug":"pila","name":"Pila","city":"Bogotá, Colombia","lat":4.71,"lng":-74.07,"level":"Static","credits":0,"submitted":2,"tracks":[],"inPool":true},{"slug":"static-cat","name":"static cat","city":"Seoul, South Korea","lat":37.57,"lng":126.98,"level":"Static","credits":0,"submitted":2,"tracks":[],"inPool":true},{"slug":"noor","name":"Noor","city":"Cairo, Egypt","lat":30.04,"lng":31.24,"level":"Signal","credits":1,"submitted":1,"tracks":[{"n":2,"title":"Pipes","t":"4:17"}],"inPool":false},{"slug":"e-t","name":"E.T.","city":"Boston, United States","lat":42.36,"lng":-71.06,"level":"Static","credits":0,"submitted":2,"tracks":[],"inPool":true},{"slug":"cold-tap","name":"cold tap","city":"Oslo, Norway","lat":59.91,"lng":10.75,"level":"Signal","credits":1,"submitted":1,"tracks":[{"n":2,"title":"Pipes","t":"4:51"}],"inPool":false}]};
-var EMPTY = { settings: { current_week: '1', theme: "The room you're in right now", theme_note: "Vela's pick", status_override: 'auto', deadline_override: '' },
-  counters: { weekSounds: 0, weekCities: 0, tracks: 0, credited: 0 }, tracks: [], contributors: [] };
+/* Launch-day data: exactly what the Google Sheet sends on day one. Nobody has submitted yet; the only track is the Tumult test transmission. */
+var LAUNCH = {"settings":{"current_week":"1","theme":"The room you're in right now","theme_note":"Vela's pick","status_override":"auto","deadline_override":""},"generated":"2026-09-30T19:09:40.195Z","counters":{"weekSounds":0,"weekCities":0,"tracks":0,"credited":0},"tracks":[{"n":0,"title":"Tumult","theme":"Test transmission","demo":true,"links":[],"cover":"","coverAlt":"","waveform":"","marks":[],"credits":[]}],"contributors":[]};
 
 var PLUS = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1v14M1 8h14" fill="none"/></svg>';
 var MOCK_FORM =
@@ -1529,17 +1580,15 @@ var MOCK_FORM =
 
 (function () {
   var C = VELA.config, R = VELA.render, current = 'home', trackN = null, trackC = null, fileOk = false;
-  var dataSel = document.getElementById('pv-data'), dateSel = document.getElementById('pv-date'), note = document.getElementById('pv-note');
+  var dateSel = document.getElementById('pv-date'), note = document.getElementById('pv-note');
   var head = document.getElementById('site-head');
 
   function setData() {
-    C.data = dataSel.value === 'example' ? EXAMPLE : EMPTY;
+    C.data = LAUNCH;
     C.now = dateSel.value;
     VELA.reset();
     try { sessionStorage.removeItem('vela:data'); } catch (e) { /* ignore */ }
-    note.textContent = dataSel.value === 'example'
-      ? 'Example data: every name, city and track here is made up to show the layout. The live site only shows what’s in your Google Sheet.'
-      : 'Launch day: an empty sheet, exactly what visitors see before any sounds or tracks exist.';
+    note.textContent = 'Launch day: nobody has submitted yet, so the map is dark and the counters read 0. Tumult is the test transmission. Use the date to see the site through launch week and a regular week.';
   }
 
   function levels() {
@@ -1652,7 +1701,7 @@ var MOCK_FORM =
       setTimeout(function () { document.getElementById('sent-demo').scrollIntoView({ block: 'start' }); }, 50);
     }, 1400);
   });
-  [dataSel, dateSel].forEach(function (s) { s.addEventListener('change', function () { setData(); go('#' + current, true); }); });
+  [dateSel].forEach(function (s) { s.addEventListener('change', function () { setData(); go('#' + current, true); }); });
 
   setData();
   go('#home');

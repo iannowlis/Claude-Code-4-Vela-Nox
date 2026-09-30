@@ -56,13 +56,14 @@ Create the sheet, open **Extensions → Apps Script**, paste `apps-script/Code.g
 |---|---|---|
 | **Settings** | key · value · note | You. `current_week`, `theme`, `theme_note`, `status_override` (auto / open / closed), `deadline_override` |
 | **Contributors** | credit name · instagram handle · email · city · country · show city · remove from public · lat · lng · first seen · last seen | The form, automatically. You set `remove from public` to "yes" for opt-out requests |
-| **Tracks** | number · title · theme · date sent · streaming links · cover image · cover alt text · waveform | You, weekly |
+| **Tracks** | number · title · theme · date sent · streaming links · cover image · cover alt text · waveform · type · example marks | You, weekly. Leave `type` empty for real releases |
 | **Credits** | track · contributor · sound title · timestamp | You, weekly. `contributor` must match the credit name exactly. `timestamp` like `2:14` |
 | **Submissions** | week · contributor · sound title · received · status · email · description · file · city · country · show city · instagram handle | The form, automatically. `status` is ok / duplicate / late |
 
 **Notes**
 - **One place for the weekly settings:** the Settings tab. Change `theme` and `current_week` every Monday, and every page updates within about 5 minutes. The submission status and deadline follow the ET clock by themselves, including the launch-week dates and the switch to the regular week on October 12. Use `status_override` or `deadline_override` only if a week runs differently.
 - **Tracks:** a track appears on the site once its `date sent` is today or earlier (ET). Enter the date on the Monday the email goes out.
+- **The test transmission (Tumult):** `setup()` adds one row: number `0`, title `Tumult`, theme `Test transmission`, type `demo`. A `demo` row is always shown (no date needed) but never counts as a release: it isn't in the counters, it never lights the map, it has no contributor credits, and it isn't a filter on the Signal Map. Its page says it's a track by the human producer behind Vela Nox, not built from subscriber sounds. Fill in its `waveform` (from `tools/waveform-peaks.html`) and its `example marks`: a few moments in the track, like `0:42, 1:37, 2:58`, where the example credits sit. Streaming links and a cover work as for any track. To retire it later, delete the row. Until then it sits in its own "Test transmission" block under the real releases.
 - **Covers:** until a track has a `cover image`, the site shows its number ("02") in a dark square instead, and hides that square on phones on the track page.
 - **Streaming links:** one per line, `Label | https://…`.
 - **Waveform:** open `tools/waveform-peaks.html` on your computer, pick the finished track, and paste the text it gives you into the `waveform` column. The audio never has to be public. (An audio URL also works, but only if its host allows cross-origin reads. Otherwise the site draws a flat line with the markers on it.)
