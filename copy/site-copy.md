@@ -1,6 +1,6 @@
 # Vela Nox: site copy
 
-All times are Eastern Time (ET). Anything in `[BRACKETS]` is filled in automatically by a custom code element (see `ghl/elements/`) or by you where marked.
+All times are Eastern Time (ET). Anything in `[BRACKETS]` is filled in automatically by a custom code element (the live parts of the page blocks in `ghl/pages/`) or by you where marked.
 Every subscribe button, sitewide, reads exactly: **Send me a sound — $3/week**
 The submission button reads exactly: **Send it**
 Layout, colour, type and motion follow the Vela Nox design system (see `copy/build-note.md` → Design). Sentence case everywhere, no all-caps labels.

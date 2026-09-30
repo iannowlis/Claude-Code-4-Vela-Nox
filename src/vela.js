@@ -1,6 +1,6 @@
 /* Vela Nox: shared script for the GoHighLevel custom code elements.
  *
- * Loaded once per page (Website settings -> Head tracking code, see ghl/site-head.html).
+ * Loaded once per page from the footer tracking code (ghl/2-footer-code.html, built by tools/kit.mjs).
  * Every custom code element on the site calls one VELA.render.* function.
  *
  * Weekly edits never happen here. Theme, week number and submission status live in

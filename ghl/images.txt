@@ -1,0 +1,6 @@
+assets/hero-vela-tower.webp
+assets/stairwell.webp
+assets/strands-texture.webp
+assets/stromen-ruins.webp
+assets/vault.webp
+assets/vela-portrait.webp

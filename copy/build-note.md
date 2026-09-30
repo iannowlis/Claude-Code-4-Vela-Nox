@@ -14,8 +14,7 @@ GoHighLevel website pages can't require a login, so the real form lives in the *
 - **Offer "Submit"** → course "Submit" → one lesson containing the custom code element `portal-submit-panel`. It shows the theme, deadline, reminder and vote line, and loads the form only while submissions are open. Outside the window it shows the closed state.
 - **Offer "Already sent"** → one lesson with `portal-already-sent`.
 - The public website page `/submit` is written for non-subscribers: a short explanation, the subscribe button, and a "Log in to send your sound" link to the portal.
-- The portal doesn't load the website's head code, so both portal elements carry the shared script inline. Rebuild and re-paste them whenever `src/` changes.
-- Put the site footer at the bottom of both portal lessons.
+- The portal doesn't load the website's Custom CSS or footer code, so both portal files carry the styles and script inline. Rebuild and re-paste them whenever `src/` changes.
 
 ## 3. The form
 Build it in **Sites → Forms**. Create these custom contact fields first: Credit name, Instagram handle, Sound title, Sound description, Sound file (file upload), Show city (checkbox). City and Country are standard contact fields.
@@ -23,7 +22,7 @@ Build it in **Sites → Forms**. Create these custom contact fields first: Credi
 - File upload: allow audio file types only, one file.
 - The three required checkboxes are required fields. The city checkbox is optional.
 - Add a text block directly above the button with the credit line. Button text: **Send it**.
-- On submit: redirect to `/sent` (website page with `submit-sent-confirmation`, set to noindex).
+- On submit: redirect to `/sent` (website page with `ghl/pages/11-sent.html`, set to noindex).
 - **Limits and what enforces them.** GoHighLevel can restrict the file type, but it can't read an audio file's length, and the size limit it applies may not be 3 MB. So the limits are stated on the form, and anything over 10 seconds or 3 MB is skipped when the sounds are reviewed. The time window is enforced twice: the form only loads while submissions are open, and the sheet marks anything that arrives outside the window as `late` and doesn't count it.
 
 **One sound a week.** Workflow **"Sound received"**. Trigger: form submitted (this form).
@@ -48,7 +47,7 @@ Build it in **Sites → Forms**. Create these custom contact fields first: Credi
 **Weekly reset (Tuesday, 12:00 am ET).** Workflow **"New week"**. Trigger: tag `sent-this-week` removed. If the contact has `vela-active`: revoke **Already sent** and grant **Submit**. To run it, schedule a bulk action every week (Contacts → filter by tag `sent-this-week` → Remove tag).
 
 ## 4. Google Sheet
-Create the sheet, open **Extensions → Apps Script**, paste `apps-script/Code.gs`, and run `setup()` once. That creates the tabs and headers, sets the sheet's time zone to ET, and logs the webhook secret. Then **Deploy → New deployment → Web app**, execute as **me**, access **Anyone**. Paste the `/exec` URL into `ghl/site-head.html` (`dataUrl`) and into the webhook action.
+Create the sheet, open **Extensions → Apps Script**, paste `apps-script/Code.gs`, and run `setup()` once. That creates the tabs and headers, sets the sheet's time zone to ET, and logs the webhook secret. Then **Deploy → New deployment → Web app**, execute as **me**, access **Anyone**. Paste the `/exec` URL into `dataUrl` in `ghl/2-footer-code.html` and both portal files, and into the webhook action.
 
 **Don't use "Publish to web" on this sheet.** The Contributors and Submissions tabs hold emails. The site only reads the web app, and the web app only sends out public fields.
 
@@ -72,29 +71,21 @@ Create the sheet, open **Extensions → Apps Script**, paste `apps-script/Code.g
 - **Map positions:** each city is geocoded to its center and rounded to two decimals. Contributors you add by hand get positions when you run `geocodeMissing()`.
 - **What's calculated automatically:** levels (Static 0, Signal 1+, Frequency 5+, Broadcast 10+ credits), brightness, the counters, contributor and city counts per track, and this week's pool. Only people who ticked "show city" are included in city counts and on the map. Contributors credited counts everyone credited, as a number only.
 
-## 5. Custom code elements
-Run `node tools/build.mjs` after changing anything in `src/`, then paste from `ghl/`.
+## 5. The paste-in kit (ghl/)
+Every page is one Custom Code element built from the same files as the preview, so the live site looks and works exactly like it. Step by step: `ghl/README.md`. In short:
 
 | Paste | Where |
 |---|---|
-| `ghl/legal/terms.html`, `privacy.html`, `cancellation.html` | `/terms`, `/privacy`, `/cancellation` (one Custom Code element each) |
-| `ghl/site-head.html` | Website settings → Head tracking code (whole site, once). Fill in `dataUrl`, `subscribeUrl`, `portalUrl` |
-| `home-hero-map` | Home hero: a full-width section with no padding. Put the H1, subhead and button in a text block over its lower-left (under it on phones) |
-| `home-this-week-strip` | Home, under the hero. Also at the top of the locked `/submit` page |
-| `home-timeline` | Home, "How a week works" |
-| `home-launch-note` | Home, under the timeline |
-| `home-latest-track` | Home, "Latest track" section |
-| `signal-map` | Signal Map page (`/signal-map`) |
-| `signal-map-broadcast-wall` | Signal Map page, last section |
-| `tracks-index` | `/tracks` |
-| `track-page` | `/track` (one page for every track, which reads `?n=`) |
-| `contributors` | `/contributors` |
-| `faq-deadline-answer`, `faq-vote-answer` | Rules & FAQ (`/rules-faq`), under those questions |
-| `submit-sent-confirmation` | `/sent` |
-| `portal-submit-panel` (replace `FORM_ID` twice) | Portal lesson "Submit" |
-| `portal-already-sent` | Portal lesson "Already sent" |
+| `ghl/1-custom-css.css` | Settings → Custom CSS (whole site, once) |
+| `ghl/2-footer-code.html` | Settings → Tracking code → Footer (whole site, once). Fill in `dataUrl` and `portalUrl` |
+| `ghl/pages/01-home.html` … `11-sent.html` | One page each, one Custom Code element in a full-width section with no padding. The file's first line names the page URL |
+| `ghl/pages/12-header-only.html`, `13-footer-only.html` | Top and bottom of `/subscribe` (the native order form page) |
+| `ghl/portal/portal-submit-panel.html` (replace `FORM_ID` twice) | Portal lesson "Submit" |
+| `ghl/portal/portal-already-sent.html` | Portal lesson "Already sent" |
 
-If you use different page URLs, change `paths` in `src/vela.js` and rebuild. The map shows subscriber cities only, with no fixed points or lines. It uses d3-geo and a world outline from cdn.jsdelivr.net, and fonts from Google Fonts. Nothing else is loaded from outside.
+Each page block carries its own header and footer, so turn off GoHighLevel's own header and footer on those pages. Images: upload the six files in `ghl/images.txt`, then replace each `https://REPLACE-WITH-IMAGE-URL/name.webp` with its media-library link. After changing anything in `src/`, `preview/template.html` or `copy/legal/`, run `node tools/build.mjs && node tools/kit.mjs` and re-paste what changed. The section names in `copy/site-copy.md` ("Custom code element: `tracks-index`" and so on) are the live parts inside these blocks.
+
+If you use different page URLs, change `paths` in `src/vela.js` and the link list at the top of `tools/kit.mjs`, then rebuild. The map shows subscriber cities only, with no fixed points or lines. It uses d3-geo and a world outline from cdn.jsdelivr.net, and fonts from Google Fonts. Nothing else is loaded from outside.
 
 ## 6. Design (from the Vela Nox design system)
 The site head code loads the fonts and defines the tokens; it also paints every page `--night`, so no white page flashes. Style the native GoHighLevel sections to match:
