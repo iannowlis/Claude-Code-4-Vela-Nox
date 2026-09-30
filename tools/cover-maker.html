@@ -2,9 +2,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cover Maker</title>
-<!-- Vela Nox cover maker. Open this file in a browser, type the track number and title, download a 3000 x 3000 PNG
+<!-- Vela Nox cover maker. Open this file in a browser, type the track number, download a 3000 x 3000 PNG
      for the distributor. Same layout as the covers the site draws (src/vela.js, coverArt). -->
-<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root { --night: #070C16; --mist: #E6EDF5; --fog: #8E9AAE; --concrete: #243048; }
   body { margin: 0; background: var(--night); color: var(--mist); font-family: 'Atkinson Hyperlegible', Arial, sans-serif; }
@@ -19,7 +19,7 @@
 <main>
   <h1>Cover maker</h1>
   <label>Track number <input id="n" type="number" min="0" value="0"></label>
-  <label>Title <input id="t" value="Tumult"></label>
+  <label>Title (for the file name) <input id="t" value="Tumult"></label>
   <canvas id="c" width="3000" height="3000"></canvas>
   <button id="dl" type="button">Download PNG (3000 x 3000)</button>
   <p>Leave the cover image cell in the sheet empty and the site draws this same cover on its own. Use the PNG for the distributor.</p>
@@ -30,30 +30,26 @@ var c = document.getElementById('c'), x = c.getContext('2d'), S = 3;
 function pad2(n) { return (n < 10 ? '0' : '') + n; }
 function draw() {
   var n = Math.max(0, parseInt(document.getElementById('n').value, 10) || 0);
-  var title = document.getElementById('t').value.trim().toUpperCase();
   x.setTransform(1, 0, 0, 1, 0, 0);
   x.fillStyle = '#070C16'; x.fillRect(0, 0, 3000, 3000);
-  var g = x.createRadialGradient(1500, 1290, 0, 1500, 1290, 1740);
+  var g = x.createRadialGradient(1500, 1500, 0, 1500, 1500, 1740);
   g.addColorStop(0, 'rgba(230,237,245,0.07)'); g.addColorStop(1, 'rgba(230,237,245,0)');
   x.fillStyle = g; x.fillRect(0, 0, 3000, 3000);
-  var b = MARK.box.split(' ').map(Number), k = 430 * S / b[2];
-  x.save(); x.translate(285 * S, 175 * S); x.scale(k, k); x.translate(-b[0], -b[1]);
+  // the mark, centred
+  var b = MARK.box.split(' ').map(Number), m = 440 * S, k = m / b[2];
+  x.save(); x.translate(1500 - m / 2, 1500 - m / 2); x.scale(k, k); x.translate(-b[0], -b[1]);
   x.fillStyle = '#E6EDF5'; x.fill(new Path2D(MARK.d)); x.restore();
-  x.textBaseline = 'alphabetic';
-  x.fillStyle = '#8E9AAE'; x.font = '700 ' + 34 * S + 'px "Atkinson Hyperlegible"'; x.letterSpacing = 0.24 * 34 * S + 'px';
-  x.textAlign = 'left'; x.fillText('TRACK', 66 * S, 800 * S);
-  var ts = Math.min(36, Math.round(520 / Math.max(1, title.length * 0.84)));
-  x.font = '700 ' + ts * S + 'px "Atkinson Hyperlegible"'; x.letterSpacing = 0.24 * ts * S + 'px';
-  x.textAlign = 'right'; x.fillText(title, 936 * S, 930 * S);
-  x.fillStyle = '#E6EDF5'; x.font = '800 ' + 150 * S + 'px "Big Shoulders Display"'; x.letterSpacing = '0px';
-  x.textAlign = 'left'; x.fillText(pad2(n), 60 * S, 936 * S);
+  // "TRACK 01", small and centred along the bottom (letter-spacing follows the last letter too, so shift by half)
+  var ls = 0.4 * 38 * S;
+  x.fillStyle = '#8E9AAE'; x.font = '600 ' + 38 * S + 'px "Big Shoulders Display"'; x.letterSpacing = ls + 'px';
+  x.textAlign = 'center'; x.textBaseline = 'alphabetic'; x.fillText('TRACK ' + pad2(n), 1500 + ls / 2, 915 * S);
 }
 document.getElementById('n').oninput = document.getElementById('t').oninput = draw;
 document.getElementById('dl').onclick = function () {
   var a = document.createElement('a');
-  a.download = 'vela-nox-track-' + pad2(parseInt(document.getElementById('n').value, 10) || 0) + '-cover.png';
+  a.download = 'vela-nox-track-' + pad2(parseInt(document.getElementById('n').value, 10) || 0) + '-' + (document.getElementById('t').value.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'cover') + '.png';
   a.href = c.toDataURL('image/png'); a.click();
 };
 draw();
-Promise.all([document.fonts.load('800 60px "Big Shoulders Display"'), document.fonts.load('700 20px "Atkinson Hyperlegible"')]).then(draw, draw);
+Promise.all([document.fonts.load('600 60px "Big Shoulders Display"'), document.fonts.load('700 20px "Atkinson Hyperlegible"')]).then(draw, draw);
 </script>

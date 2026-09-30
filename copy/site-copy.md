@@ -253,7 +253,7 @@ Tumult is a track by the human producer behind Vela Nox. It's on the site from l
 - **H1:** [TITLE]
 - Theme: [THEME] / Sent to subscribers [DATE] / [N] contributors · [N] cities
 - Streaming links: only the ones you add to the sheet, as outlined buttons. If there are none: "Not on streaming platforms yet. Tracks go out there about a month after the subscriber email, once the distributor has reviewed everything. Subscribers get an email when it's out."
-- Cover on the right (above the title on phones): the standard cover with the mark, "TRACK [NN]" and the title, unless the sheet has a cover image.
+- Cover on the right (above the title on phones): the standard cover (the mark centred, "TRACK [NN]" small along the bottom), unless the sheet has a cover image.
 
 **H2: Waveform credits**
 Each mark is a sound someone sent. Hover or tap it to see whose. People who chose not to show their city are credited by name only, in the list below.

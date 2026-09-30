@@ -167,9 +167,8 @@
 .vn-row { display: grid; grid-template-columns: 96px 1fr; gap: 1.25rem; align-items: center; padding: 1.1rem 0; border-bottom: 1px solid var(--concrete); text-decoration: none !important; }
 .vn-row img, .vn-row .vn-cover { width: 96px; height: 96px; object-fit: cover; display: block; background: var(--deep); border: 1px solid var(--concrete); }
 /* Standard cover: the mark, the track number and the title, drawn on the page (no image needed) */
-.vn-cover { display: block; background: radial-gradient(circle at 50% 43%, rgba(230, 237, 245, 0.07), transparent 58%), var(--night); }
-.vn-cover-no { font-family: var(--display); font-weight: 800; fill: var(--mist); }
-.vn-cover-label { font-family: var(--text); font-weight: 700; letter-spacing: 0.24em; fill: var(--fog); }
+.vn-cover { display: block; background: radial-gradient(circle at 50% 50%, rgba(230, 237, 245, 0.07), transparent 58%), var(--night); }
+.vn-cover-label { font-family: var(--display); font-weight: 600; fill: var(--fog); }
 .vn .vn-row-title { font-family: var(--display); font-weight: 600; font-size: 26px; line-height: 1.05; color: var(--mist); margin: 0 0 0.3rem; }
 .vn-row:hover .vn-row-title, .vn-row:focus-visible .vn-row-title { color: var(--mist); text-decoration: underline; text-decoration-color: var(--ice); text-underline-offset: 4px; }
 .vn-row .vn-meta { margin: 0; }
