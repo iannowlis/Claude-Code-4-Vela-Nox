@@ -362,7 +362,7 @@
   function cover(t, size) {
     return safeUrl(t.cover)
       ? '<img src="' + esc(safeUrl(t.cover)) + '" alt="' + esc(t.coverAlt || ('Cover art for ' + trackNo(t.n) + ', ' + t.title)) + '"' + (size ? ' width="' + size + '" height="' + size + '"' : '') + ' loading="lazy">'
-      : '<div class="vn-cover-ph" aria-hidden="true"></div>';
+      : '<div class="vn-cover-ph" aria-hidden="true">' + pad2(Number(t.n)) + '</div>';
   }
   function trackRow(t) {
     return '<li><a class="vn-row" href="' + trackUrl(t.n) + '">' + cover(t, 96) + '<div>' +

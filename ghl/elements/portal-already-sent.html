@@ -82,10 +82,10 @@
 .vn-strip { background: linear-gradient(180deg, rgba(166, 220, 255, 0.05), transparent 60%), var(--deep); border: 1px solid var(--concrete); padding: 32px; display: grid; gap: 0.9rem; }
 @media (max-width: 599px) { .vn-strip { padding: 24px 20px; } }
 .vn-strip-k { font-size: 15px; color: var(--fog); }
-.vn-strip-theme { font-family: var(--display); font-weight: 800; font-size: var(--t-theme); line-height: 1; color: var(--mist); margin: 0; text-wrap: balance; text-shadow: 0 0 32px var(--ice-glow); }
+.vn .vn-strip-theme { font-family: var(--display); font-weight: 800; font-size: var(--t-theme); line-height: 1; color: var(--mist); margin: 0; text-wrap: balance; text-shadow: 0 0 32px var(--ice-glow); }
 .vn-strip-status { display: flex; align-items: baseline; color: var(--mist); }
 .vn-strip-status.is-live { color: var(--beacon); font-size: 18px; }
-.vn-strip-vote { color: var(--fog); margin: 0; }
+.vn .vn-strip-vote { color: var(--fog); margin: 0; }
 
 /* How a week works: vertical timeline */
 .vn-timeline { list-style: none; margin: 0; padding: 0; max-width: var(--read); }
@@ -121,7 +121,7 @@
 /* The Signal Map page: shorter, so the title, counters, filters, map and legend fit on one screen */
 .vn-map-page .vn-map-wrap.is-full { height: clamp(320px, 52vh, 560px); min-height: 0; }
 @media (max-width: 599px) { .vn-map-page .vn-map-wrap.is-full { height: auto; aspect-ratio: 960 / 400; } }
-.vn-map-msg { position: absolute; left: 20px; right: 20px; top: 45%; color: var(--fog); max-width: 30rem; }
+.vn .vn-map-msg { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); margin: 0 auto; padding: 0 20px; max-width: 32rem; text-align: center; color: var(--fog); }
 .vn-pt { cursor: pointer; }
 .vn-pt:focus { outline: none; }
 .vn-pt:focus-visible .vn-pt-ring { stroke: var(--ice); stroke-width: 2; }
@@ -139,9 +139,9 @@
 /* Under the map: the note and actions on the left, the signal levels on the right */
 .vn-map-foot { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem; margin-top: 2.5rem; }
 @media (min-width: 900px) { .vn-map-foot { grid-template-columns: minmax(0, 34rem) auto; justify-content: space-between; align-items: start; margin-top: 3rem; } }
-.vn-map-note { color: var(--fog); margin: 0 0 1.5rem; max-width: 34rem; }
+.vn .vn-map-note { color: var(--fog); margin: 0 0 1.5rem; max-width: 34rem; }
 .vn-map-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.75rem; }
-.vn-key-title { font-size: var(--t-small); color: var(--mist); font-weight: 700; margin: 0 0 0.9rem; }
+.vn .vn-key-title { font-size: var(--t-small); color: var(--mist); font-weight: 700; margin: 0 0 0.9rem; }
 .vn-legend { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.65rem; font-size: var(--t-small); }
 .vn-legend li { display: grid; grid-template-columns: 8.5rem auto; align-items: center; gap: 1rem; }
 .vn-list { margin-top: 2.5rem; }
@@ -162,8 +162,8 @@
 .vn-card { background: var(--deep); border: 1px solid var(--concrete); padding: 1.25rem; min-width: 0; }
 .vn-card.is-target { border-color: var(--ice); box-shadow: 0 0 24px var(--ice-glow); }
 .vn .vn-card-name { font-family: var(--text); font-weight: 700; font-size: var(--t-h3); color: var(--ice); margin: 0; overflow-wrap: anywhere; }
-.vn-card-city { color: var(--fog); margin: 0 0 1rem; }
-.vn-card-stats { margin: 0.9rem 0; font-variant-numeric: tabular-nums; }
+.vn .vn-card-city { color: var(--fog); margin: 0 0 1rem; }
+.vn .vn-card-stats { margin: 0.9rem 0; font-variant-numeric: tabular-nums; }
 .vn-card-tracks { list-style: none; margin: 0; padding: 0; font-size: var(--t-small); display: grid; gap: 0.35rem; }
 .vn-card-tracks li { display: grid; grid-template-columns: 5.5rem 1fr; gap: 0.5rem; font-variant-numeric: tabular-nums; }
 
@@ -171,7 +171,9 @@
 .vn-rows { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--concrete); }
 .vn-row { display: grid; grid-template-columns: 96px 1fr; gap: 1.25rem; align-items: center; padding: 1.1rem 0; border-bottom: 1px solid var(--concrete); text-decoration: none !important; }
 .vn-row img, .vn-cover-ph { width: 96px; height: 96px; object-fit: cover; display: block; background: var(--deep); border: 1px solid var(--concrete); }
-.vn-row-title { font-family: var(--display); font-weight: 600; font-size: 26px; line-height: 1.05; color: var(--mist); margin: 0 0 0.3rem; }
+/* No cover yet: the track number, quietly, instead of an empty box */
+.vn-cover-ph { display: grid; place-items: center; font-family: var(--display); font-weight: 800; font-size: 34px; color: var(--concrete); background: radial-gradient(circle at 50% 40%, rgba(166, 220, 255, 0.07), transparent 70%), var(--deep); }
+.vn .vn-row-title { font-family: var(--display); font-weight: 600; font-size: 26px; line-height: 1.05; color: var(--mist); margin: 0 0 0.3rem; }
 .vn-row:hover .vn-row-title, .vn-row:focus-visible .vn-row-title { color: var(--mist); text-decoration: underline; text-decoration-color: var(--ice); text-underline-offset: 4px; }
 .vn-row .vn-meta { margin: 0; }
 .vn-row .vn-count { color: var(--mist); font-size: var(--t-small); margin: 0.2rem 0 0; font-variant-numeric: tabular-nums; }
@@ -180,7 +182,9 @@
 .vn-track-head { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.5rem; margin: 0; }
 @media (min-width: 700px) { .vn-track-head { grid-template-columns: minmax(0, 1fr) 240px; align-items: end; } }
 .vn-track-head img, .vn-track-head .vn-cover-ph { width: 100%; max-width: 240px; height: auto; aspect-ratio: 1; }
-.vn-track-no { color: var(--fog); margin: 0 0 0.4rem; }
+.vn-track-head .vn-cover-ph { font-size: 72px; }
+@media (max-width: 699px) { .vn-track-head .vn-cover-ph { display: none; } }
+.vn .vn-track-no { color: var(--fog); margin: 0 0 0.4rem; }
 .vn-links { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.25rem; }
 .vn-section { position: relative; margin-top: var(--space); padding-top: var(--space); border-top: 1px solid var(--concrete); }
 .vn-section::after { content: ""; position: absolute; left: 0; top: -1px; width: 48px; height: 1px; background: var(--ice); box-shadow: 0 0 10px var(--ice); }
@@ -209,7 +213,7 @@
 .vn-theme-h { margin: 0; }
 .vn-theme-h .k { display: block; font-family: var(--text); font-weight: 400; font-size: 15px; line-height: 1.4; color: var(--fog); margin-bottom: 0.9rem; }
 .vn-theme-h .v { display: block; font-family: var(--display); font-weight: 800; font-size: var(--t-theme); line-height: 1; color: var(--mist); }
-.vn-reminder { color: var(--mist); margin: 1.5rem 0 0.4rem; }
+.vn .vn-reminder { color: var(--mist); margin: 2rem 0 0.4rem; }
 .vn-form-frame { margin-top: 2.5rem; }
 .vn-form-frame iframe { width: 100%; border: 0; min-height: 1100px; background: transparent; }
 
@@ -602,7 +606,7 @@ window.VELA_CONFIG = {
   function cover(t, size) {
     return safeUrl(t.cover)
       ? '<img src="' + esc(safeUrl(t.cover)) + '" alt="' + esc(t.coverAlt || ('Cover art for ' + trackNo(t.n) + ', ' + t.title)) + '"' + (size ? ' width="' + size + '" height="' + size + '"' : '') + ' loading="lazy">'
-      : '<div class="vn-cover-ph" aria-hidden="true"></div>';
+      : '<div class="vn-cover-ph" aria-hidden="true">' + pad2(Number(t.n)) + '</div>';
   }
   function trackRow(t) {
     return '<li><a class="vn-row" href="' + trackUrl(t.n) + '">' + cover(t, 96) + '<div>' +

@@ -63,7 +63,9 @@ main > .page > section > h2 + .lede, main > .page > section > h2 + p { margin-to
 }
 /* Page header bands: a scene behind the page title */
 .band { position: relative; min-height: 46vh; display: flex; align-items: flex-end; margin-top: -69px; background: var(--img) center / cover no-repeat; }
-.band::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7, 12, 22, 0.25) 0%, rgba(7, 12, 22, 0.55) 55%, var(--night) 100%); }
+.band::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7, 12, 22, 0.8) 0%, rgba(7, 12, 22, 0.3) 24%, rgba(7, 12, 22, 0.55) 60%, var(--night) 100%); }
+.levels-page { font-size: var(--t-body); margin-bottom: 1.25rem; }
+.levels-page li { grid-template-columns: 10rem auto; }
 .band .wrap { position: relative; z-index: 1; width: 100%; padding-bottom: 8px; }
 .band h1 { margin: 0; }
 @media (max-width: 599px) { .band { margin-top: 0; min-height: 34vh; } }
@@ -152,6 +154,7 @@ main > .page > section > h2 + .lede, main > .page > section > h2 + p { margin-to
 .site-foot .who img { grid-row: span 2; width: 48px; height: 48px; object-fit: cover; border: 1px solid var(--concrete); }
 .site-foot .who b { font-family: var(--text); font-weight: 700; display: block; }
 .site-foot nav { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; }
+@media (max-width: 599px) { .site-foot nav { gap: 0 0.9rem; font-size: 15px; } }
 .site-foot nav a { display: inline-block; padding: 0.6rem 0; }
 .site-foot .ai { color: var(--fog); font-size: 14px; margin: 0; }
 </style>
@@ -342,7 +345,7 @@ main > .page > section > h2 + .lede, main > .page > section > h2 + p { margin-to
       </section>
       <section class="wrap">
         <h2>The levels</h2>
-        <ul class="rules-short" id="levels-list"></ul>
+        <ul class="vn-legend levels-page" id="levels-list"></ul>
         <p class="lede vn-fog">Levels come from real credits only. They move up on their own as the sheet fills in.</p>
       </section>
     </div>
@@ -489,7 +492,7 @@ var MOCK_FORM =
 
   function levels() {
     var t = { Static: 'sent a sound, not credited yet.', Signal: '1 credit or more.', Frequency: '5 credits or more.', Broadcast: '10 credits or more.' };
-    document.getElementById('levels-list').innerHTML = Object.keys(t).map(function (k) { return '<li>' + VELA.meter(k) + ': ' + t[k] + '</li>'; }).join('');
+    document.getElementById('levels-list').innerHTML = Object.keys(t).map(function (k) { return '<li>' + VELA.meter(k) + '<span class="vn-fog">' + t[k] + '</span></li>'; }).join('');
   }
 
   function renderPage(p) {

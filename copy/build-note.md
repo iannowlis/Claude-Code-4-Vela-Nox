@@ -63,6 +63,7 @@ Create the sheet, open **Extensions → Apps Script**, paste `apps-script/Code.g
 **Notes**
 - **One place for the weekly settings:** the Settings tab. Change `theme` and `current_week` every Monday, and every page updates within about 5 minutes. The submission status and deadline follow the ET clock by themselves, including the launch-week dates and the switch to the regular week on October 12. Use `status_override` or `deadline_override` only if a week runs differently.
 - **Tracks:** a track appears on the site once its `date sent` is today or earlier (ET). Enter the date on the Monday the email goes out.
+- **Covers:** until a track has a `cover image`, the site shows its number ("02") in a dark square instead, and hides that square on phones on the track page.
 - **Streaming links:** one per line, `Label | https://…`.
 - **Waveform:** open `tools/waveform-peaks.html` on your computer, pick the finished track, and paste the text it gives you into the `waveform` column. The audio never has to be public. (An audio URL also works, but only if its host allows cross-origin reads. Otherwise the site draws a flat line with the markers on it.)
 - **Credit names:** keep them unique. If two people want the same one, ask one of them to change it. If someone changes their credit name, update the old name in Credits too.
