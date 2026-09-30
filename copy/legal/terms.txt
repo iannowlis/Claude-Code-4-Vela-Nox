@@ -6,13 +6,16 @@ These Terms govern your use of the Vela Nox website at [YOUR DOMAIN] and the Vel
 1. About Vela Nox
 Vela Nox is an AI persona. The music released under the Vela Nox name is produced by a human producer using sounds submitted by subscribers.
 
-2. The subscription
+2. Eligibility
+You must be at least 13 years old to subscribe or submit sounds. If you are under 18, you must have permission from a parent or guardian.
+
+3. The subscription
 - The subscription costs $3 per week, billed weekly through Stripe, and renews automatically until cancelled.
 - Your subscription lets you: submit one sound per week for that week's theme; vote on the following week's theme through Vela's Instagram Close Friends story; be credited if your sound is used; and receive each finished track by email before its public release.
 - Voting requires an Instagram account. We add subscribers to Vela's Close Friends list using the handle given at signup. The theme with the most votes is normally chosen, but we may adjust or replace a theme if it cannot reasonably be used.
 - Cancellation and refunds are covered by our Cancellation Policy at [YOUR DOMAIN]/cancellation.
 
-3. Submitting sounds
+4. Submitting sounds
 When you submit a sound, you confirm that:
 - you made the recording yourself and own it, or have every right needed to submit it;
 - it does not contain anyone else's music, recordings, or copyrighted material;
@@ -20,37 +23,37 @@ When you submit a sound, you confirm that:
 - it is not unlawful, hateful, harassing, sexually explicit, or harmful.
 Submissions must be a single audio file, any audio format, no longer than 10 seconds and no larger than 3 MB. One submission per subscriber per week.
 
-4. Permission to use your sound
+5. Permission to use your sound
 You keep ownership of your original recording. By submitting it, you grant us a worldwide, perpetual, irrevocable, non-exclusive, royalty-free licence to use, edit, process, sample, combine with other material, reproduce, distribute, publicly perform, stream, sell, and promote your sound as part of Vela Nox tracks and related content (such as social media posts, videos, and this website), in any format and on any platform, now or in the future. This licence continues after you cancel your subscription and cannot be withdrawn for tracks already released or in production.
 
-5. Selection and credits
+6. Selection and credits
 - Every submission is listened to, but not every sound will be used. Submitting does not guarantee inclusion.
 - If your sound is used, you will be credited as follows: on Instagram and in the subscriber email, by your credit name, your city (if you opted in), and the time in the track where your sound appears; on streaming platforms, by your credit name only, in the release credits or notes where the platform allows it; and on this website, by your credit name, and your city and timestamp if you opted in. The artist on streaming platforms is Vela Nox.
 - Credit placement on third-party platforms depends on what those platforms allow.
 
-6. No payment or royalties
+7. No payment or royalties
 Contributors are not paid for submissions and do not receive any share of streaming, sales, or other income. All rights in the finished tracks, including recordings and compositions, belong to us.
 
-7. Early-access tracks
-Tracks sent to subscribers by email are for your personal listening only. Please do not share, upload, or distribute them before their public release. Streaming release usually follows one to three weeks after the early-access email, but we do not promise specific release dates.
+8. Early-access tracks
+Tracks sent to subscribers by email are for your personal listening only. Please do not share, upload, or distribute them before their public release. Streaming release usually follows about one month after the early-access email, once the distributor has reviewed the release. Subscribers are notified by email when a track is available on streaming platforms. We do not promise specific release dates.
 
-8. Removal of content
+9. Removal of content
 We may decline or remove any submission at our discretion, including any that we believe breaks these Terms. If a sound turns out to infringe someone else's rights, we may remove it or the track containing it, and we may end your subscription.
 
-9. Ending your access
+10. Ending your access
 You can cancel at any time (see the Cancellation Policy). We may suspend or end your subscription if you break these Terms, misuse the Service, or submit infringing or harmful content.
 
-10. Changes to the Service
+11. Changes to the Service
 We may change, pause, or end the Service, or update these Terms. We will notify subscribers by email of material changes. Continuing to use the Service after changes take effect means you accept them.
 
-11. Disclaimers and limitation of liability
+12. Disclaimers and limitation of liability
 The Service is provided "as is" without warranties of any kind. To the fullest extent permitted by law, we are not liable for indirect, incidental, or consequential damages, and our total liability to you is limited to the amount you paid us in the four weeks before the claim arose.
 
-12. Indemnity
+13. Indemnity
 You agree to cover any claims, losses, or costs arising from a sound you submitted that breaks these Terms or someone else's rights.
 
-13. Governing law
+14. Governing law
 These Terms are governed by the laws of the Commonwealth of Massachusetts, United States, without regard to its conflict-of-law rules.
 
-14. Contact
+15. Contact
 velanox@gmail.com
