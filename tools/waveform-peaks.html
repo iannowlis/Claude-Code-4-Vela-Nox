@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Waveform peaks</title>
+<style>
+  body { background: #0c1524; color: #b3b8be; font: 16px/1.5 system-ui, sans-serif; margin: 0; padding: 24px 16px; }
+  main { max-width: 720px; margin: 0 auto; }
+  textarea { width: 100%; height: 160px; background: #060a12; color: #ffb561; border: 1px solid #1a2b45; font: 12px monospace; }
+  button { background: #ff8a1e; border: 0; padding: 8px 14px; font-weight: 600; cursor: pointer; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Waveform peaks for the Tracks tab</h1>
+  <p>Open this file on your own computer. Pick the finished track. Nothing is uploaded: the file is read in this browser tab only.
+  Copy the text below into the <b>waveform</b> column of the Tracks tab. The website draws the waveform from it, so the audio itself never has to be public.</p>
+  <input type="file" id="f" accept="audio/*">
+  <p id="s"></p>
+  <textarea id="out" readonly></textarea>
+  <p><button id="c" type="button">Copy</button></p>
+</main>
+<script>
+  document.getElementById('f').addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const s = document.getElementById('s');
+    s.textContent = 'Reading…';
+    const ac = new (window.AudioContext || window.webkitAudioContext)();
+    const ab = await ac.decodeAudioData(await file.arrayBuffer());
+    const n = 600, step = Math.floor(ab.length / n), peaks = [];
+    let max = 0;
+    for (let i = 0; i < n; i++) {
+      let m = 0;
+      for (let c = 0; c < ab.numberOfChannels; c++) {
+        const ch = ab.getChannelData(c);
+        for (let j = i * step; j < (i + 1) * step; j += 8) m = Math.max(m, Math.abs(ch[j]));
+      }
+      peaks.push(m); max = Math.max(max, m);
+    }
+    const p = peaks.map((v) => Math.round((max ? v / max : 0) * 100) / 100);
+    document.getElementById('out').value = JSON.stringify({ d: Math.round(ab.duration * 100) / 100, p });
+    s.textContent = 'Done. Length ' + ab.duration.toFixed(1) + ' seconds.';
+  });
+  document.getElementById('c').addEventListener('click', () => {
+    const t = document.getElementById('out'); t.select(); navigator.clipboard.writeText(t.value);
+  });
+</script>
+</body>
+</html>

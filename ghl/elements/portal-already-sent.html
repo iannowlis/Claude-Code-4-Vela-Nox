@@ -1,0 +1,757 @@
+<!-- Vela Nox custom code element. Place: Subscriber portal, "Already sent" lesson. Renders the H1. Self-contained: includes the shared script. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Vela Nox: shared styles for the custom code elements.
+   Night only. Fog grey, deep navy, sodium orange, raw concrete. */
+:root {
+  --vn-night: #060a12;
+  --vn-navy: #0c1524;
+  --vn-navy-2: #122036;
+  --vn-navy-3: #1a2b45;
+  --vn-fog: #b3b8be;
+  --vn-fog-dim: #7c838c;
+  --vn-concrete: #8f8b84;
+  --vn-concrete-dark: #3a3936;
+  --vn-sodium: #ff8a1e;
+  --vn-sodium-soft: #ffb561;
+  --vn-line: rgba(179, 184, 190, 0.16);
+  --vn-sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --vn-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+
+.vn { color: var(--vn-fog); font-family: var(--vn-sans); font-size: 16px; line-height: 1.55; box-sizing: border-box; }
+.vn *, .vn *::before, .vn *::after { box-sizing: inherit; }
+.vn a { color: var(--vn-sodium-soft); text-decoration: underline; text-underline-offset: 3px; }
+.vn a:hover, .vn a:focus-visible { color: var(--vn-sodium); }
+.vn :focus-visible { outline: 2px solid var(--vn-sodium); outline-offset: 2px; }
+.vn h2, .vn h3 { color: #e6e8ea; font-weight: 500; letter-spacing: 0.01em; margin: 0 0 0.5em; }
+.vn h2 { font-size: 1.35rem; }
+.vn h3 { font-size: 1.05rem; }
+.vn p { margin: 0 0 0.75em; }
+.vn-mono, .vn-label { font-family: var(--vn-mono); }
+.vn-label { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--vn-fog-dim); }
+.vn-muted { color: var(--vn-fog-dim); }
+.vn-note { color: var(--vn-fog-dim); font-size: 0.92rem; }
+.vn-sodium { color: var(--vn-sodium); }
+.vn-empty { border: 1px dashed var(--vn-line); padding: 1.25rem; color: var(--vn-fog-dim); font-family: var(--vn-mono); font-size: 0.92rem; }
+
+/* Buttons: the only subscribe wording is "Send me a sound — $3/week" */
+.vn-btn { display: inline-block; background: var(--vn-sodium); color: #140a00 !important; text-decoration: none !important; font-weight: 600; padding: 0.8rem 1.3rem; border-radius: 2px; font-family: var(--vn-sans); }
+.vn-btn:hover, .vn-btn:focus-visible { background: var(--vn-sodium-soft); }
+.vn-link-quiet { font-family: var(--vn-mono); font-size: 0.85rem; }
+
+/* This-week strip */
+.vn-strip { border-top: 1px solid var(--vn-line); border-bottom: 1px solid var(--vn-line); background: var(--vn-navy); padding: 1rem 16px; display: grid; gap: 0.35rem; }
+.vn-strip-theme { color: #eef0f2; font-size: 1.15rem; }
+.vn-strip-theme .vn-sodium { font-weight: 500; }
+.vn-strip-status { font-family: var(--vn-mono); font-size: 0.9rem; }
+.vn-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 0.5rem; vertical-align: 1px; background: var(--vn-fog-dim); }
+.vn-dot.is-on { background: var(--vn-sodium); box-shadow: 0 0 8px var(--vn-sodium); }
+
+/* Counters */
+.vn-counters { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1px; background: var(--vn-line); border: 1px solid var(--vn-line); margin-bottom: 1rem; }
+.vn-counter { background: var(--vn-navy); padding: 0.9rem 1rem; }
+.vn-counter b { display: block; font-family: var(--vn-mono); font-weight: 500; font-size: 1.6rem; color: #eef0f2; }
+
+/* Map */
+.vn-map-wrap { position: relative; background: var(--vn-night); border: 1px solid var(--vn-line); overflow: hidden; }
+.vn-map-wrap svg { display: block; width: 100%; height: auto; }
+.vn-map-msg { position: absolute; left: 0; right: 0; bottom: 0; padding: 0.9rem 1rem; font-family: var(--vn-mono); font-size: 0.9rem; color: var(--vn-fog); background: linear-gradient(transparent, rgba(6, 10, 18, 0.92) 40%); }
+.vn-map-controls { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: center; margin-bottom: 0.75rem; }
+.vn-map-controls select { background: var(--vn-navy-2); color: var(--vn-fog); border: 1px solid var(--vn-line); padding: 0.45rem 0.6rem; font-family: var(--vn-mono); font-size: 0.9rem; max-width: 100%; }
+.vn-pt { cursor: pointer; }
+.vn-pt:focus { outline: none; }
+.vn-pt:focus-visible .vn-pt-core { stroke: #fff; stroke-width: 1.5; }
+.vn-tx { fill: none; stroke: var(--vn-sodium); stroke-width: 0.8; stroke-opacity: 0.55; }
+.vn-pop { position: absolute; z-index: 5; min-width: 200px; max-width: min(280px, calc(100% - 16px)); background: var(--vn-navy-2); border: 1px solid var(--vn-navy-3); padding: 0.75rem 0.9rem; font-size: 0.9rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); }
+.vn-pop-row + .vn-pop-row { border-top: 1px solid var(--vn-line); margin-top: 0.6rem; padding-top: 0.6rem; }
+.vn-pop b { color: #eef0f2; font-weight: 500; }
+.vn-pop-close { position: absolute; top: 2px; right: 6px; background: none; border: 0; color: var(--vn-fog-dim); font-size: 1.2rem; cursor: pointer; }
+.vn-legend { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; margin-top: 0.75rem; font-size: 0.88rem; }
+.vn-legend span::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--vn-sodium); margin-right: 0.45rem; vertical-align: 1px; }
+.vn-legend .l0::before { opacity: 0.3; } .vn-legend .l1::before { opacity: 0.6; }
+.vn-legend .l2::before { opacity: 0.85; } .vn-legend .l3::before { box-shadow: 0 0 8px var(--vn-sodium); }
+@keyframes vn-pulse { from { r: 4; opacity: 0.8; } to { r: 16; opacity: 0; } }
+.vn-tower-ring { fill: none; stroke: var(--vn-sodium); stroke-width: 1; animation: vn-pulse 3.2s ease-out infinite; }
+@media (prefers-reduced-motion: reduce) { .vn-tower-ring { animation: none; opacity: 0.4; } }
+
+/* Cards and lists */
+.vn-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
+.vn-card { background: var(--vn-navy); border: 1px solid var(--vn-line); padding: 1rem; }
+.vn-card.is-target { border-color: var(--vn-sodium); }
+.vn-card h3 { margin-bottom: 0.25rem; }
+.vn-card dl { display: grid; grid-template-columns: auto 1fr; gap: 0.2rem 0.75rem; margin: 0.6rem 0; font-size: 0.9rem; }
+.vn-card dt { color: var(--vn-fog-dim); }
+.vn-card dd { margin: 0; font-family: var(--vn-mono); }
+.vn-card ul { margin: 0.4rem 0 0; padding-left: 1.1rem; font-size: 0.9rem; }
+.vn-level { font-family: var(--vn-mono); font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--vn-sodium-soft); }
+.vn-track { display: grid; grid-template-columns: 96px 1fr; gap: 1rem; align-items: start; text-decoration: none !important; color: inherit !important; background: var(--vn-navy); border: 1px solid var(--vn-line); padding: 0.75rem; }
+.vn-track:hover, .vn-track:focus-visible { border-color: var(--vn-sodium); }
+.vn-track img, .vn-cover-ph { width: 96px; height: 96px; object-fit: cover; display: block; background: var(--vn-concrete-dark); }
+.vn-track h3 { margin: 0 0 0.2rem; }
+.vn-tracks { display: grid; gap: 0.75rem; }
+.vn-meta { font-family: var(--vn-mono); font-size: 0.85rem; color: var(--vn-fog-dim); }
+
+/* Track page */
+.vn-track-head { display: grid; grid-template-columns: minmax(0, 220px) 1fr; gap: 1.25rem; align-items: start; margin-bottom: 1.5rem; }
+.vn-track-head img, .vn-track-head .vn-cover-ph { width: 100%; height: auto; aspect-ratio: 1; }
+@media (max-width: 560px) { .vn-track-head { grid-template-columns: 1fr; } .vn-track-head img, .vn-track-head .vn-cover-ph { max-width: 220px; } }
+.vn-section { margin: 2rem 0; }
+.vn-wave { position: relative; background: var(--vn-night); border: 1px solid var(--vn-line); padding: 18px 0 8px; }
+.vn-wave svg { display: block; width: 100%; height: 120px; }
+.vn-wave-bar { fill: var(--vn-concrete); opacity: 0.55; }
+.vn-mark { position: absolute; top: 0; bottom: 0; width: 22px; margin-left: -11px; background: none; border: 0; padding: 0; cursor: pointer; }
+.vn-mark::before { content: ""; position: absolute; left: 10px; top: 14px; bottom: 6px; width: 1px; background: var(--vn-sodium); opacity: 0.8; }
+.vn-mark::after { content: ""; position: absolute; left: 7px; top: 6px; width: 7px; height: 7px; border-radius: 50%; background: var(--vn-sodium); box-shadow: 0 0 6px var(--vn-sodium); }
+.vn-tip { position: absolute; top: -8px; transform: translate(-50%, -100%); background: var(--vn-navy-2); border: 1px solid var(--vn-navy-3); padding: 0.4rem 0.6rem; font-family: var(--vn-mono); font-size: 0.82rem; color: #eef0f2; white-space: nowrap; max-width: 90vw; overflow: hidden; text-overflow: ellipsis; pointer-events: none; z-index: 4; }
+.vn-credits { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--vn-line); }
+.vn-credits li { display: grid; grid-template-columns: 4.5rem 1fr; gap: 0.75rem; padding: 0.55rem 0; border-bottom: 1px solid var(--vn-line); }
+.vn-credits .vn-ts { font-family: var(--vn-mono); color: var(--vn-sodium-soft); }
+.vn-stream-credits { font-family: var(--vn-mono); background: var(--vn-navy); border: 1px solid var(--vn-line); padding: 1rem; white-space: pre-line; }
+.vn-links { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; }
+
+/* Submit panel */
+.vn-submit-theme { font-size: clamp(1.6rem, 5vw, 2.4rem); line-height: 1.15; color: #eef0f2; font-weight: 500; margin: 0 0 0.4rem; }
+.vn-submit-deadline { font-family: var(--vn-mono); color: var(--vn-sodium); margin-bottom: 1rem; }
+.vn-reminder { color: #eef0f2; border-left: 2px solid var(--vn-sodium); padding-left: 0.75rem; margin: 0 0 0.5rem; }
+.vn-form-frame iframe { width: 100%; border: 0; min-height: 900px; background: transparent; }
+.vn-closed { background: var(--vn-navy); border: 1px solid var(--vn-line); padding: 1.25rem; }
+</style>
+<script>
+/* One-time setup: fill these three in. Weekly changes go in the Google Sheet Settings tab, not here. */
+window.VELA_CONFIG = {
+  dataUrl: 'PASTE_APPS_SCRIPT_WEB_APP_URL',   // ends in /exec
+  subscribeUrl: '/subscribe',                 // page with the Stripe checkout
+  portalUrl: 'PASTE_CLIENT_PORTAL_LOGIN_URL'
+};
+/* Vela Nox: shared script for the GoHighLevel custom code elements.
+ *
+ * Loaded once per page (Website settings -> Head tracking code, see ghl/site-head.html).
+ * Every custom code element on the site calls one VELA.render.* function.
+ *
+ * Weekly edits never happen here. Theme, week number and submission status live in
+ * the Google Sheet "Settings" tab and reach every page through the data endpoint.
+ * The only values set here are one-time setup values (URLs) and the fixed launch dates.
+ */
+(function () {
+  'use strict';
+  if (window.VELA) return;
+
+  var C = {
+    // Apps Script web app URL (ends in /exec). See apps-script/Code.gs.
+    dataUrl: '',
+    // GoHighLevel page that holds the Stripe checkout for the weekly subscription.
+    subscribeUrl: '/subscribe',
+    // GoHighLevel client portal login (where the Submit lesson lives).
+    portalUrl: '',
+    paths: {
+      home: '/', submit: '/submit', map: '/signal-map', tracks: '/tracks', track: '/track',
+      contributors: '/contributors', rules: '/rules-faq', terms: '/terms', cancellation: '/cancellation'
+    },
+    // Launch week. Fixed dates, all Eastern Time. The site switches to the regular cycle at regularStart.
+    launch: {
+      theme: "The room you're in right now",
+      open: '2026-09-30T00:00:00',
+      close: '2026-10-08T23:59:59',
+      regularStart: '2026-10-12T00:00:00',
+      firstEmail: '2026-10-12'
+    },
+    cacheSeconds: 300
+  };
+  var over = window.VELA_CONFIG || {};
+  Object.keys(over).forEach(function (k) {
+    if (k === 'paths' || k === 'launch') Object.assign(C[k], over[k]); else C[k] = over[k];
+  });
+
+  var CTA = 'Send me a sound — $3/week';
+  var LEVELS = ['Static', 'Signal', 'Frequency', 'Broadcast'];
+  var MSG_ERROR = 'The signal isn’t coming through right now. Try again in a minute.';
+
+  /* ---------- small helpers ---------- */
+  function esc(v) {
+    return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function safeUrl(u) { return /^https?:\/\//i.test(String(u || '').trim()) ? String(u).trim() : ''; }
+  function pad2(n) { return (n < 10 ? '0' : '') + n; }
+  function trackNo(n) { return 'Track ' + pad2(Number(n)); }
+  function plural(n, one, many) { return n + ' ' + (n === 1 ? one : many); }
+  function levelIndex(name) { var i = LEVELS.indexOf(name); return i < 0 ? 0 : i; }
+  function trackUrl(n) { return C.paths.track + '?n=' + encodeURIComponent(n); }
+  function profileUrl(slug) { return C.paths.contributors + '#c-' + encodeURIComponent(slug); }
+  function subscribeButton() { return '<a class="vn-btn" href="' + esc(C.subscribeUrl) + '">' + CTA + '</a>'; }
+
+  /* ---------- Eastern Time ---------- */
+  var etFmt = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23', weekday: 'short'
+  });
+  function et(d) {
+    var p = {};
+    etFmt.formatToParts(d || new Date()).forEach(function (x) { p[x.type] = x.value; });
+    var date = p.year + '-' + p.month + '-' + p.day;
+    return { date: date, iso: date + 'T' + p.hour + ':' + p.minute + ':' + p.second,
+      wd: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(p.weekday) };
+  }
+  function utcDate(s) { var a = s.split('-'); return new Date(Date.UTC(+a[0], +a[1] - 1, +a[2])); }
+  function addDays(s, n) { var d = utcDate(s); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); }
+  function weekday(s) { return utcDate(s).getUTCDay(); }
+  function longDate(s, withYear) {
+    var o = { timeZone: 'UTC', weekday: 'long', month: 'long', day: 'numeric' };
+    if (withYear) o.year = 'numeric';
+    return utcDate(s).toLocaleDateString('en-US', o);
+  }
+
+  /* The week, as the site should describe it right now. */
+  function schedule(settings, now) {
+    var s = settings || {}, L = C.launch, t = et(now), w = t.iso;
+    var launch = w < L.regularStart;
+    var phase;
+    if (launch) phase = w < L.open ? 'before' : (w <= L.close ? 'open' : 'making');
+    else phase = (t.wd >= 2 && t.wd <= 4) ? 'open' : (t.wd === 1 ? 'monday' : 'making');
+    var ov = String(s.status_override || 'auto').trim().toLowerCase();
+    if (ov === 'open') phase = 'open';
+    else if (ov === 'closed') phase = 'closed';
+
+    var nextOpen = null;
+    if (phase === 'before') nextOpen = longDate(L.open.slice(0, 10)) + ', 12:00 am ET';
+    else if (phase === 'making' || phase === 'monday') {
+      var d = t.date;
+      do { d = addDays(d, 1); } while (weekday(d) !== 2);
+      nextOpen = longDate(d) + ', 12:00 am ET';
+    }
+
+    var dl = String(s.deadline_override || '').trim();
+    var r = {
+      launch: launch, phase: phase, open: phase === 'open', nextOpen: nextOpen,
+      theme: String(s.theme || '').trim() || L.theme,
+      themeNote: String(s.theme_note || '').trim(),
+      week: s.current_week || ''
+    };
+    r.stripStatus = {
+      open: dl ? 'Submissions open until ' + dl : (launch ? 'Submissions open until Thursday, October 8, 11:59 pm ET' : 'Submissions open until Thursday, 11:59 pm ET'),
+      making: 'Submissions closed — the track is being made',
+      monday: 'Submissions closed. They open ' + nextOpen,
+      before: 'Submissions open ' + nextOpen,
+      closed: 'Submissions closed for now'
+    }[phase];
+    r.submitDeadline = dl ? 'Closes ' + dl : (launch ? 'Closes Thursday, October 8, 11:59 pm ET' : 'Closes Thursday, 11:59 pm ET');
+    r.voteStrip = 'Next week’s theme is being voted on now, in Vela’s Close Friends story.' +
+      (launch ? ' The vote closes Sunday, October 11, 11:59 pm ET.' : '');
+    r.voteSubmit = launch
+      ? 'Want a say in next week’s theme? The vote is open until Sunday, October 11, 11:59 pm ET, in Vela’s Close Friends story.'
+      : 'Want a say in next week’s theme? The vote is open all week in Vela’s Close Friends story.';
+    r.confirmation = 'Got it. Your sound is in the pool for ' + r.theme + '. The track lands in your inbox on Monday' +
+      (launch ? ', October 12.' : '.');
+    return r;
+  }
+
+  /* ---------- data ---------- */
+  var dataPromise = null;
+  function data() {
+    if (dataPromise) return dataPromise;
+    if (!C.dataUrl) { dataPromise = Promise.resolve(null); return dataPromise; }
+    var key = 'vela:data', cached = null;
+    try { cached = JSON.parse(sessionStorage.getItem(key) || 'null'); } catch (e) { /* storage unavailable */ }
+    if (cached && Date.now() - cached.at < C.cacheSeconds * 1000) { dataPromise = Promise.resolve(cached.d); return dataPromise; }
+    dataPromise = fetch(C.dataUrl, { redirect: 'follow' })
+      .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(function (d) {
+        if (!d || d.error) throw new Error((d && d.error) || 'empty');
+        try { sessionStorage.setItem(key, JSON.stringify({ at: Date.now(), d: d })); } catch (e) { /* ignore */ }
+        return d;
+      })
+      .catch(function (e) { if (window.console) console.warn('Vela data:', e); return null; });
+    return dataPromise;
+  }
+  function pick(el) { return typeof el === 'string' ? document.querySelector(el) : el; }
+  function mount(el, html) { el = pick(el); if (el) { el.classList.add('vn'); el.innerHTML = html; } return el; }
+  function tracks(d) { return (d && d.tracks) || []; }
+  function people(d) { return (d && d.contributors) || []; }
+  function bySlug(d) { var m = {}; people(d).forEach(function (p) { m[p.slug] = p; }); return m; }
+
+  /* ---------- geo (loaded only on pages with a map) ---------- */
+  var LIBS = [
+    'https://cdn.jsdelivr.net/npm/d3-array@3/dist/d3-array.min.js',
+    'https://cdn.jsdelivr.net/npm/d3-geo@3/dist/d3-geo.min.js',
+    'https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js'
+  ];
+  var LAND = C.landUrl || 'https://cdn.jsdelivr.net/npm/world-atlas@2/land-110m.json';
+  function loadScript(src) {
+    return new Promise(function (ok, fail) {
+      var s = document.createElement('script');
+      s.src = src; s.onload = ok; s.onerror = fail; document.head.appendChild(s);
+    });
+  }
+  var geoPromise = null;
+  function geo() {
+    if (geoPromise) return geoPromise;
+    var libs = (C.libs || LIBS).reduce(function (p, src) { return p.then(function () { return loadScript(src); }); },
+      (window.d3 && window.d3.geoPath && window.topojson) ? Promise.reject('skip') : Promise.resolve())
+      .catch(function (e) { if (e !== 'skip') throw e; });
+    geoPromise = Promise.all([libs, fetch(LAND).then(function (r) { return r.json(); })])
+      .then(function (res) { return window.topojson.feature(res[1], res[1].objects.land); });
+    return geoPromise;
+  }
+
+  var W = 960, H = 500;
+  var R = [2.1, 2.7, 3.3, 4.2], OP = [0.32, 0.62, 0.85, 1];
+
+  /* Draws a map into el. opts.people: contributors to light up. opts.lines: contributors to
+   * connect to the tower. opts.empty: message when nobody is on it. opts.popups: tap for detail. */
+  function drawMap(el, land, tower, opts) {
+    var d3 = window.d3;
+    var proj = d3.geoEqualEarth().fitExtent([[8, 8], [W - 8, H - 8]], { type: 'Sphere' });
+    var path = d3.geoPath(proj);
+    var id = 'vn' + Math.random().toString(36).slice(2, 8);
+    var svg = ['<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + esc(opts.label) + '">',
+      '<defs><filter id="' + id + 'g" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="3"/></filter>',
+      '<radialGradient id="' + id + 's"><stop offset="0" stop-color="#101d33"/><stop offset="1" stop-color="#070c16"/></radialGradient></defs>',
+      '<path d="' + path({ type: 'Sphere' }) + '" fill="url(#' + id + 's)"/>',
+      '<path d="' + path(d3.geoGraticule10()) + '" fill="none" stroke="rgba(179,184,190,0.06)" stroke-width="0.5"/>',
+      '<path d="' + path(land) + '" fill="#1b2230" stroke="#3a3936" stroke-width="0.5"/>'];
+
+    var tw = tower && isFinite(tower.lat) && isFinite(tower.lng) ? [tower.lng, tower.lat] : null;
+    var tp = tw ? proj(tw) : null;
+
+    // transmissions
+    var txs = [];
+    if (tw) (opts.lines || []).forEach(function (p) {
+      if (!isFinite(p.lat) || !isFinite(p.lng)) return;
+      var dpath = path({ type: 'LineString', coordinates: [[p.lng, p.lat], tw] });
+      if (dpath) txs.push('<path class="vn-tx" d="' + dpath + '"/>');
+    });
+    svg.push('<g class="vn-txs">' + txs.join('') + '</g>');
+
+    // lights, grouped by city so people in the same city share a point
+    var groups = {}, order = [];
+    (opts.people || []).forEach(function (p) {
+      if (!isFinite(p.lat) || !isFinite(p.lng)) return;
+      var k = p.lat.toFixed(2) + ',' + p.lng.toFixed(2);
+      if (!groups[k]) { groups[k] = { lat: p.lat, lng: p.lng, city: p.city, list: [] }; order.push(k); }
+      groups[k].list.push(p);
+    });
+    order.forEach(function (k, i) {
+      var g = groups[k], xy = proj([g.lng, g.lat]);
+      if (!xy) return;
+      g.lvl = Math.max.apply(null, g.list.map(function (p) { return levelIndex(p.level); }));
+      var r = R[g.lvl], label = g.city + ': ' + plural(g.list.length, 'contributor', 'contributors');
+      svg.push('<g class="vn-pt" data-k="' + i + '" tabindex="' + (opts.popups ? 0 : -1) + '"' +
+        (opts.popups ? ' role="button" aria-label="' + esc(label) + '"' : ' aria-hidden="true"') + '>' +
+        (g.lvl > 0 ? '<circle cx="' + xy[0].toFixed(1) + '" cy="' + xy[1].toFixed(1) + '" r="' + (r * 2.4) + '" fill="#ff8a1e" opacity="' + (OP[g.lvl] * 0.45) + '" filter="url(#' + id + 'g)"/>' : '') +
+        '<circle class="vn-pt-core" cx="' + xy[0].toFixed(1) + '" cy="' + xy[1].toFixed(1) + '" r="' + r + '" fill="' + (g.lvl === 3 ? '#ffe2bd' : '#ffb561') + '" opacity="' + OP[g.lvl] + '"/>' +
+        (opts.popups ? '<circle cx="' + xy[0].toFixed(1) + '" cy="' + xy[1].toFixed(1) + '" r="12" fill="transparent"/>' : '') +
+        '</g>');
+      g.xy = xy;
+    });
+
+    if (tp) {
+      svg.push('<g aria-label="Vela’s tower" role="img"><circle class="vn-tower-ring" cx="' + tp[0].toFixed(1) + '" cy="' + tp[1].toFixed(1) + '" r="4"/>' +
+        '<path d="M' + tp[0].toFixed(1) + ' ' + (tp[1] - 9).toFixed(1) + ' l-4 11 h8 z" fill="#ff8a1e"/>' +
+        '<circle cx="' + tp[0].toFixed(1) + '" cy="' + (tp[1] - 9).toFixed(1) + '" r="1.6" fill="#ffe2bd"/></g>');
+    }
+    svg.push('</svg>');
+
+    el.innerHTML = '<div class="vn-map-wrap">' + svg.join('') +
+      (order.length ? '' : '<div class="vn-map-msg">' + esc(opts.empty) + '</div>') + '</div>';
+    var wrap = el.firstChild;
+
+    // draw the transmissions in, one after another
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduce) Array.prototype.forEach.call(wrap.querySelectorAll('.vn-tx'), function (p, i) {
+      var len = p.getTotalLength ? p.getTotalLength() : 0;
+      if (!len) return;
+      p.style.strokeDasharray = len; p.style.strokeDashoffset = len;
+      p.style.transition = 'stroke-dashoffset 1.6s ease-out ' + (0.15 * i) + 's';
+      requestAnimationFrame(function () { requestAnimationFrame(function () { p.style.strokeDashoffset = 0; }); });
+    });
+
+    if (!opts.popups) return;
+    var pop = null;
+    function close() { if (pop) { pop.remove(); pop = null; } }
+    function open(node) {
+      close();
+      var g = groups[order[+node.getAttribute('data-k')]];
+      pop = document.createElement('div');
+      pop.className = 'vn-pop';
+      pop.setAttribute('role', 'dialog');
+      pop.innerHTML = '<button class="vn-pop-close" aria-label="Close">×</button>' + g.list.map(function (p) {
+        return '<div class="vn-pop-row"><b>' + esc(p.name) + '</b><br>' + esc(p.city) +
+          '<br><span class="vn-level">' + esc(p.level) + '</span> · ' + plural(p.credits, 'credit', 'credits') +
+          '<br><a href="' + profileUrl(p.slug) + '">Open profile</a></div>';
+      }).join('');
+      wrap.appendChild(pop);
+      var x = g.xy[0] / W * wrap.clientWidth, y = g.xy[1] / H * wrap.clientHeight;
+      var left = Math.min(Math.max(8, x + 12), wrap.clientWidth - pop.offsetWidth - 8);
+      var top = y + 12 + pop.offsetHeight > wrap.clientHeight ? Math.max(8, y - pop.offsetHeight - 12) : y + 12;
+      pop.style.left = left + 'px'; pop.style.top = top + 'px';
+      pop.querySelector('.vn-pop-close').onclick = close;
+      pop.querySelector('a').focus({ preventScroll: true });
+    }
+    wrap.addEventListener('click', function (e) {
+      var n = e.target.closest('.vn-pt');
+      if (n) open(n); else if (!e.target.closest('.vn-pop')) close();
+    });
+    wrap.addEventListener('keydown', function (e) {
+      var n = e.target.closest('.vn-pt');
+      if (n && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); open(n); }
+      if (e.key === 'Escape') close();
+    });
+  }
+
+  function towerOf(d) {
+    var s = (d && d.settings) || {};
+    return { lat: parseFloat(s.tower_lat), lng: parseFloat(s.tower_lng) };
+  }
+  function credited(d, n) {
+    var t = tracks(d).filter(function (x) { return String(x.n) === String(n); })[0];
+    if (!t) return [];
+    var m = bySlug(d), seen = {};
+    return t.credits.filter(function (c) { return c.slug && m[c.slug] && !seen[c.slug] && (seen[c.slug] = 1); })
+      .map(function (c) { return m[c.slug]; });
+  }
+
+  /* ---------- renderers ---------- */
+  var render = {};
+
+  // Home: "This week" strip
+  render.strip = function (el) {
+    el = mount(el, '');
+    data().then(function (d) {
+      var s = schedule(d && d.settings);
+      mount(el, '<div class="vn-strip" aria-live="polite">' +
+        '<div class="vn-strip-theme">This week: <span class="vn-sodium">' + esc(s.theme) + '</span>' +
+        (s.themeNote ? ' <span class="vn-muted">(' + esc(s.themeNote) + ')</span>' : '') + '</div>' +
+        '<div class="vn-strip-status"><span class="vn-dot' + (s.open ? ' is-on' : '') + '"></span>' + esc(s.stripStatus) + '</div>' +
+        '<div class="vn-note">' + esc(s.voteStrip) + '</div></div>');
+    });
+  };
+
+  // Home, "How it works": a launch-week line that disappears on October 12
+  render.launchNote = function (el) {
+    var s = schedule();
+    if (!s.launch) { el = pick(el); if (el) el.style.display = 'none'; return; }
+    mount(el, '<p class="vn-note">Launch week runs long. Submissions for Track 01 are open until Thursday, October 8, 11:59 pm ET. ' +
+      'The first vote, for week 2’s theme, runs until Sunday, October 11, 11:59 pm ET. Track 01 reaches subscribers on Monday, October 12. ' +
+      'The regular week starts after that.</p>');
+  };
+
+  function trackCard(t, heading) {
+    var cover = safeUrl(t.cover)
+      ? '<img src="' + esc(safeUrl(t.cover)) + '" alt="' + esc(t.coverAlt || ('Cover art for ' + trackNo(t.n) + ', ' + t.title)) + '" loading="lazy">'
+      : '<div class="vn-cover-ph" aria-hidden="true"></div>';
+    return '<a class="vn-track" href="' + trackUrl(t.n) + '">' + cover + '<div>' +
+      '<' + heading + '>' + esc(trackNo(t.n)) + ' · ' + esc(t.title) + '</' + heading + '>' +
+      '<div class="vn-meta">Theme: ' + esc(t.theme) + '</div>' +
+      '<div class="vn-meta">Sent to subscribers ' + esc(longDate(t.sent, true)) + '</div>' +
+      '<div class="vn-meta">' + plural(t.contributors, 'contributor', 'contributors') + ' · ' + plural(t.cities, 'city', 'cities') + '</div>' +
+      '</div></a>';
+  }
+
+  // Home: latest track
+  render.latest = function (el) {
+    el = mount(el, '');
+    data().then(function (d) {
+      var t = tracks(d)[0];
+      if (t) return mount(el, trackCard(t, 'h3') + '<p style="margin-top:.75rem"><a class="vn-link-quiet" href="' + trackUrl(t.n) + '">See who’s in it, second by second</a></p>');
+      var line = et().date <= C.launch.firstEmail
+        ? 'Track 01 lands in subscribers’ inboxes on Monday, October 12.'
+        : 'Track 01 is on its way to subscribers’ inboxes.';
+      mount(el, '<div class="vn-empty">' + line + '</div>');
+    });
+  };
+
+  var EMPTY_MAP = 'The map is dark. The first signals arrive with the first track.';
+
+  // Home: small live map, links to the full one
+  render.mapPreview = function (el) {
+    el = mount(el, '');
+    Promise.all([data(), geo()]).then(function (res) {
+      var d = res[0], latest = tracks(d)[0];
+      var box = document.createElement('div');
+      el.appendChild(box);
+      drawMap(box, res[1], towerOf(d), {
+        people: people(d), lines: latest ? credited(d, latest.n) : [], empty: EMPTY_MAP, popups: false,
+        label: 'Night map of the world. Each point of light is the city of someone who sent a sound.'
+      });
+      el.insertAdjacentHTML('beforeend', '<p style="margin-top:.75rem"><a class="vn-link-quiet" href="' + esc(C.paths.map) + '">Open the Signal Map</a></p>');
+    }).catch(function () { mount(el, '<div class="vn-empty">' + MSG_ERROR + '</div>'); });
+  };
+
+  // Signal Map page: counters, filter, map, legend
+  render.signalMap = function (el) {
+    el = mount(el, '<div class="vn-empty">Tuning in…</div>');
+    Promise.all([data(), geo()]).then(function (res) {
+      var d = res[0], land = res[1], c = (d && d.counters) || {};
+      var nums = [['Sounds received this week', c.weekSounds], ['Cities this week', c.weekCities],
+        ['Tracks released', c.tracks], ['Contributors credited', c.credited]];
+      var opts = '<option value="all">All signals</option><option value="week">This week’s pool</option>' +
+        tracks(d).map(function (t) {
+          return '<option value="t' + esc(t.n) + '">The cities in ' + esc(trackNo(t.n)) + ' · ' + esc(t.title) + '</option>';
+        }).join('');
+      mount(el,
+        '<div class="vn-counters">' + nums.map(function (n) {
+          return '<div class="vn-counter"><b>' + (d ? (n[1] || 0) : '—') + '</b><span class="vn-label">' + n[0] + '</span></div>';
+        }).join('') + '</div>' +
+        '<div class="vn-map-controls"><label class="vn-label" for="vn-filter">Show</label><select id="vn-filter">' + opts + '</select></div>' +
+        '<div class="vn-map-box"></div>' +
+        '<div class="vn-legend"><span class="l0">Static: sent a sound, not credited yet</span><span class="l1">Signal: 1+ credits</span>' +
+        '<span class="l2">Frequency: 5+ credits</span><span class="l3">Broadcast: 10+ credits</span></div>');
+      var box = el.querySelector('.vn-map-box'), sel = el.querySelector('#vn-filter');
+      function show() {
+        var v = sel.value, all = people(d), latest = tracks(d)[0], o;
+        if (v === 'week') o = { people: all.filter(function (p) { return p.inPool; }), lines: [], empty: 'No one in this week’s pool has chosen to show their city yet.' };
+        else if (v.charAt(0) === 't') { var list = credited(d, v.slice(1)); o = { people: list, lines: list, empty: 'No one credited on this track chose to show their city.' }; }
+        else o = { people: all, lines: latest ? credited(d, latest.n) : [], empty: d ? EMPTY_MAP : MSG_ERROR };
+        o.popups = true;
+        o.label = 'Night map of the world with points of light for contributors’ cities. Tap a light for details.';
+        drawMap(box, land, towerOf(d), o);
+      }
+      sel.addEventListener('change', show);
+      show();
+    }).catch(function () { mount(el, '<div class="vn-empty">' + MSG_ERROR + '</div>'); });
+  };
+
+  // Signal Map page: Broadcast wall. Hides itself until someone reaches Broadcast.
+  render.broadcastWall = function (el) {
+    el = pick(el);
+    if (!el) return;
+    el.style.display = 'none';
+    data().then(function (d) {
+      var list = people(d).filter(function (p) { return p.level === 'Broadcast'; });
+      if (!list.length) return;
+      el.style.display = '';
+      mount(el, '<h2>Broadcast wall</h2><p>Ten credits or more. The brightest lights on the map.</p><div class="vn-grid">' +
+        list.map(function (p) {
+          return '<div class="vn-card"><h3>' + esc(p.name) + '</h3><div class="vn-meta">' + esc(p.city) + ' · ' +
+            plural(p.credits, 'credit', 'credits') + '</div><p style="margin:.5rem 0 0"><a class="vn-link-quiet" href="' + profileUrl(p.slug) + '">Open profile</a></p></div>';
+        }).join('') + '</div>');
+    });
+  };
+
+  // Tracks & Credits: index
+  render.tracksIndex = function (el) {
+    el = mount(el, '');
+    data().then(function (d) {
+      if (!d) return mount(el, '<div class="vn-empty">' + MSG_ERROR + '</div>');
+      var list = tracks(d);
+      if (!list.length) return mount(el, '<div class="vn-empty">No tracks yet. Track 01 is being built from the rooms you’re in right now.</div>');
+      mount(el, '<div class="vn-tracks">' + list.map(function (t) { return trackCard(t, 'h3'); }).join('') + '</div>');
+    });
+  };
+
+  function parsePeaks(w) {
+    try { var o = JSON.parse(w); if (o && isFinite(o.d) && o.p && o.p.length) return o; } catch (e) { /* not peaks */ }
+    return null;
+  }
+  function peaksFromAudio(url) {
+    // Needs the audio host to allow cross-origin reads (CORS). Falls back to a flat line if not.
+    return fetch(url).then(function (r) { return r.arrayBuffer(); }).then(function (buf) {
+      var AC = window.AudioContext || window.webkitAudioContext, ac = new AC();
+      return new Promise(function (ok, fail) { ac.decodeAudioData(buf, ok, fail); });
+    }).then(function (ab) {
+      var ch = ab.getChannelData(0), n = 600, step = Math.floor(ch.length / n), p = [], max = 0;
+      for (var i = 0; i < n; i++) { var m = 0; for (var j = i * step; j < (i + 1) * step; j += 16) m = Math.max(m, Math.abs(ch[j])); p.push(m); max = Math.max(max, m); }
+      return { d: ab.duration, p: p.map(function (v) { return max ? v / max : 0; }) };
+    });
+  }
+  function durationFromAudio(url) {
+    return new Promise(function (ok) {
+      var a = new Audio(); a.preload = 'metadata';
+      a.onloadedmetadata = function () { ok(isFinite(a.duration) ? { d: a.duration, p: null } : null); };
+      a.onerror = function () { ok(null); };
+      a.src = url;
+    });
+  }
+  function waveformData(w) {
+    var pk = parsePeaks(w);
+    if (pk) return Promise.resolve(pk);
+    var url = safeUrl(w);
+    if (!url) return Promise.resolve(null);
+    return peaksFromAudio(url).catch(function () { return durationFromAudio(url); });
+  }
+
+  function creditLine(c) {
+    return [c.sound, c.name, c.city, c.t].filter(Boolean).join(' · ');
+  }
+
+  function drawWave(el, wf, credits) {
+    var bars = '', n = wf.p ? wf.p.length : 0, bw = 1000 / Math.max(n, 1);
+    if (n) wf.p.forEach(function (v, i) {
+      var h = Math.max(1, v * 100);
+      bars += '<rect class="vn-wave-bar" x="' + (i * bw).toFixed(2) + '" y="' + (60 - h / 2).toFixed(1) + '" width="' + Math.max(bw * 0.6, 0.5).toFixed(2) + '" height="' + h.toFixed(1) + '"/>';
+    });
+    else bars = '<rect class="vn-wave-bar" x="0" y="59" width="1000" height="2"/>';
+    var marks = credits.filter(function (c) { return isFinite(c.s) && c.s <= wf.d; }).map(function (c) {
+      return '<button class="vn-mark" style="left:' + (c.s / wf.d * 100).toFixed(3) + '%" aria-label="' + esc(creditLine(c)) + '" data-tip="' + esc(creditLine(c)) + '"></button>';
+    }).join('');
+    el.innerHTML = '<div class="vn-wave"><svg viewBox="0 0 1000 120" preserveAspectRatio="none" aria-hidden="true">' + bars + '</svg>' + marks + '</div>';
+    var wave = el.firstChild, tip = null;
+    function hide() { if (tip) { tip.remove(); tip = null; } }
+    function showTip(b) {
+      hide();
+      tip = document.createElement('div'); tip.className = 'vn-tip'; tip.textContent = b.getAttribute('data-tip');
+      wave.appendChild(tip);
+      var x = b.offsetLeft, half = tip.offsetWidth / 2;
+      tip.style.left = Math.min(Math.max(x, half + 4), wave.clientWidth - half - 4) + 'px';
+    }
+    Array.prototype.forEach.call(wave.querySelectorAll('.vn-mark'), function (b) {
+      b.addEventListener('mouseenter', function () { showTip(b); });
+      b.addEventListener('focus', function () { showTip(b); });
+      b.addEventListener('click', function () { showTip(b); });
+      b.addEventListener('mouseleave', hide);
+      b.addEventListener('blur', hide);
+    });
+  }
+
+  // Tracks & Credits: one track (the page reads ?n=)
+  render.track = function (el) {
+    el = mount(el, '');
+    var n = new URLSearchParams(location.search).get('n');
+    data().then(function (d) {
+      if (!d) return mount(el, '<div class="vn-empty">' + MSG_ERROR + '</div>');
+      var t = tracks(d).filter(function (x) { return String(x.n) === String(n); })[0];
+      if (!t) return mount(el, '<h1>No track here</h1><div class="vn-empty">This track hasn’t gone out yet, or the link is wrong. <a href="' + esc(C.paths.tracks) + '">All tracks</a></div>');
+      document.title = trackNo(t.n) + ', ' + t.title + ': credits | Vela Nox';
+      var credits = t.credits.slice().sort(function (a, b) { return a.s - b.s; });
+      var links = (t.links || []).filter(function (l) { return safeUrl(l.url); });
+      var cover = safeUrl(t.cover)
+        ? '<img src="' + esc(safeUrl(t.cover)) + '" alt="' + esc(t.coverAlt || ('Cover art for ' + trackNo(t.n) + ', ' + t.title)) + '">'
+        : '<div class="vn-cover-ph" aria-hidden="true"></div>';
+      var names = [], seen = {};
+      credits.forEach(function (c) { if (!seen[c.name]) { seen[c.name] = 1; names.push(c.name); } });
+      mount(el,
+        '<div class="vn-track-head">' + cover + '<div>' +
+        '<p class="vn-label">' + esc(trackNo(t.n)) + '</p><h1>' + esc(t.title) + '</h1>' +
+        '<p class="vn-meta">Theme: ' + esc(t.theme) + '<br>Sent to subscribers ' + esc(longDate(t.sent, true)) + '<br>' +
+        plural(t.contributors, 'contributor', 'contributors') + ' · ' + plural(t.cities, 'city', 'cities') + '</p>' +
+        (links.length
+          ? '<div class="vn-links">' + links.map(function (l) { return '<a href="' + esc(safeUrl(l.url)) + '" rel="noopener" target="_blank">' + esc(l.label || 'Listen') + '</a>'; }).join('') + '</div>'
+          : '<p class="vn-note">Not on streaming platforms yet. That usually takes one to three weeks after the subscriber email.</p>') +
+        '</div></div>' +
+        '<section class="vn-section"><h2>Waveform credits</h2><p class="vn-note">Each mark is a sound someone sent. Hover or tap it to see whose.</p><div class="vn-wave-box"><div class="vn-empty">Reading the waveform…</div></div></section>' +
+        '<section class="vn-section"><h2>Credits</h2>' + (credits.length
+          ? '<ol class="vn-credits">' + credits.map(function (c) {
+            return '<li><span class="vn-ts">' + esc(c.t) + '</span><span>' + esc(c.sound) + ' · ' +
+              (c.slug ? '<a href="' + profileUrl(c.slug) + '">' + esc(c.name) + '</a>' : esc(c.name)) +
+              (c.city ? ' · ' + esc(c.city) : '') + '</span></li>';
+          }).join('') + '</ol>'
+          : '<div class="vn-empty">No public credits on this track.</div>') + '</section>' +
+        '<section class="vn-section"><h2>Streaming credits</h2><p class="vn-note">Names only. This is the list used on streaming platforms, where they allow it. The artist field says Vela Nox.</p>' +
+        '<div class="vn-stream-credits">' + (names.length ? names.map(esc).join('\n') : '—') + '</div></section>' +
+        '<section class="vn-section"><h2>Where this track came from</h2><div class="vn-track-map"></div></section>');
+
+      var waveBox = el.querySelector('.vn-wave-box');
+      waveformData(t.waveform).then(function (wf) {
+        if (!wf) return (waveBox.innerHTML = '<div class="vn-empty">No waveform for this track. The credits below have every timestamp.</div>');
+        drawWave(waveBox, wf, credits);
+      });
+      var list = credited(d, t.n), mapBox = el.querySelector('.vn-track-map');
+      geo().then(function (land) {
+        drawMap(mapBox, land, towerOf(d), {
+          people: list, lines: list, popups: true, empty: 'No one credited on this track chose to show their city.',
+          label: 'Night map with the cities of people credited on ' + trackNo(t.n) + ', each connected to Vela’s tower.'
+        });
+      }).catch(function () { mapBox.innerHTML = '<div class="vn-empty">' + MSG_ERROR + '</div>'; });
+    });
+  };
+
+  // Contributor profiles: one card each, opted-in only
+  render.contributors = function (el) {
+    el = mount(el, '');
+    data().then(function (d) {
+      if (!d) return mount(el, '<div class="vn-empty">' + MSG_ERROR + '</div>');
+      var list = people(d).slice().sort(function (a, b) { return b.credits - a.credits || a.name.localeCompare(b.name); });
+      if (!list.length) return mount(el, '<div class="vn-empty">No one here yet. Cards appear once people send sounds and choose to show their city.</div>');
+      mount(el, '<div class="vn-grid">' + list.map(function (p) {
+        return '<article class="vn-card" id="c-' + esc(p.slug) + '"><h3>' + esc(p.name) + '</h3>' +
+          '<div class="vn-meta">' + esc(p.city) + '</div><div class="vn-level" style="margin-top:.35rem">' + esc(p.level) + '</div>' +
+          '<dl><dt>Sounds sent</dt><dd>' + p.submitted + '</dd><dt>Credits</dt><dd>' + p.credits + '</dd></dl>' +
+          (p.tracks.length ? '<ul>' + p.tracks.map(function (x) {
+            return '<li><a href="' + trackUrl(x.n) + '">' + esc(trackNo(x.n)) + ' · ' + esc(x.title) + '</a> <span class="vn-mono vn-sodium">at ' + esc(x.t) + '</span></li>';
+          }).join('') + '</ul>' : '<p class="vn-note" style="margin:0">Not credited on a track yet.</p>') +
+          '</article>';
+      }).join('') + '</div>');
+      function target() {
+        Array.prototype.forEach.call(el.querySelectorAll('.is-target'), function (c) { c.classList.remove('is-target'); });
+        var h = decodeURIComponent(location.hash.slice(1)), c = h && document.getElementById(h);
+        if (c && el.contains(c)) { c.classList.add('is-target'); c.scrollIntoView({ block: 'center' }); }
+      }
+      window.addEventListener('hashchange', target);
+      target();
+    });
+  };
+
+  // Submit (inside the subscriber portal). opts.form: GoHighLevel form embed URL.
+  render.submit = function (el, opts) {
+    el = mount(el, '');
+    data().then(function (d) {
+      var s = schedule(d && d.settings);
+      var head = '<h1 class="vn-submit-theme">This week’s theme: ' + esc(s.theme) + '</h1>';
+      var vote = '<p class="vn-note">' + esc(s.voteSubmit) + '</p>';
+      if (!s.open) {
+        return mount(el, '<p class="vn-label">Submissions closed</p>' + head +
+          '<div class="vn-closed"><p>' + (s.phase === 'making' ? 'The track is being made from this week’s sounds. ' : '') +
+          (s.nextOpen ? 'The form opens again ' + esc(s.nextOpen) + '.' : 'The form is closed for now. It opens again with the next theme.') + '</p>' +
+          '<p style="margin:0">' + esc(s.voteStrip) + '</p></div>');
+      }
+      mount(el, head + '<p class="vn-submit-deadline">' + esc(s.submitDeadline) + '</p>' +
+        '<p class="vn-reminder">Your sound only. No one else’s voice, no music playing.</p>' + vote +
+        '<div class="vn-form-frame"></div>');
+      var frame = el.querySelector('.vn-form-frame'), src = safeUrl(opts && opts.form);
+      if (!src) return (frame.innerHTML = '<div class="vn-empty">Form not connected. Add the GoHighLevel form URL to this element.</div>');
+      var f = document.createElement('iframe');
+      f.src = src; f.title = 'Send this week’s sound'; f.loading = 'lazy';
+      if (opts.formId) f.id = 'inline-' + opts.formId;
+      frame.appendChild(f);
+      if (!document.querySelector('script[src*="form_embed.js"]')) loadScript('https://link.msgsndr.com/js/form_embed.js').catch(function () {});
+    });
+  };
+
+  // After a submission: the form redirects here
+  render.confirmation = function (el) {
+    el = mount(el, '');
+    data().then(function (d) {
+      var s = schedule(d && d.settings);
+      mount(el, '<h1 class="vn-submit-theme">' + esc(s.confirmation) + '</h1><p class="vn-note">' + esc(s.voteSubmit) + '</p>');
+    });
+  };
+
+  // Second attempt in the same week
+  render.alreadySent = function (el) {
+    el = mount(el, '');
+    data().then(function (d) {
+      var s = schedule(d && d.settings);
+      mount(el, '<h1 class="vn-submit-theme">You’ve already sent this week’s sound</h1>' +
+        '<p>This week’s theme: ' + esc(s.theme) + '. The track lands in your inbox on Monday' + (s.launch ? ', October 12.' : '.') + '</p>' +
+        '<p class="vn-note">' + esc(s.voteSubmit) + '</p>');
+    });
+  };
+
+  // Rules & FAQ: answer to "How does the theme vote work?"
+  render.voteAnswer = function (el) {
+    var s = schedule();
+    mount(el, s.launch
+      ? '<p>Launch week is longer. The first vote runs from Wednesday, September 30 until Sunday, October 11, 11:59 pm ET, and decides week 2’s theme. ' +
+        'After that, the vote runs all week, Monday to Sunday, closing Sunday at 11:59 pm ET. Each vote decides next week’s theme.</p>' +
+        '<p>The vote is a Google Form linked in Vela’s Close Friends story on Instagram and pinned in a Close Friends highlight. The winning theme is announced on Monday, in the story and on this site.</p>'
+      : '<p>The vote runs all week, Monday to Sunday, and closes Sunday at 11:59 pm ET. It decides next week’s theme, not this week’s.</p>' +
+        '<p>It’s a Google Form linked in Vela’s Close Friends story on Instagram and pinned in a Close Friends highlight. The winning theme is announced on Monday, in the story and on this site.</p>');
+  };
+
+  // Rules & FAQ: the current deadline, where the FAQ mentions it
+  render.deadlineAnswer = function (el) {
+    var s = schedule();
+    mount(el, s.launch
+      ? '<p>For Track 01: Thursday, October 8, 11:59 pm ET. From October 12, the regular week applies: submissions open Tuesday and close Thursday at 11:59 pm ET.</p>'
+      : '<p>Submissions open Tuesday and close Thursday at 11:59 pm ET, every week.</p>');
+  };
+
+  window.VELA = { config: C, render: render, schedule: schedule, data: data, esc: esc, CTA: CTA };
+})();
+</script>
+<div id="vn-already"></div>
+<script>(function go(){if(window.VELA){VELA.render.alreadySent('#vn-already');}else{setTimeout(go,50);}})();</script>
