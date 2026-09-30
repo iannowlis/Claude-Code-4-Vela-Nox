@@ -172,9 +172,9 @@
   var W = 960, H = 500;
   var R = [2.1, 2.7, 3.3, 4.2], OP = [0.32, 0.62, 0.85, 1];
 
-  /* Draws a map into el. opts.people: contributors to light up. opts.lines: contributors to
-   * connect to the tower. opts.empty: message when nobody is on it. opts.popups: tap for detail. */
-  function drawMap(el, land, tower, opts) {
+  /* Draws a map into el. opts.people: contributors to light up (city level only).
+   * opts.empty: message when nobody is on it. opts.popups: tap for detail. */
+  function drawMap(el, land, opts) {
     var d3 = window.d3;
     var proj = d3.geoEqualEarth().fitExtent([[8, 8], [W - 8, H - 8]], { type: 'Sphere' });
     var path = d3.geoPath(proj);
@@ -185,18 +185,6 @@
       '<path d="' + path({ type: 'Sphere' }) + '" fill="url(#' + id + 's)"/>',
       '<path d="' + path(d3.geoGraticule10()) + '" fill="none" stroke="rgba(179,184,190,0.06)" stroke-width="0.5"/>',
       '<path d="' + path(land) + '" fill="#1b2230" stroke="#3a3936" stroke-width="0.5"/>'];
-
-    var tw = tower && isFinite(tower.lat) && isFinite(tower.lng) ? [tower.lng, tower.lat] : null;
-    var tp = tw ? proj(tw) : null;
-
-    // transmissions
-    var txs = [];
-    if (tw) (opts.lines || []).forEach(function (p) {
-      if (!isFinite(p.lat) || !isFinite(p.lng)) return;
-      var dpath = path({ type: 'LineString', coordinates: [[p.lng, p.lat], tw] });
-      if (dpath) txs.push('<path class="vn-tx" d="' + dpath + '"/>');
-    });
-    svg.push('<g class="vn-txs">' + txs.join('') + '</g>');
 
     // lights, grouped by city so people in the same city share a point
     var groups = {}, order = [];
@@ -220,26 +208,11 @@
       g.xy = xy;
     });
 
-    if (tp) {
-      svg.push('<g aria-label="Vela’s tower" role="img"><circle class="vn-tower-ring" cx="' + tp[0].toFixed(1) + '" cy="' + tp[1].toFixed(1) + '" r="4"/>' +
-        '<path d="M' + tp[0].toFixed(1) + ' ' + (tp[1] - 9).toFixed(1) + ' l-4 11 h8 z" fill="#ff8a1e"/>' +
-        '<circle cx="' + tp[0].toFixed(1) + '" cy="' + (tp[1] - 9).toFixed(1) + '" r="1.6" fill="#ffe2bd"/></g>');
-    }
     svg.push('</svg>');
 
     el.innerHTML = '<div class="vn-map-wrap">' + svg.join('') +
       (order.length ? '' : '<div class="vn-map-msg">' + esc(opts.empty) + '</div>') + '</div>';
     var wrap = el.firstChild;
-
-    // draw the transmissions in, one after another
-    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (!reduce) Array.prototype.forEach.call(wrap.querySelectorAll('.vn-tx'), function (p, i) {
-      var len = p.getTotalLength ? p.getTotalLength() : 0;
-      if (!len) return;
-      p.style.strokeDasharray = len; p.style.strokeDashoffset = len;
-      p.style.transition = 'stroke-dashoffset 1.6s ease-out ' + (0.15 * i) + 's';
-      requestAnimationFrame(function () { requestAnimationFrame(function () { p.style.strokeDashoffset = 0; }); });
-    });
 
     if (!opts.popups) return;
     var pop = null;
@@ -274,10 +247,6 @@
     });
   }
 
-  function towerOf(d) {
-    var s = (d && d.settings) || {};
-    return { lat: parseFloat(s.tower_lat), lng: parseFloat(s.tower_lng) };
-  }
   function credited(d, n) {
     var t = tracks(d).filter(function (x) { return String(x.n) === String(n); })[0];
     if (!t) return [];
@@ -342,11 +311,11 @@
   render.mapPreview = function (el) {
     el = mount(el, '');
     Promise.all([data(), geo()]).then(function (res) {
-      var d = res[0], latest = tracks(d)[0];
+      var d = res[0];
       var box = document.createElement('div');
       el.appendChild(box);
-      drawMap(box, res[1], towerOf(d), {
-        people: people(d), lines: latest ? credited(d, latest.n) : [], empty: EMPTY_MAP, popups: false,
+      drawMap(box, res[1], {
+        people: people(d), empty: EMPTY_MAP, popups: false,
         label: 'Night map of the world. Each point of light is the city of someone who sent a sound.'
       });
       el.insertAdjacentHTML('beforeend', '<p style="margin-top:.75rem"><a class="vn-link-quiet" href="' + esc(C.paths.map) + '">Open the Signal Map</a></p>');
@@ -374,13 +343,13 @@
         '<span class="l2">Frequency: 5+ credits</span><span class="l3">Broadcast: 10+ credits</span></div>');
       var box = el.querySelector('.vn-map-box'), sel = el.querySelector('#vn-filter');
       function show() {
-        var v = sel.value, all = people(d), latest = tracks(d)[0], o;
-        if (v === 'week') o = { people: all.filter(function (p) { return p.inPool; }), lines: [], empty: 'No one in this week’s pool has chosen to show their city yet.' };
-        else if (v.charAt(0) === 't') { var list = credited(d, v.slice(1)); o = { people: list, lines: list, empty: 'No one credited on this track chose to show their city.' }; }
-        else o = { people: all, lines: latest ? credited(d, latest.n) : [], empty: d ? EMPTY_MAP : MSG_ERROR };
+        var v = sel.value, all = people(d), o;
+        if (v === 'week') o = { people: all.filter(function (p) { return p.inPool; }), empty: 'No one in this week’s pool has chosen to show their city yet.' };
+        else if (v.charAt(0) === 't') { var list = credited(d, v.slice(1)); o = { people: list, empty: 'No one credited on this track chose to show their city.' }; }
+        else o = { people: all, empty: d ? EMPTY_MAP : MSG_ERROR };
         o.popups = true;
         o.label = 'Night map of the world with points of light for contributors’ cities. Tap a light for details.';
-        drawMap(box, land, towerOf(d), o);
+        drawMap(box, land, o);
       }
       sel.addEventListener('change', show);
       show();
@@ -457,7 +426,7 @@
       bars += '<rect class="vn-wave-bar" x="' + (i * bw).toFixed(2) + '" y="' + (60 - h / 2).toFixed(1) + '" width="' + Math.max(bw * 0.6, 0.5).toFixed(2) + '" height="' + h.toFixed(1) + '"/>';
     });
     else bars = '<rect class="vn-wave-bar" x="0" y="59" width="1000" height="2"/>';
-    var marks = credits.filter(function (c) { return isFinite(c.s) && c.s <= wf.d; }).map(function (c) {
+    var marks = credits.filter(function (c) { return c.slug && isFinite(c.s) && c.s <= wf.d; }).map(function (c) {
       return '<button class="vn-mark" style="left:' + (c.s / wf.d * 100).toFixed(3) + '%" aria-label="' + esc(creditLine(c)) + '" data-tip="' + esc(creditLine(c)) + '"></button>';
     }).join('');
     el.innerHTML = '<div class="vn-wave"><svg viewBox="0 0 1000 120" preserveAspectRatio="none" aria-hidden="true">' + bars + '</svg>' + marks + '</div>';
@@ -488,7 +457,7 @@
       var t = tracks(d).filter(function (x) { return String(x.n) === String(n); })[0];
       if (!t) return mount(el, '<h1>No track here</h1><div class="vn-empty">This track hasn’t gone out yet, or the link is wrong. <a href="' + esc(C.paths.tracks) + '">All tracks</a></div>');
       document.title = trackNo(t.n) + ', ' + t.title + ': credits | Vela Nox';
-      var credits = t.credits.slice().sort(function (a, b) { return a.s - b.s; });
+      var credits = t.credits; // already in timestamp order; name-only entries carry no time
       var links = (t.links || []).filter(function (l) { return safeUrl(l.url); });
       var cover = safeUrl(t.cover)
         ? '<img src="' + esc(safeUrl(t.cover)) + '" alt="' + esc(t.coverAlt || ('Cover art for ' + trackNo(t.n) + ', ' + t.title)) + '">'
@@ -502,14 +471,14 @@
         plural(t.contributors, 'contributor', 'contributors') + ' · ' + plural(t.cities, 'city', 'cities') + '</p>' +
         (links.length
           ? '<div class="vn-links">' + links.map(function (l) { return '<a href="' + esc(safeUrl(l.url)) + '" rel="noopener" target="_blank">' + esc(l.label || 'Listen') + '</a>'; }).join('') + '</div>'
-          : '<p class="vn-note">Not on streaming platforms yet. That usually takes one to three weeks after the subscriber email.</p>') +
+          : '<p class="vn-note">Not on streaming platforms yet. Tracks go out there about a month after the subscriber email, once the distributor has reviewed everything. Subscribers get an email when it\u2019s out.</p>') +
         '</div></div>' +
-        '<section class="vn-section"><h2>Waveform credits</h2><p class="vn-note">Each mark is a sound someone sent. Hover or tap it to see whose.</p><div class="vn-wave-box"><div class="vn-empty">Reading the waveform…</div></div></section>' +
+        '<section class="vn-section"><h2>Waveform credits</h2><p class="vn-note">Each mark is a sound someone sent. Hover or tap it to see whose. People who chose not to show their city are credited by name only, in the list below.</p><div class="vn-wave-box"><div class="vn-empty">Reading the waveform…</div></div></section>' +
         '<section class="vn-section"><h2>Credits</h2>' + (credits.length
           ? '<ol class="vn-credits">' + credits.map(function (c) {
+            if (!c.slug) return '<li><span class="vn-ts"></span><span>' + esc(c.name) + '</span></li>';
             return '<li><span class="vn-ts">' + esc(c.t) + '</span><span>' + esc(c.sound) + ' · ' +
-              (c.slug ? '<a href="' + profileUrl(c.slug) + '">' + esc(c.name) + '</a>' : esc(c.name)) +
-              (c.city ? ' · ' + esc(c.city) : '') + '</span></li>';
+              '<a href="' + profileUrl(c.slug) + '">' + esc(c.name) + '</a> · ' + esc(c.city) + '</span></li>';
           }).join('') + '</ol>'
           : '<div class="vn-empty">No public credits on this track.</div>') + '</section>' +
         '<section class="vn-section"><h2>Streaming credits</h2><p class="vn-note">Names only. This is the list used on streaming platforms, where they allow it. The artist field says Vela Nox.</p>' +
@@ -523,9 +492,9 @@
       });
       var list = credited(d, t.n), mapBox = el.querySelector('.vn-track-map');
       geo().then(function (land) {
-        drawMap(mapBox, land, towerOf(d), {
-          people: list, lines: list, popups: true, empty: 'No one credited on this track chose to show their city.',
-          label: 'Night map with the cities of people credited on ' + trackNo(t.n) + ', each connected to Vela’s tower.'
+        drawMap(mapBox, land, {
+          people: list, popups: true, empty: 'No one credited on this track chose to show their city.',
+          label: 'Night map with the cities of people credited on ' + trackNo(t.n) + '.'
         });
       }).catch(function () { mapBox.innerHTML = '<div class="vn-empty">' + MSG_ERROR + '</div>'; });
     });

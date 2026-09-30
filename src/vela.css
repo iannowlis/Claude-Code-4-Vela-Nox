@@ -59,7 +59,6 @@
 .vn-pt { cursor: pointer; }
 .vn-pt:focus { outline: none; }
 .vn-pt:focus-visible .vn-pt-core { stroke: #fff; stroke-width: 1.5; }
-.vn-tx { fill: none; stroke: var(--vn-sodium); stroke-width: 0.8; stroke-opacity: 0.55; }
 .vn-pop { position: absolute; z-index: 5; min-width: 200px; max-width: min(280px, calc(100% - 16px)); background: var(--vn-navy-2); border: 1px solid var(--vn-navy-3); padding: 0.75rem 0.9rem; font-size: 0.9rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); }
 .vn-pop-row + .vn-pop-row { border-top: 1px solid var(--vn-line); margin-top: 0.6rem; padding-top: 0.6rem; }
 .vn-pop b { color: #eef0f2; font-weight: 500; }
@@ -68,9 +67,6 @@
 .vn-legend span::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--vn-sodium); margin-right: 0.45rem; vertical-align: 1px; }
 .vn-legend .l0::before { opacity: 0.3; } .vn-legend .l1::before { opacity: 0.6; }
 .vn-legend .l2::before { opacity: 0.85; } .vn-legend .l3::before { box-shadow: 0 0 8px var(--vn-sodium); }
-@keyframes vn-pulse { from { r: 4; opacity: 0.8; } to { r: 16; opacity: 0; } }
-.vn-tower-ring { fill: none; stroke: var(--vn-sodium); stroke-width: 1; animation: vn-pulse 3.2s ease-out infinite; }
-@media (prefers-reduced-motion: reduce) { .vn-tower-ring { animation: none; opacity: 0.4; } }
 
 /* Cards and lists */
 .vn-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }

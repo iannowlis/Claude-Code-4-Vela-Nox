@@ -27,11 +27,9 @@ var SETTINGS_DEFAULTS = [
   ['theme', "The room you're in right now", 'Theme of the week. Shown on every page that mentions it.'],
   ['theme_note', "Vela's pick", 'Small note after the theme on the Home strip. Clear it once the vote picks the themes.'],
   ['status_override', 'auto', 'auto = follow the schedule. open or closed = force the submission status.'],
-  ['deadline_override', '', 'Leave empty. Text here (e.g. "Friday, 11:59 pm ET") replaces the deadline everywhere.'],
-  ['tower_lat', '', 'Latitude of the tower on the Signal Map.'],
-  ['tower_lng', '', 'Longitude of the tower on the Signal Map.']
+  ['deadline_override', '', 'Leave empty. Text here (e.g. "Friday, 11:59 pm ET") replaces the deadline everywhere.']
 ];
-var PUBLIC_SETTINGS = ['current_week', 'theme', 'theme_note', 'status_override', 'deadline_override', 'tower_lat', 'tower_lng'];
+var PUBLIC_SETTINGS = ['current_week', 'theme', 'theme_note', 'status_override', 'deadline_override'];
 
 /* ---------------- setup ---------------- */
 
@@ -212,14 +210,18 @@ function buildPublic_() {
   trackList.sort(function (a, b) { return b.n - a.n; });
   var tracksOut = trackList.map(function (t) {
     var cities = {}, names = {};
-    var credits = t.credits.map(function (c) {
+    // Timestamp order. People who didn't opt in keep their place but are sent as a name only:
+    // no city, no timestamp, no sound title (Terms 6, Privacy 3).
+    var credits = t.credits.slice().sort(function (a, b) {
+      return (isFinite(a.s) ? a.s : Infinity) - (isFinite(b.s) ? b.s : Infinity);
+    }).map(function (c) {
       var p = people[c.key], show = p && p.opted;
       names[c.key] = 1;
-      if (show) cities[key_(p.city + '|' + p.country)] = 1;
+      if (!show) return { name: c.name };
+      cities[key_(p.city + '|' + p.country)] = 1;
       return {
-        name: c.name, sound: c.sound, t: c.t, s: c.s,
-        slug: show ? p.slug : null,
-        city: show ? (p.country ? p.city + ', ' + p.country : p.city) : null
+        name: c.name, sound: c.sound, t: c.t, s: c.s, slug: p.slug,
+        city: p.country ? p.city + ', ' + p.country : p.city
       };
     });
     return {

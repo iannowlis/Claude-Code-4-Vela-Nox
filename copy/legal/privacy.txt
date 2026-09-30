@@ -1,0 +1,45 @@
+PRIVACY POLICY
+Last updated: [DATE]
+
+This policy explains what information Vela Nox ("we", "us"), operated by [YOUR LEGAL NAME OR BUSINESS NAME], collects when you use [YOUR DOMAIN] and the Vela Nox subscription, and how we use it.
+
+1. What we collect
+- Account and subscription details: your email address and subscription status.
+- Payment information: payments are processed by Stripe. We do not see or store your full card details.
+- Submission details: your credit name, city, country, Instagram handle, the audio file you submit, the sound title and description, and your consent choices.
+- Votes: your theme votes, submitted through Google Forms. Google may collect information according to its own privacy policy.
+- Website data: basic technical and usage information (such as browser type and pages visited) collected through our website platform, GoHighLevel, including through cookies.
+- Messages: anything you send us by email.
+
+2. How we use it
+- To run your subscription, process payments, and send you early-access tracks and service emails.
+- To receive, review, and use submitted sounds in tracks, as described in our Terms.
+- To credit contributors whose sounds are used.
+- To add subscribers to Vela's Instagram Close Friends list for voting.
+- To show contributors on the Signal Map and website credits, only if they opted in.
+- To answer questions and keep the Service secure and working.
+We do not sell your personal information.
+
+3. What is public
+If your sound is used, your credit name appears in credits on Instagram, in subscriber emails, on streaming platforms, and on this website. If you opted in, your city and the timestamp of your sound also appear on Instagram, in subscriber emails, and on this website, including the Signal Map (city level only, never an exact location). Your email address is never shown publicly.
+
+4. Who we share it with
+Only with services that help us run Vela Nox: Stripe (payments), GoHighLevel (website, forms, and email), Google (vote forms and data storage), Instagram (Close Friends list and credits), and music distributors and streaming platforms (contributor names in release credits). We may also share information if required by law.
+
+5. How long we keep it
+We keep subscription and submission records for as long as you are a subscriber and for a reasonable period afterwards for accounting, legal, and dispute purposes. Credits on released tracks are kept permanently as part of the release. Audio that has been used in a released track cannot be removed from that track.
+
+6. Your rights
+You can ask us to access, correct, or delete your personal information, to remove you from the Signal Map and public website credits, or to stop using your information for anything other than completing past releases. Depending on where you live (for example, in the EU, UK, or California), you may have additional rights under local law, including the right to complain to a data protection authority. Email velanox@gmail.com and we will respond within 30 days.
+
+7. International use
+We and our service providers may process your information in the United States and other countries. By using the Service, you understand your information may be transferred there.
+
+8. Age
+The Service is for people aged 18 and over. We do not knowingly collect information from anyone under 18.
+
+9. Changes
+We may update this policy and will notify subscribers of important changes by email.
+
+10. Contact
+velanox@gmail.com

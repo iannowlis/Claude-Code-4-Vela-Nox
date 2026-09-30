@@ -5,7 +5,9 @@
 - In **Payments → Products**, create one product, "Vela Nox weekly", with one recurring price: **$3.00, every 1 week**. No trial, no coupons, and don't turn on promo codes on the order form.
 - Build a funnel page (for example `/subscribe`) with a **2-step order form** for that product. Add a required custom field, **Instagram handle**, so the handle is collected at signup. Every subscribe button on the site links here and reads "Send me a sound — $3/week".
 - Workflow **"Subscriber on"**. Trigger: order submitted or payment received for the product. Actions: add tag `vela-active`, grant the portal offer **Submit**, and create a task: "Add [Instagram handle] to Close Friends".
-- Workflow **"Subscriber off"**. Trigger: the subscription ends (cancelled or expired). Actions: remove tag `vela-active`, revoke both portal offers (**Submit** and **Already sent**), and create a task: "Remove [Instagram handle] from Close Friends". Cancellations should end at the close of the paid period in Stripe, so access continues until the end of the paid week. Check that the trigger fires when access actually ends, not when the person clicks cancel.
+- Workflow **"Subscriber off"**. Trigger: the subscription ends (cancelled or expired). Actions: remove tag `vela-active`, revoke both portal offers (**Submit** and **Already sent**), and create a task: "Remove [Instagram handle] from Close Friends". Check that the trigger fires when access actually ends, not when the person clicks cancel.
+- **Cancelling, per your Cancellation Policy:** turn on Stripe's customer portal, so the "manage subscription" link appears in Stripe billing emails, and set cancellations to take effect **at the end of the billing period**. That way access runs to the end of the paid week and there's no further charge. For cancellations by email, cancel in Stripe the same way (at period end). For refunds of charges made in error (within 14 days), refund in Stripe.
+- **Price changes:** the policy promises at least 14 days' notice by email.
 
 ## 2. Gating the Submit page
 GoHighLevel website pages can't require a login, so the real form lives in the **subscriber portal** (Memberships / Client Portal):
@@ -52,7 +54,7 @@ Create the sheet, open **Extensions → Apps Script**, paste `apps-script/Code.g
 
 | Tab | Columns | Who fills it |
 |---|---|---|
-| **Settings** | key · value · note | You. `current_week`, `theme`, `theme_note`, `status_override` (auto / open / closed), `deadline_override`, `tower_lat`, `tower_lng` |
+| **Settings** | key · value · note | You. `current_week`, `theme`, `theme_note`, `status_override` (auto / open / closed), `deadline_override` |
 | **Contributors** | credit name · instagram handle · email · city · country · show city · remove from public · lat · lng · first seen · last seen | The form, automatically. You set `remove from public` to "yes" for opt-out requests |
 | **Tracks** | number · title · theme · date sent · streaming links · cover image · cover alt text · waveform | You, weekly |
 | **Credits** | track · contributor · sound title · timestamp | You, weekly. `contributor` must match the credit name exactly. `timestamp` like `2:14` |
@@ -72,6 +74,7 @@ Run `node tools/build.mjs` after changing anything in `src/`, then paste from `g
 
 | Paste | Where |
 |---|---|
+| `ghl/legal/terms.html`, `privacy.html`, `cancellation.html` | `/terms`, `/privacy`, `/cancellation` (one Custom Code element each) |
 | `ghl/site-head.html` | Website settings → Head tracking code (whole site, once). Fill in `dataUrl`, `subscribeUrl`, `portalUrl` |
 | `home-this-week-strip` | Home, under the hero |
 | `home-launch-note` | Home, under "How a week works" |
@@ -87,7 +90,7 @@ Run `node tools/build.mjs` after changing anything in `src/`, then paste from `g
 | `portal-submit-panel` (replace `FORM_ID` twice) | Portal lesson "Submit" |
 | `portal-already-sent` | Portal lesson "Already sent" |
 
-If you use different page URLs, change `paths` in `src/vela.js` and rebuild. The map uses d3-geo and a world outline from cdn.jsdelivr.net, and fonts from Google Fonts. Nothing else is loaded from outside.
+If you use different page URLs, change `paths` in `src/vela.js` and rebuild. The map shows subscriber cities only, with no fixed points or lines. It uses d3-geo and a world outline from cdn.jsdelivr.net, and fonts from Google Fonts. Nothing else is loaded from outside.
 
 **Page look (native GoHighLevel sections):** background #0c1524 (deep navy), with #060a12 for alternating sections. Text is #b3b8be (fog grey), headings #e6e8ea. Accent and buttons are #ff8a1e (sodium orange). Borders and dividers are #3a3936 (raw concrete). Fonts: IBM Plex Sans for text, IBM Plex Mono for labels and times. Night only, with no light version.
 
@@ -95,23 +98,24 @@ If you use different page URLs, change `paths` in `src/vela.js` and rebuild. The
 1. Settings: set `current_week` and `theme` (the vote winner). Clear `theme_note` after launch week.
 2. Tracks: add last week's track row (with `date sent` = today), plus its Credits rows.
 3. Send the early-access email.
-4. Later, when streaming links exist, add them to `streaming links`.
+4. About a month later, when a track is live on streaming platforms, add its links to `streaming links` and email subscribers that it's out. (A GoHighLevel email campaign to tag `vela-active` works for this.)
 
 ---
 
-# Left out or assumed, because it wasn't provided
+# Left out, assumed, or needing your attention
 
-1. **Legal text.** /terms, /privacy and /cancellation have placeholders until you paste the text.
-2. **Domain.** `[YOUR DOMAIN]` isn't set anywhere yet. Add it in GoHighLevel when you connect it.
-3. **Tower location.** No coordinates were given. The tower isn't drawn until you fill in `tower_lat` and `tower_lng` in Settings. Pick any coastal point. It's never labeled.
-4. **Opening time of the submission window.** It isn't specified, so the site says Tuesday, 12:00 am ET, and launch week opens Wednesday, September 30, 12:00 am ET. Change `LAUNCH` in `apps-script/Code.gs` and `launch` in `src/vela.js` if you mean something else.
-5. **Monday status line.** The Home strip only had wording for "open" and "closed — the track is being made". On Mondays neither is true, so it says "Submissions closed. They open Tuesday, [DATE], 12:00 am ET".
-6. **Launch-week vote timing on Home.** Added "The vote closes Sunday, October 11, 11:59 pm ET." to the strip's vote line during launch week, so the Home page uses the launch dates as required. It drops off on October 12.
-7. **"When is it on Spotify?"** is written as "When is it on streaming platforms?", because of the rule against naming brands. Switch it back if you prefer your wording.
-8. **FAQ "When is the deadline?"** was added so the FAQ shows the launch-week deadline, as required. It's answered only from Section 2.
-9. **How to cancel.** The mechanics (Stripe customer portal, email, and so on) weren't given. The FAQ points to /cancellation.
-10. **Images.** No logo, hero image or cover art was supplied, so the hero is type only and covers show a plain concrete block until you add one. There's also a `cover alt text` column for writing alt text per cover.
-11. **Extra sheet columns and a fifth tab.** A Settings tab (the one place for the weekly settings), plus private columns (status, email, file, and so on) and a `remove from public` column for opt-out requests.
-12. **"Cities" counts** only count people who chose to show their city, so no one's city is revealed indirectly.
-13. **Subscribers in the portal.** A few details depend on your GoHighLevel plan and should be checked: whether lessons accept custom code, whether the "subscription ended" trigger is available, and whether the form's redirect fires from inside the portal. The build above works if all three do.
-14. **Hero image, testimonials, subscriber counts.** Intentionally none. There's no real data for them.
+1. **Placeholders in your legal text:** `[DATE]` (all three pages), `[YOUR DOMAIN]` and `[YOUR LEGAL NAME OR BUSINESS NAME]` (Terms, Privacy), and `[STATE / COUNTRY]` (Terms §14). They're shown as you wrote them. Fill them in `copy/legal/*.txt` and rebuild.
+2. **Terms §8 and the release timing disagree.** It says "Streaming release usually follows one to three weeks after the early-access email". The site now says about a month, as you told me. I haven't changed your legal text, so update §8 yourself if you want them to match.
+3. **How the site follows your legal text.** Terms §6 and Privacy §3 show the timestamp on this website only for people who opted in. So people who didn't opt in are listed by credit name only on track pages: no timestamp, no sound title, no waveform marker. They still count in the contributor numbers and appear in the Streaming credits list. The opt-out wording now says "Signal Map and public website credits", as the policies do.
+4. **Additions to Rules & FAQ, taken from your legal text:** you must be 18 or over; no unlawful, hateful, harassing, sexually explicit or harmful sounds; how to cancel; and that payments are non-refundable except for charges made in error.
+5. **Age check.** The Terms require subscribers to be 18 or over, but nothing at checkout asks. Consider a required "I'm 18 or over" checkbox on the order form.
+6. **Domain.** `[YOUR DOMAIN]` is still a placeholder in the legal text. Add the real domain in GoHighLevel when you connect it.
+7. **Monday status line.** The Home strip only had wording for "open" and "closed — the track is being made". On Mondays neither is true, so it says "Submissions closed. They open Tuesday, [DATE], 12:00 am ET".
+8. **Launch-week vote timing on Home.** Added "The vote closes Sunday, October 11, 11:59 pm ET." to the strip's vote line during launch week, so the Home page uses the launch dates as required. It drops off on October 12.
+9. **"When is it on Spotify?"** is written as "When is it on streaming platforms?", because of the rule against naming brands. Switch it back if you prefer your wording.
+10. **FAQ "When is the deadline?"** was added so the FAQ shows the launch-week deadline, as required.
+11. **Images.** Waiting for yours. For now, the hero is type only and covers show a plain concrete block. Each cover gets alt text from the `cover alt text` column.
+12. **Extra sheet columns and a fifth tab.** A Settings tab (the one place for the weekly settings), plus private columns (status, email, file, and so on) and a `remove from public` column for opt-out requests.
+13. **"Cities" counts** only count people who chose to show their city, so no one's city is revealed indirectly.
+14. **Check in your GoHighLevel plan:** whether portal lessons accept custom code, whether there's a "subscription ended" trigger, and whether the form's redirect to `/sent` works from inside the portal. The build above works if all three do.
+15. **Testimonials and subscriber counts.** Intentionally none. There's no real data for them.

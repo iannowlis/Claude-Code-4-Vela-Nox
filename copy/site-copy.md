@@ -40,7 +40,7 @@ The vote form link is never shown on the site.
 2. **Tuesday to Thursday.** Record one sound for the theme and send it. The form closes Thursday at 11:59 pm ET.
 3. **Monday to Sunday.** The vote for next week's theme runs all week in Vela's Close Friends story. It closes Sunday at 11:59 pm ET. You're voting for next week, not this one.
 4. **Friday to Sunday.** The track is made from the sounds that came in.
-5. **The next Monday.** The finished track lands in your inbox, with the credits and timestamps. It reaches streaming platforms one to three weeks later.
+5. **The next Monday.** The finished track lands in your inbox, with the credits and timestamps. About a month later, once the distributor has reviewed everything, it reaches streaming platforms. You'll get an email when it's out.
 
 *Custom code element: `home-launch-note` (shows only until October 11, then disappears):*
 > Launch week runs long. Submissions for Track 01 are open until Thursday, October 8, 11:59 pm ET. The first vote, for week 2's theme, runs until Sunday, October 11, 11:59 pm ET. Track 01 reaches subscribers on Monday, October 12. The regular week starts after that.
@@ -59,7 +59,7 @@ If your sound is used, you're credited.
 - **Instagram:** your credit name, your city and the exact second it plays. "Your kettle, Lyon, at 2:14."
 - **Subscriber email:** credit name, city and timestamp.
 - **Streaming platforms:** your credit name only, in the release credits or notes where the platform allows it. The artist field says Vela Nox.
-- **This website:** credit name, city and timestamp on the track's credits page and on the Signal Map.
+- **This website:** your credit name. If you choose to show your city, also your city and timestamp, on the track's credits page and the Signal Map.
 
 Your city only appears if you choose to show it.
 
@@ -67,7 +67,7 @@ Your city only appears if you choose to show it.
 Every Monday, the finished track arrives by email. Download it in WAV, FLAC or MP3, with the full credits and timestamps. It gets to you before it's on streaming platforms.
 
 ### H2: The Signal Map
-Every light is someone who sent a sound and chose to show their city. The more credits, the brighter the light. The fixed point on the coast is the tower.
+Every light is someone who sent a sound and chose to show their city. The more credits, the brighter the light.
 
 *Custom code element: `home-map-preview`* → link: "Open the Signal Map"
 Empty state: "The map is dark. The first signals arrive with the first track."
@@ -161,7 +161,7 @@ If you force the status closed in Settings: "The form is closed for now. It open
 **H1:** The Signal Map
 
 Each point of light is someone who sent a sound and chose to show their city. City only, placed at the city center. Nothing more precise than that.
-The fixed point on the coast is Vela's tower. When a track goes out, a thin line runs from every credited city to it. Those are the transmissions.
+The more credits someone has, the brighter their light. Pick a track to see only the cities in it.
 
 *Custom code element: `signal-map`* (counters, filter, map, legend)
 
@@ -211,15 +211,17 @@ Empty state: "No tracks yet. Track 01 is being built from the rooms you're in ri
 - Label: Track [NN]
 - **H1:** [TITLE]
 - Theme: [THEME] · Sent to subscribers [DATE] · [N] contributors · [N] cities
-- Streaming links: only the ones you add to the sheet. If there are none: "Not on streaming platforms yet. That usually takes one to three weeks after the subscriber email."
+- Streaming links: only the ones you add to the sheet. If there are none: "Not on streaming platforms yet. Tracks go out there about a month after the subscriber email, once the distributor has reviewed everything. Subscribers get an email when it's out."
 
 **H2: Waveform credits**
-Each mark is a sound someone sent. Hover or tap it to see whose.
-Marker label: [SOUND TITLE] · [CREDIT NAME] · [CITY, if opted in] · [TIMESTAMP]
+Each mark is a sound someone sent. Hover or tap it to see whose. People who chose not to show their city are credited by name only, in the list below.
+Marker label: [SOUND TITLE] · [CREDIT NAME] · [CITY] · [TIMESTAMP] (only for people who opted in)
 No waveform in the sheet: "No waveform for this track. The credits below have every timestamp."
 
 **H2: Credits**
-In timestamp order: [TIMESTAMP] [SOUND TITLE] · [CREDIT NAME] · [CITY, if opted in]
+In timestamp order.
+- Opted in: [TIMESTAMP] [SOUND TITLE] · [CREDIT NAME] · [CITY]
+- Not opted in: [CREDIT NAME] only, in its place in the order, with no timestamp or sound title (as the Terms and Privacy Policy state)
 Nobody public: "No public credits on this track."
 
 **H2: Streaming credits**
@@ -227,7 +229,7 @@ Names only. This is the list used on streaming platforms, where they allow it. T
 [One credit name per line, in timestamp order]
 
 **H2: Where this track came from**
-Mini map with the credited cities and their transmission lines.
+Mini map with the cities of the credited contributors who chose to show them.
 Nobody opted in: "No one credited on this track chose to show their city."
 
 **Track not found or not sent yet:** H1 "No track here". "This track hasn't gone out yet, or the link is wrong. All tracks"
@@ -263,7 +265,9 @@ Empty state: "No one here yet. Cards appear once people send sounds and choose t
 **H1:** Rules & FAQ
 
 ### H2: Your sound
+- You need to be 18 or over to subscribe or send a sound.
 - Send only a recording you made. It can't have anyone else's music in it, or anyone's voice without their permission. By sending it, you let Vela Nox use it and release it. The full terms are at [/terms](/terms).
+- Nothing unlawful, hateful, harassing, sexually explicit or harmful.
 - One sound a week, for that week's theme. Up to 10 seconds, up to 3 MB, any audio format.
 - Not every sound makes the track. Every sound is heard.
 
@@ -271,24 +275,24 @@ Empty state: "No one here yet. Cards appear once people send sounds and choose t
 - If your sound is used, you're credited. You don't receive payment or a share of streaming income.
 - On Instagram: your credit name, your city (if you chose to show it) and the exact second your sound plays.
 - In the subscriber email: credit name, city (if you chose to show it) and timestamp.
-- On this website: credit name, city (if you chose to show it) and timestamp, on the track's credits page and the Signal Map.
+- On this website: your credit name. If you chose to show your city, also your city and timestamp, on the track's credits page and the Signal Map.
 - On streaming platforms: your credit name only, in the release credits or notes where the platform allows it. Cities and timestamps don't appear there. The artist field lists Vela Nox only.
 
 ### H2: Your city and your name
 - Your city appears only if you tick "Show my city with my credit". City only, never your address.
 - If you don't tick it, you're credited by your credit name only, everywhere, and you don't appear on the Signal Map.
-- You can ask to be removed from the map and the public credits at any time by emailing [velanox@gmail.com](mailto:velanox@gmail.com). Sounds already released in a track stay in that track.
+- You can ask to be removed from the Signal Map and the public website credits at any time by emailing [velanox@gmail.com](mailto:velanox@gmail.com). Sounds already released in a track stay in that track.
 
 ### H2: The track and streaming
 - Subscribers get the finished track by email every Monday, before it's on streaming platforms.
-- Tracks reach streaming platforms one to three weeks after that email. No specific release date is promised.
+- Tracks reach streaming platforms about a month after that email, once the distributor has reviewed everything. Subscribers get an email when a track is out. No specific release date is promised.
 - The early-access files are for personal listening. Please don't share or upload them before the public release.
 
 ### H2: Vela
 - Vela Nox is an AI persona. The music is made by a human producer from subscribers' sounds.
 
 ### H2: Cancelling
-- Cancel anytime. You keep access until the end of the week you've paid for. See the [Cancellation Policy](/cancellation).
+- Cancel anytime, using the "manage subscription" link in your Stripe billing emails, or by emailing [velanox@gmail.com](mailto:velanox@gmail.com) from the address you subscribed with. You keep access until the end of the week you've paid for. Payments aren't refunded, except for charges made in error. See the [Cancellation Policy](/cancellation).
 
 ### H2: FAQ
 
@@ -310,13 +314,13 @@ No. Every sound is heard, but not every sound makes the track.
 No. If your sound is used, you're credited. There's no payment and no share of streaming income.
 
 **H3: Where will I be credited?**
-On Instagram, with your credit name, city and the exact second your sound plays. In the subscriber email, with credit name, city and timestamp. On this website, on the track's credits page and the Signal Map. On streaming platforms, by credit name only, where the platform allows it. Your city only appears if you chose to show it.
+On Instagram and in the subscriber email: your credit name, the exact second your sound plays, and your city if you chose to show it. On this website: your credit name, plus your city and timestamp if you chose to show your city. On streaming platforms: credit name only, where the platform allows it.
 
 **H3: How do I get the track early?**
 Subscribe. Every Monday, subscribers get an email with the finished track to download in WAV, FLAC and MP3, plus the full credits and timestamps. That's before it's on streaming platforms. The files are for personal listening, so please don't share or upload them before the public release.
 
 **H3: When is it on streaming platforms?**
-One to three weeks after subscribers get it by email. It depends on the distributor. No specific date is promised.
+About a month after subscribers get it by email. That's how long the distributor takes to review everything. Subscribers get an email when it's out. No specific date is promised.
 
 **H3: How does the theme vote work?**
 *Custom code element: `faq-vote-answer`.*
@@ -330,10 +334,10 @@ Yes. The vote happens in Vela's Close Friends story. You give your Instagram han
 Your credit name, yes, if your sound is used. You choose the name. Your city only if you tick the box, and only the city, never your address. If you tick it, you also show up on the Signal Map once you've sent a sound. Streaming platforms only ever get the name.
 
 **H3: How do I get off the map?**
-Email [velanox@gmail.com](mailto:velanox@gmail.com). You'll be removed from the map and the public credits. Sounds already released in a track stay in that track.
+Email [velanox@gmail.com](mailto:velanox@gmail.com). You'll be removed from the Signal Map and the public website credits. Sounds already released in a track stay in that track.
 
 **H3: How do I cancel?**
-Anytime. You keep access until the end of the week you've paid for. The details are in the [Cancellation Policy](/cancellation).
+Anytime. Use the "manage subscription" link in your Stripe billing emails, or email [velanox@gmail.com](mailto:velanox@gmail.com) from the address you subscribed with. You keep access until the end of the week you've paid for, and you won't be charged again. The details are in the [Cancellation Policy](/cancellation).
 
 **H3: Is Vela real?**
 No. Vela Nox is an AI persona. The music is made by a human producer from subscribers' sounds.
@@ -344,13 +348,15 @@ Questions not answered here: [velanox@gmail.com](mailto:velanox@gmail.com)
 
 ## TERMS, PRIVACY, CANCELLATION
 
-Three plain pages. Same header and footer as the rest of the site. One H1 each, then your pasted text exactly as written, with no edits.
+Three plain pages. Same header and footer as the rest of the site. The text is yours, word for word:
+- Source text: `copy/legal/terms.txt`, `copy/legal/privacy.txt`, `copy/legal/cancellation.txt`
+- Paste-ready page bodies: `ghl/legal/terms.html`, `ghl/legal/privacy.html`, `ghl/legal/cancellation.html` (one Custom Code element per page)
 
-- **/terms** · H1: Terms · Body: `[PASTE TERMS TEXT]`
-- **/privacy** · H1: Privacy Policy · Body: `[PASTE PRIVACY POLICY TEXT]`
-- **/cancellation** · H1: Cancellation Policy · Body: `[PASTE CANCELLATION POLICY TEXT]`
+The only additions are layout: the document title is the page's H1, the section names are H2s, the "- " lines are list items, and every velanox@gmail.com is a mailto link. The build checks that the words match the source exactly.
 
-Layout: one column, max width about 680px, body text 17px, line height 1.6, fog grey (#b3b8be) on deep navy (#0c1524). No images.
+Layout: one column, max width 680px, body text 17px, line height 1.6, fog grey (#b3b8be) on deep navy (#0c1524). No images.
+
+Still to fill in, in the text itself: `[DATE]` (all three), `[YOUR DOMAIN]` (Terms, Privacy), `[YOUR LEGAL NAME OR BUSINESS NAME]` (Terms, Privacy), `[STATE / COUNTRY]` (Terms §14).
 
 ---
 
@@ -371,8 +377,8 @@ AI persona · music by humans
 |---|---|---|
 | Home | Send a sound, hear it in a techno track \| Vela Nox | Send a sound for $3/week. If it makes Vela Nox's weekly community-built techno track, you're credited to the second it plays. |
 | Submit (/submit) | Send this week's sound \| Vela Nox | Subscribers send one sound a week for the theme. Up to 10 seconds, any audio format. Vela Nox, $3/week. |
-| The Signal Map | The Signal Map \| Vela Nox | Every city that has sent a sound to Vela Nox's weekly techno track, as points of light on a night map. |
-| Tracks & Credits | Tracks & Credits \| Vela Nox | Every Vela Nox weekly techno track, with each contributor credited by name, city and the second their sound plays. |
+| The Signal Map | The Signal Map \| Vela Nox | The cities that send sounds to Vela Nox's weekly techno track, as points of light on a night map. |
+| Tracks & Credits | Tracks & Credits \| Vela Nox | Every Vela Nox weekly techno track and the people whose sounds are in it, credited to the second. |
 | Track page | Track [NN], [TITLE]: credits \| Vela Nox *(set by the code)* | Who's in Track [NN] of Vela Nox's community-made techno, second by second. *(set in GoHighLevel: "Credits for a Vela Nox weekly techno track, second by second.")* |
 | Contributors | Contributors \| Vela Nox | The people who send sounds to Vela Nox's community-made techno track, their levels and their credits. |
 | Rules & FAQ | Rules & FAQ \| Vela Nox | How to send a sound to Vela Nox's weekly techno track: the rules, credits, the theme vote and what $3/week covers. |
@@ -394,6 +400,5 @@ Headings: one H1 per page. Sections are H2, cards and FAQ questions are H3. The 
 | Track covers | From the "cover alt text" column in the Tracks tab. Write it per cover, describing what's in it. If you leave it empty, the site uses "Cover art for Track [NN], [TITLE]" |
 | Signal Map (full) | Night map of the world with points of light for contributors' cities. Tap a light for details. |
 | Signal Map (home preview) | Night map of the world. Each point of light is the city of someone who sent a sound. |
-| Track mini map | Night map with the cities of people credited on Track [NN], each connected to Vela's tower. |
-| Vela's tower marker | Vela's tower |
+| Track mini map | Night map with the cities of people credited on Track [NN]. |
 | Waveform | Decorative. Each marker is a labeled button: "[sound title] · [credit name] · [city] · [timestamp]" |

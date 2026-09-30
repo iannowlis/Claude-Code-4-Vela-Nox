@@ -58,4 +58,31 @@ for (const [name, [where, html]] of Object.entries(portal)) {
   writeFileSync(root + `ghl/elements/${name}.html`,
     `<!-- Vela Nox custom code element. Place: ${where}. Self-contained: includes the shared script. -->\n${head.replace(/^<!--.*-->\n/, '')}${html}`);
 }
+// Legal pages: your pasted text, word for word, from copy/legal/*.txt. Only structure is added
+// (title as H1, section names as H2, "- " lines as list items) and the email becomes a mailto link.
+const escHtml = (t) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const mail = (t) => escHtml(t).replace(/velanox@gmail\.com/g, '<a href="mailto:velanox@gmail.com">velanox@gmail.com</a>');
+mkdirSync(root + 'ghl/legal', { recursive: true });
+for (const name of ['terms', 'privacy', 'cancellation']) {
+  const lines = readFileSync(root + `copy/legal/${name}.txt`, 'utf8').replace(/\r/g, '').split('\n');
+  const out = [];
+  let list = false;
+  const close = () => { if (list) { out.push('</ul>'); list = false; } };
+  lines.forEach((line, i) => {
+    const t = line.trim();
+    if (!t) { close(); return; }
+    const prevBlank = i === 0 || !lines[i - 1].trim();
+    const nextText = i + 1 < lines.length && lines[i + 1].trim();
+    if (i === 0) out.push(`<h1>${escHtml(t)}</h1>`);
+    else if (/^Last updated:/.test(t)) out.push(`<p class="vn-meta">${escHtml(t)}</p>`);
+    else if (t.startsWith('- ')) { if (!list) { out.push('<ul>'); list = true; } out.push(`<li>${mail(t.slice(2))}</li>`); }
+    else if (prevBlank && nextText && t.length < 60 && !/[.:;,]$/.test(t)) { close(); out.push(`<h2>${escHtml(t)}</h2>`); }
+    else { close(); out.push(`<p>${mail(t)}</p>`); }
+  });
+  close();
+  writeFileSync(root + `ghl/legal/${name}.html`,
+    `<!-- Vela Nox: /${name} page body. Paste into one Custom Code element. Text is exactly as supplied in copy/legal/${name}.txt. -->\n` +
+    `<style>.vn-legal{max-width:680px;margin:0 auto;padding:0 16px;font-size:17px;line-height:1.6}.vn-legal h1{color:#eef0f2;font-weight:500;font-size:1.8rem;letter-spacing:.04em}.vn-legal h2{margin-top:2rem}.vn-legal li{margin-bottom:.4rem}</style>\n` +
+    `<div class="vn vn-legal">\n${out.join('\n')}\n</div>\n`);
+}
 console.log('Built ghl/site-head.html and', Object.keys(elements).length, 'elements');
