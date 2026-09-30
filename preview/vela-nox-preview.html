@@ -106,6 +106,8 @@
 .vn-map-wrap { position: relative; background: var(--deep); overflow: hidden; }
 .vn-map-wrap svg { display: block; width: 100%; height: 100%; }
 .vn-map-wrap.is-framed { border: 1px solid var(--concrete); }
+.vn-map-wrap.is-framed svg { height: auto; aspect-ratio: 960 / 400; }
+.vn-track-map { margin-top: 1.25rem; }
 .vn-map-wrap.is-full { height: 70vh; min-height: 420px; background: linear-gradient(180deg, var(--night) 0%, var(--deep) 18%, var(--deep) 60%, var(--night) 100%); }
 @media (max-width: 599px) { .vn-map-wrap.is-full { height: auto; min-height: 0; aspect-ratio: 960 / 400; } }
 .vn-map-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem 2rem; margin-bottom: 1.75rem; }
@@ -171,7 +173,8 @@
 /* Tracks index: plain rows */
 .vn-rows { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--concrete); }
 .vn-row { display: grid; grid-template-columns: 96px 1fr; gap: 1.25rem; align-items: center; padding: 1.1rem 0; border-bottom: 1px solid var(--concrete); text-decoration: none !important; }
-.vn-row img, .vn-row .vn-cover { width: 96px; height: 96px; object-fit: cover; display: block; background: var(--deep); border: 1px solid var(--concrete); }
+.vn-row img, .vn-row .vn-cover { width: 96px; height: 96px; object-fit: cover; display: block; border: 1px solid var(--concrete); }
+.vn-row img { background: var(--deep); }
 /* Standard cover: the mark, the track number and the title, drawn on the page (no image needed) */
 .vn-cover { display: block; background: radial-gradient(circle at 50% 50%, rgba(230, 237, 245, 0.07), transparent 58%), var(--night); }
 .vn-cover-label { font-family: var(--display); font-weight: 600; fill: var(--fog); }
@@ -186,7 +189,7 @@
 .vn-track-head > img, .vn-track-head > .vn-cover { width: 100%; max-width: 240px; height: auto; aspect-ratio: 1; border: 1px solid var(--concrete); }
 /* Phones: the cover sits above the title, smaller */
 @media (max-width: 699px) { .vn-track-head > img, .vn-track-head > .vn-cover { order: -1; max-width: 168px; } }
-.vn .vn-track-no { color: var(--fog); margin: 0 0 0.4rem; }
+.vn .vn-track-no { font-family: var(--display); font-weight: 600; font-size: 18px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--fog); margin: 0 0 0.6rem; }
 .vn-links { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.25rem; }
 .vn-section { position: relative; margin-top: var(--space); padding-top: var(--space); border-top: 1px solid var(--concrete); }
 .vn-section::after { content: ""; position: absolute; left: 0; top: -1px; width: 48px; height: 1px; background: var(--ice); box-shadow: 0 0 10px var(--ice); }
@@ -341,7 +344,7 @@ main > .page > section > h2 + .lede, main > .page > section > h2 + p { margin-to
 .locked h2 { font-size: var(--t-h2); }
 
 /* Rules and FAQ */
-.prose { max-width: var(--read); }
+.prose > * { max-width: var(--read); }
 .prose h2 { margin-top: 2.5rem; }
 .prose ul { padding-left: 1.1rem; }
 .prose li { margin-bottom: 0.45rem; }
@@ -362,7 +365,7 @@ main > .page > section > h2 + .lede, main > .page > section > h2 + p { margin-to
 .sform fieldset { border: 0; padding: 0; margin: 0 0 3rem; min-width: 0; }
 .sform legend { padding: 0; }
 .sform legend h2 { margin-bottom: 1.25rem; }
-.field { display: grid; gap: 0.4rem; margin-bottom: 28px; }
+.field { display: grid; gap: 0.4rem; align-content: start; margin-bottom: 28px; }
 .field > label { font-weight: 700; font-size: 16px; color: var(--mist); }
 .field input[type=text], .field input[type=email] { background: var(--night); border: 1px solid var(--concrete); border-radius: 0; color: var(--mist); font: inherit; font-size: 17px; height: 52px; padding: 0 14px; width: 100%; }
 .field input:focus { outline: none; border-color: var(--ice); }
@@ -656,7 +659,7 @@ main > .page > section > h2 + .lede, main > .page > section > h2 + p { margin-to
       </section>
     </div>
 
-    <div class="page" data-page="terms" hidden><section class="wrap"><style>.vn-legal{max-width:38rem}.vn-legal h1,.vn-legal h2{font-family:var(--text,'Atkinson Hyperlegible',Arial,sans-serif);font-weight:700;color:var(--mist,#E7EAED)}.vn-legal h1{font-size:var(--t-h3,21px);line-height:1.3;margin:0 0 .4rem}.vn-legal h2{font-size:var(--t-body,18px);line-height:1.4;margin:2.25rem 0 .4rem}.vn-legal .vn-meta{color:var(--fog,#95A0AD);margin-bottom:2rem}.vn-legal li{margin-bottom:.4rem}</style>
+    <div class="page" data-page="terms" hidden><section class="wrap"><style>.vn-legal{max-width:38rem}.vn-legal h1,.vn-legal h2{font-weight:700;color:var(--mist,#E7EAED)}.vn-legal h2{font-family:var(--text,'Atkinson Hyperlegible',Arial,sans-serif)}.vn-legal h1{font-family:var(--display,'Big Shoulders Display',sans-serif);font-weight:800;font-size:clamp(40px,6vw,60px);line-height:1;letter-spacing:.01em;margin:0 0 .75rem}.vn-legal h2{font-size:var(--t-body,18px);line-height:1.4;margin:2.25rem 0 .4rem}.vn-legal .vn-meta{color:var(--fog,#95A0AD);margin-bottom:2rem}.vn-legal li{margin-bottom:.4rem}</style>
 <div class="vn vn-legal">
 <h1>TERMS OF SERVICE</h1>
 <p class="vn-meta">Last updated: September 30, 2026</p>
@@ -709,7 +712,7 @@ main > .page > section > h2 + .lede, main > .page > section > h2 + p { margin-to
 <p><a href="mailto:velanox@gmail.com">velanox@gmail.com</a></p>
 </div>
 </section></div>
-    <div class="page" data-page="privacy" hidden><section class="wrap"><style>.vn-legal{max-width:38rem}.vn-legal h1,.vn-legal h2{font-family:var(--text,'Atkinson Hyperlegible',Arial,sans-serif);font-weight:700;color:var(--mist,#E7EAED)}.vn-legal h1{font-size:var(--t-h3,21px);line-height:1.3;margin:0 0 .4rem}.vn-legal h2{font-size:var(--t-body,18px);line-height:1.4;margin:2.25rem 0 .4rem}.vn-legal .vn-meta{color:var(--fog,#95A0AD);margin-bottom:2rem}.vn-legal li{margin-bottom:.4rem}</style>
+    <div class="page" data-page="privacy" hidden><section class="wrap"><style>.vn-legal{max-width:38rem}.vn-legal h1,.vn-legal h2{font-weight:700;color:var(--mist,#E7EAED)}.vn-legal h2{font-family:var(--text,'Atkinson Hyperlegible',Arial,sans-serif)}.vn-legal h1{font-family:var(--display,'Big Shoulders Display',sans-serif);font-weight:800;font-size:clamp(40px,6vw,60px);line-height:1;letter-spacing:.01em;margin:0 0 .75rem}.vn-legal h2{font-size:var(--t-body,18px);line-height:1.4;margin:2.25rem 0 .4rem}.vn-legal .vn-meta{color:var(--fog,#95A0AD);margin-bottom:2rem}.vn-legal li{margin-bottom:.4rem}</style>
 <div class="vn vn-legal">
 <h1>PRIVACY POLICY</h1>
 <p class="vn-meta">Last updated: September 30, 2026</p>
@@ -751,7 +754,7 @@ main > .page > section > h2 + .lede, main > .page > section > h2 + p { margin-to
 <p><a href="mailto:velanox@gmail.com">velanox@gmail.com</a></p>
 </div>
 </section></div>
-    <div class="page" data-page="cancellation" hidden><section class="wrap"><style>.vn-legal{max-width:38rem}.vn-legal h1,.vn-legal h2{font-family:var(--text,'Atkinson Hyperlegible',Arial,sans-serif);font-weight:700;color:var(--mist,#E7EAED)}.vn-legal h1{font-size:var(--t-h3,21px);line-height:1.3;margin:0 0 .4rem}.vn-legal h2{font-size:var(--t-body,18px);line-height:1.4;margin:2.25rem 0 .4rem}.vn-legal .vn-meta{color:var(--fog,#95A0AD);margin-bottom:2rem}.vn-legal li{margin-bottom:.4rem}</style>
+    <div class="page" data-page="cancellation" hidden><section class="wrap"><style>.vn-legal{max-width:38rem}.vn-legal h1,.vn-legal h2{font-weight:700;color:var(--mist,#E7EAED)}.vn-legal h2{font-family:var(--text,'Atkinson Hyperlegible',Arial,sans-serif)}.vn-legal h1{font-family:var(--display,'Big Shoulders Display',sans-serif);font-weight:800;font-size:clamp(40px,6vw,60px);line-height:1;letter-spacing:.01em;margin:0 0 .75rem}.vn-legal h2{font-size:var(--t-body,18px);line-height:1.4;margin:2.25rem 0 .4rem}.vn-legal .vn-meta{color:var(--fog,#95A0AD);margin-bottom:2rem}.vn-legal li{margin-bottom:.4rem}</style>
 <div class="vn vn-legal">
 <h1>CANCELLATION POLICY</h1>
 <p class="vn-meta">Last updated: September 30, 2026</p>
@@ -969,7 +972,7 @@ window.VELA_CONFIG = {
     return geoPromise;
   }
 
-  var W = 960, H = 500;
+  var W = 960;
   // Lights, per the design system: radius in screen px, colour, opacity, glow in px
   var LIGHT = [
     { r: 3, c: '#8E9AAE', o: 0.6, g: 0 },   // Static
@@ -1012,12 +1015,10 @@ window.VELA_CONFIG = {
    * opts.full: full-bleed hero size. opts.empty: line over the sea. opts.popups: tap for detail. */
   function drawMap(el, land, opts) {
     var d3 = window.d3;
-    // Full-width maps frame the lived-in world (Cape Horn to the Arctic coast), so they can be short and wide
-    // without cropping cities. Framed maps show the whole globe.
-    var VH = opts.full ? 400 : H;
-    var frame = opts.full
-      ? { type: 'MultiPoint', coordinates: [[-180, -56], [180, -56], [-180, 0], [180, 0], [-180, 76], [180, 76], [0, 76], [0, -56]] }
-      : { type: 'Sphere' };
+    // Every map frames the lived-in world (Cape Horn to the Arctic coast), so it can be short and wide
+    // without cropping cities or leaving empty sea above and below.
+    var VH = 400;
+    var frame = { type: 'MultiPoint', coordinates: [[-180, -56], [180, -56], [-180, 0], [180, 0], [-180, 76], [180, 76], [0, 76], [0, -56]] };
     var proj = d3.geoEqualEarth().fitExtent([[10, 10], [W - 10, VH - 10]], frame);
     var path = d3.geoPath(proj);
     var id = 'vn' + Math.random().toString(36).slice(2, 8);
@@ -1163,11 +1164,13 @@ window.VELA_CONFIG = {
   // Standard cover: the mark centred on night, "TRACK 01" small and centred along the bottom.
   // Small thumbnails show the mark only (the number is next to them). A cover image in the sheet replaces it.
   function coverArt(t, small) {
-    var label = 'Cover art for ' + trackNo(t.n) + ', ' + t.title, m = small ? 560 : 440;
+    // Thumbnails keep the same layout with a larger number, so "TRACK 00" still reads at 96px
+    var label = 'Cover art for ' + trackNo(t.n) + ', ' + t.title;
+    var m = small ? 460 : 440, fs = small ? 96 : 38, ls = fs * (small ? 0.2 : 0.4), y = small ? 935 : 915;
     return '<svg class="vn-cover" viewBox="0 0 1000 1000" role="img" aria-label="' + esc(label) + '">' +
       '<svg x="' + (500 - m / 2) + '" y="' + (500 - m / 2) + '" width="' + m + '" height="' + m + '" viewBox="' + MARK.box + '"><path fill="#E6EDF5" d="' + MARK.d + '"/></svg>' +
       // letter-spacing also follows the last letter, so the text starts half a space right to stay centred
-      (small ? '' : '<text x="' + (500 + 0.4 * 38 / 2) + '" y="915" text-anchor="middle" class="vn-cover-label" font-size="38" letter-spacing="' + (0.4 * 38) + '">' + esc(trackNo(t.n).toUpperCase()) + '</text>') +
+      '<text x="' + (500 + ls / 2) + '" y="' + y + '" text-anchor="middle" class="vn-cover-label" font-size="' + fs + '" letter-spacing="' + ls + '">' + esc(trackNo(t.n).toUpperCase()) + '</text>' +
       '</svg>';
   }
   function cover(t, size) {
@@ -1617,7 +1620,7 @@ window.VELA_CONFIG = {
 </script>
 <script>
 /* Launch-day data: exactly what the Google Sheet sends on day one. Nobody has submitted yet; the only track is the Tumult test transmission. */
-var LAUNCH = {"settings":{"current_week":"1","theme":"The room you're in right now","theme_note":"Vela's pick","status_override":"auto","deadline_override":""},"generated":"2026-09-30T20:40:37.911Z","counters":{"weekSounds":0,"weekCities":0,"tracks":0,"credited":0},"tracks":[{"n":0,"title":"Tumult","theme":"Test transmission","demo":true,"links":[],"audio":"","cover":"","coverAlt":"","waveform":"{\"d\":347.28,\"p\":[0.76,0.74,0.67,0.86,0.75,0.71,0.77,0.81,0.75,0.87,0.82,0.71,0.66,0.78,0.82,0.75,0.82,0.8,0.75,0.67,0.78,0.65,0.76,0.86,0.84,0.76,0.67,0.81,0.78,0.69,0.9,0.8,0.71,0.65,0.8,0.8,0.69,0.93,0.75,0.71,0.79,0.81,0.78,0.95,0.89,0.75,0.71,0.69,0.55,0.27,0.67,0.56,0.37,0.47,0.9,0.73,0.78,0.82,0.83,0.91,0.95,0.91,0.94,0.75,0.85,0.87,0.86,0.95,0.92,0.87,0.77,0.91,0.9,0.91,0.92,0.86,0.86,0.95,0.86,0.93,0.88,0.98,0.83,0.9,0.84,0.81,0.83,0.88,0.99,0.81,0.86,0.87,0.83,0.93,0.95,0.94,0.86,0.85,0.95,0.84,0.88,0.83,0.88,0.83,0.86,0.92,0.92,0.89,0.77,0.95,0.88,0.99,0.93,0.91,0.99,0.97,0.96,0.81,1.0,0.97,0.93,0.98,0.96,0.97,1.0,0.91,0.99,0.89,0.99,0.94,0.98,0.98,0.93,1.0,0.88,0.99,1.0,0.98,1.0,0.97,0.99,1.0,0.97,1.0,0.99,0.98,0.99,1.0,1.0,1.0,1.0,0.82,1.0,0.98,0.93,1.0,0.91,0.97,1.0,0.97,0.98,1.0,0.98,0.99,0.97,0.99,0.87,0.99,0.9,0.86,0.84,0.86,0.95,0.94,0.73,0.99,0.93,0.94,0.96,0.79,0.88,0.91,0.94,0.96,0.8,1.0,0.99,0.76,0.77,0.9,0.95,0.98,0.98,0.98,0.99,0.99,0.98,0.98,1.0,1.0,0.99,1.0,0.96,1.0,1.0,0.98,0.99,1.0,1.0,0.99,0.99,1.0,0.99,1.0,0.99,0.98,0.97,1.0,1.0,1.0,1.0,1.0,0.99,1.0,0.99,1.0,1.0,0.99,0.99,1.0,1.0,0.98,1.0,1.0,1.0,1.0,0.99,1.0,1.0,1.0,1.0,0.9,1.0,1.0,0.99,1.0,1.0,1.0,0.99,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.98,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.99,1.0,1.0,0.99,1.0,0.99,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.97,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.99,1.0,0.99,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.99,1.0,1.0,0.99,0.99,0.99,0.99,0.99,0.99,0.99,1.0,0.98,0.99,0.99,0.97,0.99,0.99,0.99,0.99,0.99,0.86,1.0,0.99,0.99,1.0,0.99,0.99,1.0,0.99,0.99,0.88,0.79,0.67,0.63,0.59,0.48,0.65,0.77,0.75,0.88,0.63,0.51,0.54,0.8,0.72,0.77,0.6,0.58,0.53,0.5,0.77,0.88,0.68,0.71,0.65,0.54,1.0,0.99,0.99,1.0,0.99,0.99,0.99,1.0,1.0,0.99,0.99,0.99,0.99,0.99,0.99,0.99,0.99,0.99,0.99,0.99,0.99,1.0,0.99,0.99,0.99,1.0,1.0,1.0,0.99,0.98,0.99,1.0,0.99,0.99,1.0,1.0,0.99,0.97,0.97,0.78,0.64,0.76,0.8,0.77,0.71,0.94,0.88,0.78,0.9,0.97,0.92,0.9,0.98,0.99,1.0,1.0,1.0,1.0,0.99,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.99,1.0,1.0,0.98,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.99,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.98,1.0,0.99,1.0,1.0,1.0,1.0,1.0,1.0,0.99,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.99,0.99,1.0,0.99,1.0,1.0,1.0,1.0,0.94,1.0,1.0,0.99,0.99,1.0,0.98,0.99,1.0,1.0,1.0,0.99,0.98,1.0,0.99,0.99,0.95,0.99,0.92]}","marks":[{"s":31,"t":"0:31"},{"s":106,"t":"1:46"},{"s":126,"t":"2:06"},{"s":211,"t":"3:31"},{"s":252,"t":"4:12"}],"credits":[]}],"contributors":[]};
+var LAUNCH = {"settings":{"current_week":"1","theme":"The room you're in right now","theme_note":"Vela's pick","status_override":"auto","deadline_override":""},"generated":"2026-09-30T20:47:27.866Z","counters":{"weekSounds":0,"weekCities":0,"tracks":0,"credited":0},"tracks":[{"n":0,"title":"Tumult","theme":"Test transmission","demo":true,"links":[],"audio":"","cover":"","coverAlt":"","waveform":"{\"d\":347.28,\"p\":[0.76,0.74,0.67,0.86,0.75,0.71,0.77,0.81,0.75,0.87,0.82,0.71,0.66,0.78,0.82,0.75,0.82,0.8,0.75,0.67,0.78,0.65,0.76,0.86,0.84,0.76,0.67,0.81,0.78,0.69,0.9,0.8,0.71,0.65,0.8,0.8,0.69,0.93,0.75,0.71,0.79,0.81,0.78,0.95,0.89,0.75,0.71,0.69,0.55,0.27,0.67,0.56,0.37,0.47,0.9,0.73,0.78,0.82,0.83,0.91,0.95,0.91,0.94,0.75,0.85,0.87,0.86,0.95,0.92,0.87,0.77,0.91,0.9,0.91,0.92,0.86,0.86,0.95,0.86,0.93,0.88,0.98,0.83,0.9,0.84,0.81,0.83,0.88,0.99,0.81,0.86,0.87,0.83,0.93,0.95,0.94,0.86,0.85,0.95,0.84,0.88,0.83,0.88,0.83,0.86,0.92,0.92,0.89,0.77,0.95,0.88,0.99,0.93,0.91,0.99,0.97,0.96,0.81,1.0,0.97,0.93,0.98,0.96,0.97,1.0,0.91,0.99,0.89,0.99,0.94,0.98,0.98,0.93,1.0,0.88,0.99,1.0,0.98,1.0,0.97,0.99,1.0,0.97,1.0,0.99,0.98,0.99,1.0,1.0,1.0,1.0,0.82,1.0,0.98,0.93,1.0,0.91,0.97,1.0,0.97,0.98,1.0,0.98,0.99,0.97,0.99,0.87,0.99,0.9,0.86,0.84,0.86,0.95,0.94,0.73,0.99,0.93,0.94,0.96,0.79,0.88,0.91,0.94,0.96,0.8,1.0,0.99,0.76,0.77,0.9,0.95,0.98,0.98,0.98,0.99,0.99,0.98,0.98,1.0,1.0,0.99,1.0,0.96,1.0,1.0,0.98,0.99,1.0,1.0,0.99,0.99,1.0,0.99,1.0,0.99,0.98,0.97,1.0,1.0,1.0,1.0,1.0,0.99,1.0,0.99,1.0,1.0,0.99,0.99,1.0,1.0,0.98,1.0,1.0,1.0,1.0,0.99,1.0,1.0,1.0,1.0,0.9,1.0,1.0,0.99,1.0,1.0,1.0,0.99,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.98,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.99,1.0,1.0,0.99,1.0,0.99,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.97,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.99,1.0,0.99,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.99,1.0,1.0,0.99,0.99,0.99,0.99,0.99,0.99,0.99,1.0,0.98,0.99,0.99,0.97,0.99,0.99,0.99,0.99,0.99,0.86,1.0,0.99,0.99,1.0,0.99,0.99,1.0,0.99,0.99,0.88,0.79,0.67,0.63,0.59,0.48,0.65,0.77,0.75,0.88,0.63,0.51,0.54,0.8,0.72,0.77,0.6,0.58,0.53,0.5,0.77,0.88,0.68,0.71,0.65,0.54,1.0,0.99,0.99,1.0,0.99,0.99,0.99,1.0,1.0,0.99,0.99,0.99,0.99,0.99,0.99,0.99,0.99,0.99,0.99,0.99,0.99,1.0,0.99,0.99,0.99,1.0,1.0,1.0,0.99,0.98,0.99,1.0,0.99,0.99,1.0,1.0,0.99,0.97,0.97,0.78,0.64,0.76,0.8,0.77,0.71,0.94,0.88,0.78,0.9,0.97,0.92,0.9,0.98,0.99,1.0,1.0,1.0,1.0,0.99,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.99,1.0,1.0,0.98,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.99,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.98,1.0,0.99,1.0,1.0,1.0,1.0,1.0,1.0,0.99,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.99,0.99,1.0,0.99,1.0,1.0,1.0,1.0,0.94,1.0,1.0,0.99,0.99,1.0,0.98,0.99,1.0,1.0,1.0,0.99,0.98,1.0,0.99,0.99,0.95,0.99,0.92]}","marks":[{"s":31,"t":"0:31"},{"s":106,"t":"1:46"},{"s":126,"t":"2:06"},{"s":211,"t":"3:31"},{"s":252,"t":"4:12"}],"credits":[]}],"contributors":[]};
 
 var PLUS = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1v14M1 8h14" fill="none"/></svg>';
 var MOCK_FORM =

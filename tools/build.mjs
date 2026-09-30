@@ -87,7 +87,7 @@ for (const name of ['terms', 'privacy', 'cancellation']) {
   close();
   writeFileSync(root + `ghl/legal/${name}.html`,
     `<!-- Vela Nox: /${name} page body. Paste into one Custom Code element. Text is exactly as supplied in copy/legal/${name}.txt. -->\n` +
-    `<style>.vn-legal{max-width:38rem}.vn-legal h1,.vn-legal h2{font-family:var(--text,'Atkinson Hyperlegible',Arial,sans-serif);font-weight:700;color:var(--mist,#E7EAED)}.vn-legal h1{font-size:var(--t-h3,21px);line-height:1.3;margin:0 0 .4rem}.vn-legal h2{font-size:var(--t-body,18px);line-height:1.4;margin:2.25rem 0 .4rem}.vn-legal .vn-meta{color:var(--fog,#95A0AD);margin-bottom:2rem}.vn-legal li{margin-bottom:.4rem}</style>\n` +
+    `<style>.vn-legal{max-width:38rem}.vn-legal h1,.vn-legal h2{font-weight:700;color:var(--mist,#E7EAED)}.vn-legal h2{font-family:var(--text,'Atkinson Hyperlegible',Arial,sans-serif)}.vn-legal h1{font-family:var(--display,'Big Shoulders Display',sans-serif);font-weight:800;font-size:clamp(40px,6vw,60px);line-height:1;letter-spacing:.01em;margin:0 0 .75rem}.vn-legal h2{font-size:var(--t-body,18px);line-height:1.4;margin:2.25rem 0 .4rem}.vn-legal .vn-meta{color:var(--fog,#95A0AD);margin-bottom:2rem}.vn-legal li{margin-bottom:.4rem}</style>\n` +
     `<div class="vn vn-legal">\n${out.join('\n')}\n</div>\n`);
 }
 console.log('Built ghl/site-head.html and', Object.keys(elements).length, 'elements');

@@ -105,6 +105,8 @@
 .vn-map-wrap { position: relative; background: var(--deep); overflow: hidden; }
 .vn-map-wrap svg { display: block; width: 100%; height: 100%; }
 .vn-map-wrap.is-framed { border: 1px solid var(--concrete); }
+.vn-map-wrap.is-framed svg { height: auto; aspect-ratio: 960 / 400; }
+.vn-track-map { margin-top: 1.25rem; }
 .vn-map-wrap.is-full { height: 70vh; min-height: 420px; background: linear-gradient(180deg, var(--night) 0%, var(--deep) 18%, var(--deep) 60%, var(--night) 100%); }
 @media (max-width: 599px) { .vn-map-wrap.is-full { height: auto; min-height: 0; aspect-ratio: 960 / 400; } }
 .vn-map-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem 2rem; margin-bottom: 1.75rem; }
@@ -170,7 +172,8 @@
 /* Tracks index: plain rows */
 .vn-rows { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--concrete); }
 .vn-row { display: grid; grid-template-columns: 96px 1fr; gap: 1.25rem; align-items: center; padding: 1.1rem 0; border-bottom: 1px solid var(--concrete); text-decoration: none !important; }
-.vn-row img, .vn-row .vn-cover { width: 96px; height: 96px; object-fit: cover; display: block; background: var(--deep); border: 1px solid var(--concrete); }
+.vn-row img, .vn-row .vn-cover { width: 96px; height: 96px; object-fit: cover; display: block; border: 1px solid var(--concrete); }
+.vn-row img { background: var(--deep); }
 /* Standard cover: the mark, the track number and the title, drawn on the page (no image needed) */
 .vn-cover { display: block; background: radial-gradient(circle at 50% 50%, rgba(230, 237, 245, 0.07), transparent 58%), var(--night); }
 .vn-cover-label { font-family: var(--display); font-weight: 600; fill: var(--fog); }
@@ -185,7 +188,7 @@
 .vn-track-head > img, .vn-track-head > .vn-cover { width: 100%; max-width: 240px; height: auto; aspect-ratio: 1; border: 1px solid var(--concrete); }
 /* Phones: the cover sits above the title, smaller */
 @media (max-width: 699px) { .vn-track-head > img, .vn-track-head > .vn-cover { order: -1; max-width: 168px; } }
-.vn .vn-track-no { color: var(--fog); margin: 0 0 0.4rem; }
+.vn .vn-track-no { font-family: var(--display); font-weight: 600; font-size: 18px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--fog); margin: 0 0 0.6rem; }
 .vn-links { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.25rem; }
 .vn-section { position: relative; margin-top: var(--space); padding-top: var(--space); border-top: 1px solid var(--concrete); }
 .vn-section::after { content: ""; position: absolute; left: 0; top: -1px; width: 48px; height: 1px; background: var(--ice); box-shadow: 0 0 10px var(--ice); }
@@ -434,7 +437,7 @@ window.VELA_CONFIG = {
     return geoPromise;
   }
 
-  var W = 960, H = 500;
+  var W = 960;
   // Lights, per the design system: radius in screen px, colour, opacity, glow in px
   var LIGHT = [
     { r: 3, c: '#8E9AAE', o: 0.6, g: 0 },   // Static
@@ -477,12 +480,10 @@ window.VELA_CONFIG = {
    * opts.full: full-bleed hero size. opts.empty: line over the sea. opts.popups: tap for detail. */
   function drawMap(el, land, opts) {
     var d3 = window.d3;
-    // Full-width maps frame the lived-in world (Cape Horn to the Arctic coast), so they can be short and wide
-    // without cropping cities. Framed maps show the whole globe.
-    var VH = opts.full ? 400 : H;
-    var frame = opts.full
-      ? { type: 'MultiPoint', coordinates: [[-180, -56], [180, -56], [-180, 0], [180, 0], [-180, 76], [180, 76], [0, 76], [0, -56]] }
-      : { type: 'Sphere' };
+    // Every map frames the lived-in world (Cape Horn to the Arctic coast), so it can be short and wide
+    // without cropping cities or leaving empty sea above and below.
+    var VH = 400;
+    var frame = { type: 'MultiPoint', coordinates: [[-180, -56], [180, -56], [-180, 0], [180, 0], [-180, 76], [180, 76], [0, 76], [0, -56]] };
     var proj = d3.geoEqualEarth().fitExtent([[10, 10], [W - 10, VH - 10]], frame);
     var path = d3.geoPath(proj);
     var id = 'vn' + Math.random().toString(36).slice(2, 8);
@@ -628,11 +629,13 @@ window.VELA_CONFIG = {
   // Standard cover: the mark centred on night, "TRACK 01" small and centred along the bottom.
   // Small thumbnails show the mark only (the number is next to them). A cover image in the sheet replaces it.
   function coverArt(t, small) {
-    var label = 'Cover art for ' + trackNo(t.n) + ', ' + t.title, m = small ? 560 : 440;
+    // Thumbnails keep the same layout with a larger number, so "TRACK 00" still reads at 96px
+    var label = 'Cover art for ' + trackNo(t.n) + ', ' + t.title;
+    var m = small ? 460 : 440, fs = small ? 96 : 38, ls = fs * (small ? 0.2 : 0.4), y = small ? 935 : 915;
     return '<svg class="vn-cover" viewBox="0 0 1000 1000" role="img" aria-label="' + esc(label) + '">' +
       '<svg x="' + (500 - m / 2) + '" y="' + (500 - m / 2) + '" width="' + m + '" height="' + m + '" viewBox="' + MARK.box + '"><path fill="#E6EDF5" d="' + MARK.d + '"/></svg>' +
       // letter-spacing also follows the last letter, so the text starts half a space right to stay centred
-      (small ? '' : '<text x="' + (500 + 0.4 * 38 / 2) + '" y="915" text-anchor="middle" class="vn-cover-label" font-size="38" letter-spacing="' + (0.4 * 38) + '">' + esc(trackNo(t.n).toUpperCase()) + '</text>') +
+      '<text x="' + (500 + ls / 2) + '" y="' + y + '" text-anchor="middle" class="vn-cover-label" font-size="' + fs + '" letter-spacing="' + ls + '">' + esc(trackNo(t.n).toUpperCase()) + '</text>' +
       '</svg>';
   }
   function cover(t, size) {

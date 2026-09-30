@@ -173,7 +173,7 @@
     return geoPromise;
   }
 
-  var W = 960, H = 500;
+  var W = 960;
   // Lights, per the design system: radius in screen px, colour, opacity, glow in px
   var LIGHT = [
     { r: 3, c: '#8E9AAE', o: 0.6, g: 0 },   // Static
@@ -216,12 +216,10 @@
    * opts.full: full-bleed hero size. opts.empty: line over the sea. opts.popups: tap for detail. */
   function drawMap(el, land, opts) {
     var d3 = window.d3;
-    // Full-width maps frame the lived-in world (Cape Horn to the Arctic coast), so they can be short and wide
-    // without cropping cities. Framed maps show the whole globe.
-    var VH = opts.full ? 400 : H;
-    var frame = opts.full
-      ? { type: 'MultiPoint', coordinates: [[-180, -56], [180, -56], [-180, 0], [180, 0], [-180, 76], [180, 76], [0, 76], [0, -56]] }
-      : { type: 'Sphere' };
+    // Every map frames the lived-in world (Cape Horn to the Arctic coast), so it can be short and wide
+    // without cropping cities or leaving empty sea above and below.
+    var VH = 400;
+    var frame = { type: 'MultiPoint', coordinates: [[-180, -56], [180, -56], [-180, 0], [180, 0], [-180, 76], [180, 76], [0, 76], [0, -56]] };
     var proj = d3.geoEqualEarth().fitExtent([[10, 10], [W - 10, VH - 10]], frame);
     var path = d3.geoPath(proj);
     var id = 'vn' + Math.random().toString(36).slice(2, 8);
@@ -367,11 +365,13 @@
   // Standard cover: the mark centred on night, "TRACK 01" small and centred along the bottom.
   // Small thumbnails show the mark only (the number is next to them). A cover image in the sheet replaces it.
   function coverArt(t, small) {
-    var label = 'Cover art for ' + trackNo(t.n) + ', ' + t.title, m = small ? 560 : 440;
+    // Thumbnails keep the same layout with a larger number, so "TRACK 00" still reads at 96px
+    var label = 'Cover art for ' + trackNo(t.n) + ', ' + t.title;
+    var m = small ? 460 : 440, fs = small ? 96 : 38, ls = fs * (small ? 0.2 : 0.4), y = small ? 935 : 915;
     return '<svg class="vn-cover" viewBox="0 0 1000 1000" role="img" aria-label="' + esc(label) + '">' +
       '<svg x="' + (500 - m / 2) + '" y="' + (500 - m / 2) + '" width="' + m + '" height="' + m + '" viewBox="' + MARK.box + '"><path fill="#E6EDF5" d="' + MARK.d + '"/></svg>' +
       // letter-spacing also follows the last letter, so the text starts half a space right to stay centred
-      (small ? '' : '<text x="' + (500 + 0.4 * 38 / 2) + '" y="915" text-anchor="middle" class="vn-cover-label" font-size="38" letter-spacing="' + (0.4 * 38) + '">' + esc(trackNo(t.n).toUpperCase()) + '</text>') +
+      '<text x="' + (500 + ls / 2) + '" y="' + y + '" text-anchor="middle" class="vn-cover-label" font-size="' + fs + '" letter-spacing="' + ls + '">' + esc(trackNo(t.n).toUpperCase()) + '</text>' +
       '</svg>';
   }
   function cover(t, size) {

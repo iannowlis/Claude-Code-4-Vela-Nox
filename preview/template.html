@@ -96,7 +96,7 @@ main > .page > section > h2 + .lede, main > .page > section > h2 + p { margin-to
 .locked h2 { font-size: var(--t-h2); }
 
 /* Rules and FAQ */
-.prose { max-width: var(--read); }
+.prose > * { max-width: var(--read); }
 .prose h2 { margin-top: 2.5rem; }
 .prose ul { padding-left: 1.1rem; }
 .prose li { margin-bottom: 0.45rem; }
@@ -117,7 +117,7 @@ main > .page > section > h2 + .lede, main > .page > section > h2 + p { margin-to
 .sform fieldset { border: 0; padding: 0; margin: 0 0 3rem; min-width: 0; }
 .sform legend { padding: 0; }
 .sform legend h2 { margin-bottom: 1.25rem; }
-.field { display: grid; gap: 0.4rem; margin-bottom: 28px; }
+.field { display: grid; gap: 0.4rem; align-content: start; margin-bottom: 28px; }
 .field > label { font-weight: 700; font-size: 16px; color: var(--mist); }
 .field input[type=text], .field input[type=email] { background: var(--night); border: 1px solid var(--concrete); border-radius: 0; color: var(--mist); font: inherit; font-size: 17px; height: 52px; padding: 0 14px; width: 100%; }
 .field input:focus { outline: none; border-color: var(--ice); }
