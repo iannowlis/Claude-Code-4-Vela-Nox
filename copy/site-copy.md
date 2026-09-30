@@ -194,7 +194,7 @@ If you force the status closed in Settings: "Submissions are closed for now."
 
 Each point of light is someone who sent a sound and chose to show their city. City only, placed at the city center. Nothing more precise than that. The more credits someone has, the brighter their light.
 
-*Custom code element: `signal-map`* (counters, filters, full-width map, legend, list view)
+*Custom code element: `signal-map`* (counters and filters in one row, a full-width map framed from Cape Horn to the Arctic coast, legend, list view). No header image on this page: the title and intro sit side by side at the top.
 
 **Counters (one row, from the sheet only):** "[N] sounds received this week" · "[N] cities this week" · "[N] tracks released" · "[N] contributors credited". Before any data they show 0. If the data can't load, "—".
 
@@ -438,7 +438,6 @@ Headings: one H1 per page. Sections are H2, cards and FAQ questions are H3. The 
 | Home hero (`hero-vela-tower.webp`) | Vela Nox seen from behind on a rusted radio tower platform above a foggy sea at night, strands of cold blue light hanging from the tower, a red warning light above. |
 | Vela portrait (`vela-portrait.webp`) | Vela Nox, platinum buzzcut and a thin braid, in a translucent smoke-blue coat on the tower at night, strands of blue light behind her. |
 | Vela profile photo (footer) | Vela Nox |
-| Signal Map header (`tower-strands.webp`) | A radio tower in fog on the coast at night, veiled in hanging strands of blue light. |
 | Contributors header (`strands-texture.webp`) | Strands of blue light hanging in fog. |
 | Submit header (`stairwell.webp`) | A concrete stairwell at 4am under a caged blue bulb, glowing cables running down the steps. |
 | Rules & FAQ header (`stromen-ruins.webp`) | The ruins of Ströme, a demolished club on the coast, in the rain under one cold blue streetlamp. |

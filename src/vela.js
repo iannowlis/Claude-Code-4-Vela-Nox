@@ -213,14 +213,19 @@
    * opts.full: full-bleed hero size. opts.empty: line over the sea. opts.popups: tap for detail. */
   function drawMap(el, land, opts) {
     var d3 = window.d3;
-    var proj = d3.geoEqualEarth().fitExtent([[10, 10], [W - 10, H - 10]], { type: 'Sphere' });
+    // Full-width maps frame the lived-in world (Cape Horn to the Arctic coast), so they can be short and wide
+    // without cropping cities. Framed maps show the whole globe.
+    var VH = opts.full ? 400 : H;
+    var frame = opts.full
+      ? { type: 'MultiPoint', coordinates: [[-180, -56], [180, -56], [-180, 0], [180, 0], [-180, 76], [180, 76], [0, 76], [0, -56]] }
+      : { type: 'Sphere' };
+    var proj = d3.geoEqualEarth().fitExtent([[10, 10], [W - 10, VH - 10]], frame);
     var path = d3.geoPath(proj);
     var id = 'vn' + Math.random().toString(36).slice(2, 8);
     var groups = groupByCity(opts.people);
-    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="' + (opts.full ? 'xMidYMid slice' : 'xMidYMid meet') + '" role="img" aria-label="' + esc(opts.label) + '">' +
+    var svg = '<svg viewBox="0 0 ' + W + ' ' + VH + '" preserveAspectRatio="xMidYMid meet" role="img" aria-label="' + esc(opts.label) + '">' +
       '<defs><filter id="' + id + 'g" x="-300%" y="-300%" width="700%" height="700%"><feGaussianBlur stdDeviation="4"/></filter>' +
-      (opts.full ? '<linearGradient id="' + id + 'f" x1="0" y1="0" x2="0" y2="1"><stop offset="0.55" stop-color="#0D1624" stop-opacity="0"/><stop offset="1" stop-color="#070C16"/></linearGradient>' : '') +
-      '</defs><rect width="' + W + '" height="' + H + '" fill="#0D1624"/>' +
+      '</defs>' + (opts.full ? '' : '<rect width="' + W + '" height="' + VH + '" fill="#0D1624"/>') +
       '<path d="' + path(land) + '" fill="#243048" fill-opacity="0.55" stroke="#A6DCFF" stroke-opacity="0.14" stroke-width="0.5"/>' +
       groups.map(function (g, i) {
         var xy = proj([g.lng, g.lat]);
@@ -234,7 +239,6 @@
           '<circle class="vn-pt-ring" data-px="' + (L.r + 4) + '" cx="' + x + '" cy="' + y + '" fill="none" stroke="none"/>' +
           (opts.popups ? '<circle data-px="22" cx="' + x + '" cy="' + y + '" fill="transparent"/>' : '') + '</g>';
       }).join('') +
-      (opts.full ? '<rect width="' + W + '" height="' + H + '" fill="url(#' + id + 'f)" pointer-events="none"/>' : '') +
       '</svg>';
 
     el.innerHTML = '<div class="vn-map-wrap' + (opts.full ? ' is-full' : ' is-framed') + '">' + svg +
@@ -245,7 +249,7 @@
     function size() {
       var w = wrap.clientWidth, h = wrap.clientHeight;
       if (!w || !h) return;
-      var k = opts.full ? Math.min(W / w, H / h) : Math.max(W / w, H / h);
+      var k = Math.max(W / w, VH / h);
       Array.prototype.forEach.call(s.querySelectorAll('[data-px]'), function (c) { c.setAttribute('r', (c.getAttribute('data-px') * k).toFixed(2)); });
     }
     size();
@@ -406,11 +410,11 @@
       ];
       var filters = [['all', 'Everyone'], ['week', 'This week’s pool']].concat(tracks(d).map(function (t) { return ['t' + t.n, trackNo(t.n)]; }));
       mount(el,
-        '<div class="vn-counters">' + counters.map(function (x) { return '<span class="vn-counter"><b>' + x[0] + '</b>' + x[1] + '</span>'; }).join('') + '</div>' +
+        '<div class="vn-map-top"><div class="vn-counters">' + counters.map(function (x) { return '<span class="vn-counter"><b>' + x[0] + '</b>' + x[1] + '</span>'; }).join('') + '</div>' +
         '<div class="vn-filters" role="group" aria-label="Show on the map">' + filters.map(function (f, i) {
           return '<button type="button" class="vn-filter" data-f="' + esc(f[0]) + '" aria-pressed="' + (i === 0) + '">' + esc(f[1]) + '</button>';
-        }).join('') + '</div>' +
-        '<div class="vn-bleed vn-map-box"></div>' +
+        }).join('') + '</div></div>' +
+        '<div class="vn-bleed vn-map-box vn-map-page"></div>' +
         '<div class="vn-legend">' + LEVELS.map(function (l, i) {
           return '<span>' + meter(l) + '<span>· ' + ['sent a sound', '1+ credits', '5+ credits', '10+ credits'][i] + '</span></span>';
         }).join('') + '</div>' +

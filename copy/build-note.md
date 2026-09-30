@@ -130,8 +130,8 @@ One accent: **cold ice-blue light, everywhere** (buttons, links, focus, map ligh
   | `strands-texture.webp` (also) | Header image behind the "Contributors" title |
   | `strands-texture.webp` | Background of the `/sent` confirmation page |
   | `stairwell.webp` | Header image behind the Submit page title ("Send this week's sound") |
-  | `tower-strands.webp` | Header image behind "The Signal Map" title (Contributors now uses `strands-texture.webp`) |
-  Page header images: a section about 46% of the screen tall with the image as its background, a dark gradient into `--night` at the bottom, and the page H1 sitting on it. Every page except Home, the track page, the portal and the legal pages opens this way: Submit, The Signal Map, Tracks & Credits, Contributors, Rules & FAQ. The first section under a header image gets 36px (phones) / 48px (desktop) of space above it. The Signal Map moved out of the home hero into its own full-width section under the theme strip.
+  | `tower-strands.webp` | Spare. Not used on the site right now (the Signal Map page has no header image: the map is the visual) |
+  Page header images: a section about 46% of the screen tall with the image as its background, a dark gradient into `--night` at the bottom, and the page H1 sitting on it. These pages open this way: Submit, Tracks & Credits, Contributors, Rules & FAQ. The Signal Map page doesn't: its title and intro sit side by side at the top, then the counters and filters, then the map, so it all fits on one screen. The first section under a header image gets 36px (phones) / 48px (desktop) of space above it. The Signal Map moved out of the home hero into its own full-width section under the theme strip.
 
 **What only the preview shows (GoHighLevel limits):** the preview's upload box, which shows the file's length and a small waveform, checks the 10-second and 3 MB limits, and shows the red-bar error messages. The live GoHighLevel form loads in a frame that the site's code can't reach, so on the live site the upload field is GoHighLevel's own, restyled with the form's CSS. The limits are stated next to the field, and anything over is skipped at review, as before.
 

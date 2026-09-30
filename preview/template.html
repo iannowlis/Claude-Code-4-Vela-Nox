@@ -86,6 +86,10 @@ main > .page > section > h2 + .lede, main > .page > section > h2 + p { margin-to
 .motto { font-family: var(--display); font-weight: 600; font-size: var(--t-h2); line-height: 1.05; color: var(--fog); margin: 0 0 1.75rem; }
 
 /* Locked Submit page */
+.map-head { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.5rem 3rem; align-items: end; }
+.map-head h1 { margin: 0; }
+.map-head .lede { margin: 0; color: var(--fog); }
+@media (min-width: 900px) { .map-head { grid-template-columns: auto minmax(0, 30rem); justify-content: space-between; } }
 .locked-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; align-items: center; }
 @media (min-width: 900px) { .locked-grid { grid-template-columns: minmax(0, 32rem) minmax(0, 26rem); justify-content: space-between; } }
 .locked h2 { font-size: var(--t-h2); }
@@ -311,10 +315,12 @@ main > .page > section > h2 + .lede, main > .page > section > h2 + p { margin-to
 
     <!-- SIGNAL MAP -->
     <div class="page" data-page="map" hidden>
-      <div class="band" style="--img:url({{IMG:tower-strands}})" role="img" aria-label="A radio tower in fog on the coast at night, veiled in hanging strands of blue light."><div class="wrap"><h1>The Signal Map</h1></div></div>
       <section class="wrap">
-        <p class="lede">Each point of light is someone who sent a sound and chose to show their city. City only, placed at the city center. Nothing more precise than that. The more credits someone has, the brighter their light.</p>
-        <div id="vn-signal-map" style="margin-top:2rem"></div>
+        <div class="map-head">
+          <h1>The Signal Map</h1>
+          <p class="lede">Each point of light is someone who sent a sound and chose to show their city. City only, placed at the city center. Nothing more precise than that. The more credits someone has, the brighter their light.</p>
+        </div>
+        <div id="vn-signal-map" style="margin-top:1.75rem"></div>
         <p style="margin-top:1.5rem"><a href="#contributors">Everyone on the map, as cards</a></p>
       </section>
       <section class="wrap" id="vn-broadcast"></section>
@@ -511,7 +517,7 @@ var MOCK_FORM =
     else if (h === 'track') trackC = null;
     if (!document.querySelector('[data-page="' + h + '"]')) h = 'home';
     current = h;
-    document.body.classList.toggle('has-hero', ['home', 'tracks', 'rules', 'contributors', 'map', 'submit'].indexOf(h) >= 0);
+    document.body.classList.toggle('has-hero', ['home', 'tracks', 'rules', 'contributors', 'submit'].indexOf(h) >= 0);
     document.querySelectorAll('[data-page]').forEach(function (el) { el.hidden = el.getAttribute('data-page') !== h; });
     document.querySelectorAll('.site-nav a').forEach(function (a) {
       var on = a.getAttribute('href') === '#' + h || (h === 'portal' && a.getAttribute('href') === '#submit') || (h === 'track' && a.getAttribute('href') === '#tracks');
