@@ -15,7 +15,7 @@ Layout, colour, type and motion follow the Vela Nox design system (see `copy/bui
 *Custom code element: `home-hero-map`.* The map fills the hero. Lights fade in city by city on the first visit. On phones the text sits under the map instead of over it.
 
 **H1 (over the map, lower left)**
-Your sound could be in this week's techno track.
+Every week, a techno track built from your sounds.
 
 **Subhead**
 $3 a week. Send one sound for the week's theme. Vote on next week's. If your sound is used, you're credited to the exact second. The finished track reaches your inbox before it's on streaming platforms.
