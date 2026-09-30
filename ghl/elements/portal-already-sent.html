@@ -1,119 +1,201 @@
 <!-- Vela Nox custom code element. Place: Subscriber portal, "Already sent" lesson. Renders the H1. Self-contained: includes the shared script. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
 /* Vela Nox: shared styles for the custom code elements.
-   Night only. Fog grey, deep navy, sodium orange, raw concrete. */
+   Follows the Vela Nox design system: always night, light means people,
+   quiet everywhere except the Signal Map. Radius 0, no shadows, no gradients
+   (except the fog at the foot of the hero map), sentence case, no monospace. */
 :root {
-  --vn-night: #060a12;
-  --vn-navy: #0c1524;
-  --vn-navy-2: #122036;
-  --vn-navy-3: #1a2b45;
-  --vn-fog: #b3b8be;
-  --vn-fog-dim: #7c838c;
-  --vn-concrete: #8f8b84;
-  --vn-concrete-dark: #3a3936;
-  --vn-sodium: #ff8a1e;
-  --vn-sodium-soft: #ffb561;
-  --vn-line: rgba(179, 184, 190, 0.16);
-  --vn-sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --vn-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --night: #0F1A2A;     /* Tower Night: page background */
+  --deep: #16243A;      /* Deep Water: raised surfaces, map sea */
+  --concrete: #34404F;  /* Wet Concrete: borders, inputs, map land */
+  --fog: #95A0AD;       /* Sea Fog: secondary text */
+  --mist: #E7EAED;      /* Mist: primary text and headings */
+  --sodium: #E8963D;    /* Sodium Lamp: subscriber signals, primary buttons, focus */
+  --sodium-hover: #F0A456;
+  --beacon: #D23B32;    /* Tower Beacon: the live submission deadline only */
+
+  --display: "Big Shoulders Display", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --text: "Atkinson Hyperlegible", "Helvetica Neue", Arial, sans-serif;
+
+  --t-hero: 44px; --t-hero-lh: 0.95;
+  --t-h1: 36px; --t-h1-lh: 1;
+  --t-h2: 26px;
+  --t-h3: 19px;
+  --t-body: 17px;
+  --t-small: 14px;
+  --t-theme: 34px;
+  --read: 38rem;
+  --page: 72rem;
+  color-scheme: dark;
+}
+@media (min-width: 900px) {
+  :root { --t-hero: 88px; --t-hero-lh: 0.92; --t-h1: 60px; --t-h1-lh: 0.98; --t-h2: 36px; --t-h3: 21px; --t-body: 18px; --t-small: 15px; --t-theme: 56px; }
 }
 
-.vn { color: var(--vn-fog); font-family: var(--vn-sans); font-size: 16px; line-height: 1.55; box-sizing: border-box; }
+.vn { color: var(--mist); font-family: var(--text); font-size: var(--t-body); line-height: 1.6; box-sizing: border-box; }
 .vn *, .vn *::before, .vn *::after { box-sizing: inherit; }
-.vn a { color: var(--vn-sodium-soft); text-decoration: underline; text-underline-offset: 3px; }
-.vn a:hover, .vn a:focus-visible { color: var(--vn-sodium); }
-.vn :focus-visible { outline: 2px solid var(--vn-sodium); outline-offset: 2px; }
-.vn h2, .vn h3 { color: #e6e8ea; font-weight: 500; letter-spacing: 0.01em; margin: 0 0 0.5em; }
-.vn h2 { font-size: 1.35rem; }
-.vn h3 { font-size: 1.05rem; }
-.vn p { margin: 0 0 0.75em; }
-.vn-mono, .vn-label { font-family: var(--vn-mono); }
-.vn-label { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--vn-fog-dim); }
-.vn-muted { color: var(--vn-fog-dim); }
-.vn-note { color: var(--vn-fog-dim); font-size: 0.92rem; }
-.vn-sodium { color: var(--vn-sodium); }
-.vn-empty { border: 1px dashed var(--vn-line); padding: 1.25rem; color: var(--vn-fog-dim); font-family: var(--vn-mono); font-size: 0.92rem; }
+.vn [hidden] { display: none !important; }
+.vn a { color: var(--mist); text-decoration: underline; text-decoration-color: var(--fog); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.vn a:hover, .vn a:focus-visible { color: var(--sodium); text-decoration-color: var(--sodium); }
+.vn :focus-visible { outline: 3px solid var(--sodium); outline-offset: 3px; }
+.vn h1, .vn h2 { font-family: var(--display); color: var(--mist); text-wrap: balance; margin: 0 0 0.4em; }
+.vn h1 { font-weight: 800; font-size: var(--t-h1); line-height: var(--t-h1-lh); }
+.vn h2 { font-weight: 600; font-size: var(--t-h2); line-height: 1.05; }
+.vn h3 { font-family: var(--text); font-weight: 700; font-size: var(--t-h3); line-height: 1.3; color: var(--mist); margin: 0 0 0.3em; }
+.vn p { margin: 0 0 0.8em; }
+.vn-fog, .vn-meta { color: var(--fog); }
+.vn-meta { font-size: var(--t-small); }
+.vn-small { font-size: var(--t-small); }
+.vn-num, .vn-ts { font-variant-numeric: tabular-nums; }
+.vn-read { max-width: var(--read); }
+.vn-empty { color: var(--fog); padding: 1.25rem 0; }
 
-/* Buttons: the only subscribe wording is "Send me a sound — $3/week" */
-.vn-btn { display: inline-block; background: var(--vn-sodium); color: #140a00 !important; text-decoration: none !important; font-weight: 600; padding: 0.8rem 1.3rem; border-radius: 2px; font-family: var(--vn-sans); }
-.vn-btn:hover, .vn-btn:focus-visible { background: var(--vn-sodium-soft); }
-.vn-link-quiet { font-family: var(--vn-mono); font-size: 0.85rem; }
+/* Buttons */
+.vn-btn { display: inline-block; background: var(--sodium); color: var(--night) !important; text-decoration: none !important; font-family: var(--text); font-weight: 700; font-size: 17px; line-height: 1.2; padding: 18px 28px; border: 0; border-radius: 0; cursor: pointer; }
+.vn-btn:hover { background: var(--sodium-hover); color: var(--night) !important; }
+.vn-btn:active { transform: translateY(1px); }
+.vn-btn:focus-visible { outline: 3px solid var(--mist); outline-offset: 3px; }
+.vn-btn-2 { display: inline-block; background: transparent; color: var(--mist) !important; text-decoration: none !important; font-family: var(--text); font-weight: 700; font-size: 16px; padding: 14px 22px; border: 1px solid var(--concrete); border-radius: 0; cursor: pointer; }
+.vn-btn-2:hover { border-color: var(--fog); color: var(--mist) !important; }
+@media (max-width: 599px) { .vn-btn { display: block; width: 100%; text-align: center; } }
 
-/* This-week strip */
-.vn-strip { border-top: 1px solid var(--vn-line); border-bottom: 1px solid var(--vn-line); background: var(--vn-navy); padding: 1rem 16px; display: grid; gap: 0.35rem; }
-.vn-strip-theme { color: #eef0f2; font-size: 1.15rem; }
-.vn-strip-theme .vn-sodium { font-weight: 500; }
-.vn-strip-status { font-family: var(--vn-mono); font-size: 0.9rem; }
-.vn-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 0.5rem; vertical-align: 1px; background: var(--vn-fog-dim); }
-.vn-dot.is-on { background: var(--vn-sodium); box-shadow: 0 0 8px var(--vn-sodium); }
+/* Status dot: beacon and pulsing while submissions are open, fog and still when closed */
+.vn-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--fog); margin-right: 0.6rem; vertical-align: 1px; flex: none; }
+.vn-dot.is-live { background: var(--beacon); animation: vn-pulse 2.4s ease-in-out infinite; }
+@keyframes vn-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+/* Theme strip (Home and Submit) */
+.vn-strip { background: var(--deep); border: 1px solid var(--concrete); padding: 32px; display: grid; gap: 0.9rem; }
+@media (max-width: 599px) { .vn-strip { padding: 24px 20px; } }
+.vn-strip-k { font-size: 15px; color: var(--fog); }
+.vn-strip-theme { font-family: var(--display); font-weight: 800; font-size: var(--t-theme); line-height: 1; color: var(--mist); margin: 0; text-wrap: balance; }
+.vn-strip-status { display: flex; align-items: baseline; color: var(--mist); }
+.vn-strip-status.is-live { color: var(--beacon); font-size: 18px; }
+.vn-strip-vote { color: var(--fog); margin: 0; }
+
+/* How a week works: vertical timeline */
+.vn-timeline { list-style: none; margin: 0; padding: 0; max-width: var(--read); }
+.vn-timeline li { position: relative; display: grid; grid-template-columns: 4.5rem 1fr; gap: 0 1.25rem; padding-bottom: 1.75rem; }
+.vn-timeline li::before { content: ""; position: absolute; left: 1.1rem; top: 2.4rem; bottom: 0.3rem; width: 1px; background: var(--concrete); }
+.vn-timeline li:last-child::before { display: none; }
+.vn-timeline .day { font-family: var(--display); font-weight: 600; font-size: 24px; line-height: 1.2; color: var(--mist); position: relative; }
+.vn-timeline .here { position: absolute; left: calc(1.1rem - 4px); top: 2.55rem; width: 9px; height: 9px; border-radius: 50%; background: var(--sodium); }
+.vn-timeline p { margin: 0.25rem 0 0; }
 
 /* Counters */
-.vn-counters { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1px; background: var(--vn-line); border: 1px solid var(--vn-line); margin-bottom: 1rem; }
-.vn-counter { background: var(--vn-navy); padding: 0.9rem 1rem; }
-.vn-counter b { display: block; font-family: var(--vn-mono); font-weight: 500; font-size: 1.6rem; color: #eef0f2; }
+.vn-counters { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; margin: 0 0 1.25rem; }
+.vn-counter { display: flex; align-items: baseline; gap: 0.5rem; color: var(--fog); }
+.vn-counter b { font-family: var(--display); font-weight: 800; font-size: 34px; line-height: 1; color: var(--mist); font-variant-numeric: tabular-nums; }
 
 /* Map */
-.vn-map-wrap { position: relative; background: var(--vn-night); border: 1px solid var(--vn-line); overflow: hidden; }
-.vn-map-wrap svg { display: block; width: 100%; height: auto; }
-.vn-map-msg { position: absolute; left: 0; right: 0; bottom: 0; padding: 0.9rem 1rem; font-family: var(--vn-mono); font-size: 0.9rem; color: var(--vn-fog); background: linear-gradient(transparent, rgba(6, 10, 18, 0.92) 40%); }
-.vn-map-controls { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: center; margin-bottom: 0.75rem; }
-.vn-map-controls select { background: var(--vn-navy-2); color: var(--vn-fog); border: 1px solid var(--vn-line); padding: 0.45rem 0.6rem; font-family: var(--vn-mono); font-size: 0.9rem; max-width: 100%; }
+.vn-map-wrap { position: relative; background: var(--deep); overflow: hidden; }
+.vn-map-wrap svg { display: block; width: 100%; height: 100%; }
+.vn-map-wrap.is-framed { border: 1px solid var(--concrete); }
+.vn-map-wrap.is-full { height: 70vh; min-height: 420px; }
+@media (max-width: 599px) { .vn-map-wrap.is-full { height: 55vh; min-height: 320px; } }
+.vn-map-msg { position: absolute; left: 20px; right: 20px; top: 45%; color: var(--fog); max-width: 30rem; }
 .vn-pt { cursor: pointer; }
 .vn-pt:focus { outline: none; }
-.vn-pt:focus-visible .vn-pt-core { stroke: #fff; stroke-width: 1.5; }
-.vn-pop { position: absolute; z-index: 5; min-width: 200px; max-width: min(280px, calc(100% - 16px)); background: var(--vn-navy-2); border: 1px solid var(--vn-navy-3); padding: 0.75rem 0.9rem; font-size: 0.9rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); }
-.vn-pop-row + .vn-pop-row { border-top: 1px solid var(--vn-line); margin-top: 0.6rem; padding-top: 0.6rem; }
-.vn-pop b { color: #eef0f2; font-weight: 500; }
-.vn-pop-close { position: absolute; top: 2px; right: 6px; background: none; border: 0; color: var(--vn-fog-dim); font-size: 1.2rem; cursor: pointer; }
-.vn-legend { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; margin-top: 0.75rem; font-size: 0.88rem; }
-.vn-legend span::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--vn-sodium); margin-right: 0.45rem; vertical-align: 1px; }
-.vn-legend .l0::before { opacity: 0.3; } .vn-legend .l1::before { opacity: 0.6; }
-.vn-legend .l2::before { opacity: 0.85; } .vn-legend .l3::before { box-shadow: 0 0 8px var(--vn-sodium); }
+.vn-pt:focus-visible .vn-pt-ring { stroke: var(--sodium); stroke-width: 2; }
+.vn-pt.is-in { transition: opacity 0.6s ease-out; }
+.vn-bleed { width: 100vw; position: relative; left: 50%; margin-left: -50vw; }
+.vn-filters { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; margin: 0 0 1rem; }
+.vn-filter { background: none; border: 0; padding: 0.5rem 0; min-height: 44px; font: inherit; color: var(--fog); cursor: pointer; border-bottom: 2px solid transparent; }
+.vn-filter[aria-pressed="true"] { color: var(--mist); border-bottom-color: var(--sodium); }
+.vn-filter:hover { color: var(--mist); }
+.vn-pop { position: absolute; z-index: 5; width: min(260px, calc(100% - 16px)); background: var(--deep); border: 1px solid var(--concrete); padding: 0.9rem 1rem; font-size: var(--t-small); }
+.vn-pop-row + .vn-pop-row { border-top: 1px solid var(--concrete); margin-top: 0.7rem; padding-top: 0.7rem; }
+.vn-pop b { color: var(--mist); font-size: 16px; }
+.vn-pop-close { position: absolute; top: 0; right: 0; width: 44px; height: 44px; background: none; border: 0; color: var(--mist); cursor: pointer; }
+.vn-pop-close svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 1.5; }
+.vn-legend { display: flex; flex-wrap: wrap; gap: 0.5rem 1.75rem; margin-top: 1rem; font-size: var(--t-small); color: var(--fog); }
+.vn-legend span { display: inline-flex; align-items: center; gap: 0.5rem; }
+.vn-list-toggle { margin-top: 1rem; }
+.vn-table-wrap { overflow-x: auto; margin-top: 1rem; }
+.vn-table { border-collapse: collapse; min-width: 100%; font-size: var(--t-small); }
+.vn-table th, .vn-table td { text-align: left; padding: 0.55rem 1.5rem 0.55rem 0; border-bottom: 1px solid var(--concrete); }
+.vn-table th { color: var(--fog); font-weight: 400; }
+.vn-table td { font-variant-numeric: tabular-nums; }
 
-/* Cards and lists */
-.vn-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
-.vn-card { background: var(--vn-navy); border: 1px solid var(--vn-line); padding: 1rem; }
-.vn-card.is-target { border-color: var(--vn-sodium); }
-.vn-card h3 { margin-bottom: 0.25rem; }
-.vn-card dl { display: grid; grid-template-columns: auto 1fr; gap: 0.2rem 0.75rem; margin: 0.6rem 0; font-size: 0.9rem; }
-.vn-card dt { color: var(--vn-fog-dim); }
-.vn-card dd { margin: 0; font-family: var(--vn-mono); }
-.vn-card ul { margin: 0.4rem 0 0; padding-left: 1.1rem; font-size: 0.9rem; }
-.vn-level { font-family: var(--vn-mono); font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--vn-sodium-soft); }
-.vn-track { display: grid; grid-template-columns: 96px 1fr; gap: 1rem; align-items: start; text-decoration: none !important; color: inherit !important; background: var(--vn-navy); border: 1px solid var(--vn-line); padding: 0.75rem; }
-.vn-track:hover, .vn-track:focus-visible { border-color: var(--vn-sodium); }
-.vn-track img, .vn-cover-ph { width: 96px; height: 96px; object-fit: cover; display: block; background: var(--vn-concrete-dark); }
-.vn-track h3 { margin: 0 0 0.2rem; }
-.vn-tracks { display: grid; gap: 0.75rem; }
-.vn-meta { font-family: var(--vn-mono); font-size: 0.85rem; color: var(--vn-fog-dim); }
+/* Level meter: four horizontal signal bars */
+.vn-meter { display: inline-flex; gap: 3px; align-items: center; vertical-align: middle; }
+.vn-meter i { display: block; width: 8px; height: 12px; background: var(--concrete); }
+.vn-meter i.on { background: var(--sodium); }
+.vn-level { display: inline-flex; align-items: center; gap: 0.6rem; }
+
+/* Contributor cards */
+.vn-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.25rem; }
+.vn-card { background: var(--deep); border: 1px solid var(--concrete); padding: 1.25rem; min-width: 0; }
+.vn-card.is-target { border-color: var(--fog); }
+.vn-card-name { font-family: var(--text); font-weight: 700; font-size: var(--t-h3); color: var(--sodium); margin: 0; overflow-wrap: anywhere; }
+.vn-card-city { color: var(--fog); margin: 0 0 1rem; }
+.vn-card-stats { margin: 0.9rem 0; font-variant-numeric: tabular-nums; }
+.vn-card-tracks { list-style: none; margin: 0; padding: 0; font-size: var(--t-small); display: grid; gap: 0.35rem; }
+.vn-card-tracks li { display: grid; grid-template-columns: 5.5rem 1fr; gap: 0.5rem; font-variant-numeric: tabular-nums; }
+
+/* Tracks index: plain rows */
+.vn-rows { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--concrete); }
+.vn-row { display: grid; grid-template-columns: 96px 1fr; gap: 1.25rem; align-items: center; padding: 1.1rem 0; border-bottom: 1px solid var(--concrete); text-decoration: none !important; }
+.vn-row img, .vn-cover-ph { width: 96px; height: 96px; object-fit: cover; display: block; background: var(--deep); border: 1px solid var(--concrete); }
+.vn-row-title { font-family: var(--display); font-weight: 600; font-size: 26px; line-height: 1.05; color: var(--mist); margin: 0 0 0.3rem; }
+.vn-row:hover .vn-row-title, .vn-row:focus-visible .vn-row-title { color: var(--mist); text-decoration: underline; text-decoration-color: var(--sodium); text-underline-offset: 4px; }
+.vn-row .vn-meta { margin: 0; }
+.vn-row .vn-count { color: var(--mist); font-size: var(--t-small); margin: 0.2rem 0 0; font-variant-numeric: tabular-nums; }
 
 /* Track page */
-.vn-track-head { display: grid; grid-template-columns: minmax(0, 220px) 1fr; gap: 1.25rem; align-items: start; margin-bottom: 1.5rem; }
-.vn-track-head img, .vn-track-head .vn-cover-ph { width: 100%; height: auto; aspect-ratio: 1; }
-@media (max-width: 560px) { .vn-track-head { grid-template-columns: 1fr; } .vn-track-head img, .vn-track-head .vn-cover-ph { max-width: 220px; } }
-.vn-section { margin: 2rem 0; }
-.vn-wave { position: relative; background: var(--vn-night); border: 1px solid var(--vn-line); padding: 18px 0 8px; }
+.vn-track-head { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.5rem; margin-bottom: 3rem; }
+@media (min-width: 700px) { .vn-track-head { grid-template-columns: minmax(0, 1fr) 240px; align-items: end; } }
+.vn-track-head img, .vn-track-head .vn-cover-ph { width: 100%; max-width: 240px; height: auto; aspect-ratio: 1; }
+.vn-track-no { color: var(--fog); margin: 0 0 0.4rem; }
+.vn-links { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.25rem; }
+.vn-section { margin: 0 0 4rem; }
+.vn-wave-scroll { overflow-x: auto; }
+.vn-wave { position: relative; min-width: 560px; padding-bottom: 34px; }
 .vn-wave svg { display: block; width: 100%; height: 120px; }
-.vn-wave-bar { fill: var(--vn-concrete); opacity: 0.55; }
-.vn-mark { position: absolute; top: 0; bottom: 0; width: 22px; margin-left: -11px; background: none; border: 0; padding: 0; cursor: pointer; }
-.vn-mark::before { content: ""; position: absolute; left: 10px; top: 14px; bottom: 6px; width: 1px; background: var(--vn-sodium); opacity: 0.8; }
-.vn-mark::after { content: ""; position: absolute; left: 7px; top: 6px; width: 7px; height: 7px; border-radius: 50%; background: var(--vn-sodium); box-shadow: 0 0 6px var(--vn-sodium); }
-.vn-tip { position: absolute; top: -8px; transform: translate(-50%, -100%); background: var(--vn-navy-2); border: 1px solid var(--vn-navy-3); padding: 0.4rem 0.6rem; font-family: var(--vn-mono); font-size: 0.82rem; color: #eef0f2; white-space: nowrap; max-width: 90vw; overflow: hidden; text-overflow: ellipsis; pointer-events: none; z-index: 4; }
-.vn-credits { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--vn-line); }
-.vn-credits li { display: grid; grid-template-columns: 4.5rem 1fr; gap: 0.75rem; padding: 0.55rem 0; border-bottom: 1px solid var(--vn-line); }
-.vn-credits .vn-ts { font-family: var(--vn-mono); color: var(--vn-sodium-soft); }
-.vn-stream-credits { font-family: var(--vn-mono); background: var(--vn-navy); border: 1px solid var(--vn-line); padding: 1rem; white-space: pre-line; }
-.vn-links { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; }
+@media (max-width: 599px) { .vn-wave svg { height: 80px; } }
+.vn-bar { fill: var(--concrete); transition: fill 0.2s; }
+.vn-bar.is-lit { fill: var(--mist); }
+.vn-mark { position: absolute; bottom: 0; width: 44px; height: 44px; margin-left: -22px; background: none; border: 0; padding: 0; cursor: pointer; }
+.vn-mark::before { content: ""; position: absolute; left: 21.5px; bottom: 27px; height: 34px; width: 1px; background: var(--sodium); }
+.vn-mark::after { content: ""; position: absolute; left: 17px; bottom: 17px; width: 10px; height: 10px; border-radius: 50%; background: var(--sodium); }
+.vn-mark:focus-visible { outline: none; }
+.vn-mark:focus-visible::after { box-shadow: 0 0 0 3px var(--night), 0 0 0 5px var(--sodium); }
+.vn-tip { position: absolute; top: 0; transform: translate(-50%, calc(-100% - 8px)); background: var(--deep); border: 1px solid var(--concrete); padding: 0.45rem 0.7rem; font-size: var(--t-small); color: var(--mist); white-space: nowrap; pointer-events: none; z-index: 4; font-variant-numeric: tabular-nums; }
+.vn-credits { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--concrete); max-width: var(--read); }
+.vn-credits li { display: grid; grid-template-columns: 3.5rem 1fr; gap: 1rem; padding: 0.7rem 0.5rem; border-bottom: 1px solid var(--concrete); transition: background 0.2s; }
+.vn-credits li.is-lit { background: var(--deep); }
+.vn-credits .vn-ts { color: var(--mist); }
+.vn-credits .vn-fog { color: var(--fog); }
+.vn-stream-credits { max-width: var(--read); }
 
-/* Submit panel */
-.vn-submit-theme { font-size: clamp(1.6rem, 5vw, 2.4rem); line-height: 1.15; color: #eef0f2; font-weight: 500; margin: 0 0 0.4rem; }
-.vn-submit-deadline { font-family: var(--vn-mono); color: var(--vn-sodium); margin-bottom: 1rem; }
-.vn-reminder { color: #eef0f2; border-left: 2px solid var(--vn-sodium); padding-left: 0.75rem; margin: 0 0 0.5rem; }
-.vn-form-frame iframe { width: 100%; border: 0; min-height: 900px; background: transparent; }
-.vn-closed { background: var(--vn-navy); border: 1px solid var(--vn-line); padding: 1.25rem; }
+/* Submit */
+.vn-theme-h { margin: 0; }
+.vn-theme-h .k { display: block; font-family: var(--text); font-weight: 400; font-size: 15px; line-height: 1.4; color: var(--fog); margin-bottom: 0.9rem; }
+.vn-theme-h .v { display: block; font-family: var(--display); font-weight: 800; font-size: var(--t-theme); line-height: 1; color: var(--mist); }
+.vn-reminder { color: var(--mist); margin: 1.5rem 0 0.4rem; }
+.vn-form-frame { margin-top: 2.5rem; }
+.vn-form-frame iframe { width: 100%; border: 0; min-height: 1100px; background: transparent; }
+
+/* Confirmation: the one centred moment */
+.vn-confirm { text-align: center; padding: 3rem 0 4rem; position: relative; }
+.vn-confirm-signal { position: relative; width: 12px; height: 160px; margin: 0 auto 2rem; }
+.vn-confirm-signal i { position: absolute; left: 1px; bottom: 0; width: 10px; height: 10px; border-radius: 50%; background: var(--sodium); }
+.vn-confirm-signal b { position: absolute; left: 5.5px; bottom: 10px; width: 1px; height: 150px; background: var(--sodium); transform-origin: bottom; animation: vn-rise 1.2s ease-out both; }
+@keyframes vn-rise { from { transform: scaleY(0); opacity: 1; } 80% { opacity: 1; } to { transform: scaleY(1); opacity: 0.25; } }
+.vn-confirm h1 { max-width: 16em; margin: 0 auto 0.6em; font-size: var(--t-h2); line-height: 1.05; }
+.vn-confirm p { color: var(--fog); }
+
+@media (prefers-reduced-motion: reduce) {
+  .vn-dot.is-live { animation: none; }
+  .vn-confirm-signal b { animation: none; opacity: 0.4; }
+  .vn-pt.is-in, .vn-bar, .vn-credits li { transition: none; }
+}
+
+/* Every page, including funnel, checkout and portal pages: always night, never a white flash */
+html, body { background: var(--night) !important; color: var(--mist); font-family: var(--text); }
 </style>
 <script>
 /* One-time setup: fill these three in. Weekly changes go in the Google Sheet Settings tab, not here. */
@@ -176,9 +258,8 @@ window.VELA_CONFIG = {
   function trackNo(n) { return 'Track ' + pad2(Number(n)); }
   function plural(n, one, many) { return n + ' ' + (n === 1 ? one : many); }
   function levelIndex(name) { var i = LEVELS.indexOf(name); return i < 0 ? 0 : i; }
-  function trackUrl(n) { return C.paths.track + '?n=' + encodeURIComponent(n); }
+  function trackUrl(n, c) { return C.paths.track + '?n=' + encodeURIComponent(n) + (c ? '&c=' + encodeURIComponent(c) : ''); }
   function profileUrl(slug) { return C.paths.contributors + '#c-' + encodeURIComponent(slug); }
-  function subscribeButton() { return '<a class="vn-btn" href="' + esc(C.subscribeUrl) + '">' + CTA + '</a>'; }
 
   /* ---------- Eastern Time ---------- */
   var etFmt = new Intl.DateTimeFormat('en-US', {
@@ -296,71 +377,121 @@ window.VELA_CONFIG = {
   }
 
   var W = 960, H = 500;
-  var R = [2.1, 2.7, 3.3, 4.2], OP = [0.32, 0.62, 0.85, 1];
+  // Lights, per the design system: radius in screen px, colour, opacity, glow in px
+  var LIGHT = [
+    { r: 3, c: '#95A0AD', o: 0.6, g: 0 },   // Static
+    { r: 4, c: '#E8963D', o: 0.7, g: 0 },   // Signal
+    { r: 5, c: '#E8963D', o: 0.9, g: 8 },   // Frequency
+    { r: 6, c: '#E8963D', o: 1, g: 14 }     // Broadcast
+  ];
+  var METER = [0, 1, 3, 4];
+  var CLOSE_ICON = '<svg viewBox="0 0 14 14" aria-hidden="true"><path d="M1 1l12 12M13 1L1 13" fill="none"/></svg>';
 
-  /* Draws a map into el. opts.people: contributors to light up (city level only).
-   * opts.empty: message when nobody is on it. opts.popups: tap for detail. */
-  function drawMap(el, land, opts) {
-    var d3 = window.d3;
-    var proj = d3.geoEqualEarth().fitExtent([[8, 8], [W - 8, H - 8]], { type: 'Sphere' });
-    var path = d3.geoPath(proj);
-    var id = 'vn' + Math.random().toString(36).slice(2, 8);
-    var svg = ['<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + esc(opts.label) + '">',
-      '<defs><filter id="' + id + 'g" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="3"/></filter>',
-      '<radialGradient id="' + id + 's"><stop offset="0" stop-color="#101d33"/><stop offset="1" stop-color="#070c16"/></radialGradient></defs>',
-      '<path d="' + path({ type: 'Sphere' }) + '" fill="url(#' + id + 's)"/>',
-      '<path d="' + path(d3.geoGraticule10()) + '" fill="none" stroke="rgba(179,184,190,0.06)" stroke-width="0.5"/>',
-      '<path d="' + path(land) + '" fill="#1b2230" stroke="#3a3936" stroke-width="0.5"/>'];
+  function meter(level) {
+    var n = METER[levelIndex(level)], s = '';
+    for (var i = 0; i < 4; i++) s += '<i' + (i < n ? ' class="on"' : '') + '></i>';
+    return '<span class="vn-level"><span class="vn-meter" aria-hidden="true">' + s + '</span>' + esc(level) + '</span>';
+  }
+  function reduced() { return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+  // The one orchestrated animation plays once per visit
+  function firstVisit() {
+    try { if (sessionStorage.getItem('vela:lit')) return false; sessionStorage.setItem('vela:lit', '1'); } catch (e) { /* ignore */ }
+    return true;
+  }
 
-    // lights, grouped by city so people in the same city share a point
+  function groupByCity(list) {
     var groups = {}, order = [];
-    (opts.people || []).forEach(function (p) {
-      if (!isFinite(p.lat) || !isFinite(p.lng)) return;
+    (list || []).forEach(function (p) {
+      if (!isFinite(p.lat) || !isFinite(p.lng) || p.lat === null) return;
       var k = p.lat.toFixed(2) + ',' + p.lng.toFixed(2);
       if (!groups[k]) { groups[k] = { lat: p.lat, lng: p.lng, city: p.city, list: [] }; order.push(k); }
       groups[k].list.push(p);
     });
-    order.forEach(function (k, i) {
-      var g = groups[k], xy = proj([g.lng, g.lat]);
-      if (!xy) return;
+    return order.map(function (k) {
+      var g = groups[k];
       g.lvl = Math.max.apply(null, g.list.map(function (p) { return levelIndex(p.level); }));
-      var r = R[g.lvl], label = g.city + ': ' + plural(g.list.length, 'contributor', 'contributors');
-      svg.push('<g class="vn-pt" data-k="' + i + '" tabindex="' + (opts.popups ? 0 : -1) + '"' +
-        (opts.popups ? ' role="button" aria-label="' + esc(label) + '"' : ' aria-hidden="true"') + '>' +
-        (g.lvl > 0 ? '<circle cx="' + xy[0].toFixed(1) + '" cy="' + xy[1].toFixed(1) + '" r="' + (r * 2.4) + '" fill="#ff8a1e" opacity="' + (OP[g.lvl] * 0.45) + '" filter="url(#' + id + 'g)"/>' : '') +
-        '<circle class="vn-pt-core" cx="' + xy[0].toFixed(1) + '" cy="' + xy[1].toFixed(1) + '" r="' + r + '" fill="' + (g.lvl === 3 ? '#ffe2bd' : '#ffb561') + '" opacity="' + OP[g.lvl] + '"/>' +
-        (opts.popups ? '<circle cx="' + xy[0].toFixed(1) + '" cy="' + xy[1].toFixed(1) + '" r="12" fill="transparent"/>' : '') +
-        '</g>');
-      g.xy = xy;
+      g.credits = g.list.reduce(function (a, p) { return a + p.credits; }, 0);
+      return g;
     });
+  }
 
-    svg.push('</svg>');
+  /* Draws a map into el. opts.people: contributors to light up (city centres only).
+   * opts.full: full-bleed hero size. opts.empty: line over the sea. opts.popups: tap for detail. */
+  function drawMap(el, land, opts) {
+    var d3 = window.d3;
+    var proj = d3.geoEqualEarth().fitExtent([[10, 10], [W - 10, H - 10]], { type: 'Sphere' });
+    var path = d3.geoPath(proj);
+    var id = 'vn' + Math.random().toString(36).slice(2, 8);
+    var groups = groupByCity(opts.people);
+    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="' + (opts.full ? 'xMidYMid slice' : 'xMidYMid meet') + '" role="img" aria-label="' + esc(opts.label) + '">' +
+      '<defs><filter id="' + id + 'g" x="-300%" y="-300%" width="700%" height="700%"><feGaussianBlur stdDeviation="4"/></filter>' +
+      (opts.full ? '<linearGradient id="' + id + 'f" x1="0" y1="0" x2="0" y2="1"><stop offset="0.55" stop-color="#16243A" stop-opacity="0"/><stop offset="1" stop-color="#0F1A2A"/></linearGradient>' : '') +
+      '</defs><rect width="' + W + '" height="' + H + '" fill="#16243A"/>' +
+      '<path d="' + path(land) + '" fill="#34404F" fill-opacity="0.6"/>' +
+      groups.map(function (g, i) {
+        var xy = proj([g.lng, g.lat]);
+        if (!xy) return '';
+        g.xy = xy;
+        var L = LIGHT[g.lvl], x = xy[0].toFixed(1), y = xy[1].toFixed(1);
+        var label = g.city + ': ' + plural(g.list.length, 'contributor', 'contributors');
+        return '<g class="vn-pt" data-k="' + i + '"' + (opts.popups ? ' tabindex="0" role="button" aria-label="' + esc(label) + '"' : ' aria-hidden="true"') + '>' +
+          (L.g ? '<circle class="vn-pt-glow" data-px="' + (L.r + L.g / 2) + '" cx="' + x + '" cy="' + y + '" fill="' + L.c + '" opacity="0.45" filter="url(#' + id + 'g)"/>' : '') +
+          '<circle class="vn-pt-core" data-px="' + (L.r + Math.min(g.list.length - 1, 3) * 0.6) + '" cx="' + x + '" cy="' + y + '" fill="' + L.c + '" opacity="' + L.o + '"/>' +
+          '<circle class="vn-pt-ring" data-px="' + (L.r + 4) + '" cx="' + x + '" cy="' + y + '" fill="none" stroke="none"/>' +
+          (opts.popups ? '<circle data-px="22" cx="' + x + '" cy="' + y + '" fill="transparent"/>' : '') + '</g>';
+      }).join('') +
+      (opts.full ? '<rect width="' + W + '" height="' + H + '" fill="url(#' + id + 'f)" pointer-events="none"/>' : '') +
+      '</svg>';
 
-    el.innerHTML = '<div class="vn-map-wrap">' + svg.join('') +
-      (order.length ? '' : '<div class="vn-map-msg">' + esc(opts.empty) + '</div>') + '</div>';
-    var wrap = el.firstChild;
+    el.innerHTML = '<div class="vn-map-wrap' + (opts.full ? ' is-full' : ' is-framed') + '">' + svg +
+      (groups.length ? '' : '<p class="vn-map-msg">' + esc(opts.empty) + '</p>') + '</div>';
+    var wrap = el.firstChild, s = wrap.querySelector('svg');
+
+    // Keep lights at their pixel size whatever the map's width
+    function size() {
+      var w = wrap.clientWidth, h = wrap.clientHeight;
+      if (!w || !h) return;
+      var k = opts.full ? Math.min(W / w, H / h) : Math.max(W / w, H / h);
+      Array.prototype.forEach.call(s.querySelectorAll('[data-px]'), function (c) { c.setAttribute('r', (c.getAttribute('data-px') * k).toFixed(2)); });
+    }
+    size();
+    if (window.ResizeObserver) new ResizeObserver(size).observe(wrap);
+
+    // Lights fade in city by city, about two seconds in all, once per visit
+    if (opts.animate && groups.length && !reduced() && firstVisit()) {
+      var pts = s.querySelectorAll('.vn-pt'), step = 2000 / Math.max(pts.length, 1);
+      Array.prototype.forEach.call(pts, function (p, i) {
+        p.style.opacity = 0;
+        setTimeout(function () { p.classList.add('is-in'); p.style.opacity = 1; }, 300 + i * step);
+      });
+    }
 
     if (!opts.popups) return;
     var pop = null;
     function close() { if (pop) { pop.remove(); pop = null; } }
     function open(node) {
       close();
-      var g = groups[order[+node.getAttribute('data-k')]];
+      var g = groups[+node.getAttribute('data-k')];
       pop = document.createElement('div');
       pop.className = 'vn-pop';
       pop.setAttribute('role', 'dialog');
-      pop.innerHTML = '<button class="vn-pop-close" aria-label="Close">×</button>' + g.list.map(function (p) {
-        return '<div class="vn-pop-row"><b>' + esc(p.name) + '</b><br>' + esc(p.city) +
-          '<br><span class="vn-level">' + esc(p.level) + '</span> · ' + plural(p.credits, 'credit', 'credits') +
-          '<br><a href="' + profileUrl(p.slug) + '">Open profile</a></div>';
+      pop.setAttribute('aria-label', g.city);
+      pop.innerHTML = '<button class="vn-pop-close" aria-label="Close">' + CLOSE_ICON + '</button>' + g.list.map(function (p) {
+        return '<div class="vn-pop-row"><b>' + esc(p.name) + '</b><br><span class="vn-fog">' + esc(p.city) + '</span><br>' +
+          meter(p.level) + '<br><span class="vn-num">' + plural(p.credits, 'credit', 'credits') + '</span><br>' +
+          '<a href="' + profileUrl(p.slug) + '">See their credits</a></div>';
       }).join('');
       wrap.appendChild(pop);
-      var x = g.xy[0] / W * wrap.clientWidth, y = g.xy[1] / H * wrap.clientHeight;
-      var left = Math.min(Math.max(8, x + 12), wrap.clientWidth - pop.offsetWidth - 8);
-      var top = y + 12 + pop.offsetHeight > wrap.clientHeight ? Math.max(8, y - pop.offsetHeight - 12) : y + 12;
+      var r = s.getBoundingClientRect(), wr = wrap.getBoundingClientRect();
+      var pt = s.createSVGPoint(); pt.x = g.xy[0]; pt.y = g.xy[1];
+      var sp = pt.matrixTransform(s.getScreenCTM());
+      var x = sp.x - wr.left, y = sp.y - wr.top;
+      var left = Math.min(Math.max(8, x + 14), wrap.clientWidth - pop.offsetWidth - 8);
+      var top = y + 14 + pop.offsetHeight > wrap.clientHeight ? Math.max(8, y - pop.offsetHeight - 14) : y + 14;
       pop.style.left = left + 'px'; pop.style.top = top + 'px';
-      pop.querySelector('.vn-pop-close').onclick = close;
+      pop.querySelector('.vn-pop-close').onclick = function () { close(); node.focus(); };
       pop.querySelector('a').focus({ preventScroll: true });
+      void r;
     }
     wrap.addEventListener('click', function (e) {
       var n = e.target.closest('.vn-pt');
@@ -383,39 +514,64 @@ window.VELA_CONFIG = {
 
   /* ---------- renderers ---------- */
   var render = {};
+  var EMPTY_MAP = 'The map is dark. The first signals arrive with the first track.';
 
-  // Home: "This week" strip
+  function strip(s, big) {
+    var status = s.open
+      ? '<div class="vn-strip-status is-live"><span class="vn-dot is-live" aria-hidden="true"></span><span>' + esc(big ? s.submitDeadline : s.stripStatus) + '</span></div>'
+      : '<div class="vn-strip-status"><span class="vn-dot" aria-hidden="true"></span><span>' + esc(big
+          ? (s.nextOpen ? 'Submissions for this week are closed. The next theme opens ' + s.nextOpen + '.' : 'Submissions are closed for now.')
+          : s.stripStatus) + '</span></div>';
+    var head = big
+      ? '<h1 class="vn-theme-h"><span class="k">This week’s theme:</span> <span class="v">' + esc(s.theme) + '</span></h1>'
+      : '<div class="vn-strip-k">This week' + (s.themeNote ? ' · ' + esc(s.themeNote) : '') + '</div><p class="vn-strip-theme">' + esc(s.theme) + '</p>';
+    return '<div class="vn-strip" aria-live="polite">' + head + status + '<p class="vn-strip-vote">' + esc(s.voteStrip) + '</p></div>';
+  }
+
+  // Home: the theme strip
   render.strip = function (el) {
     el = mount(el, '');
-    data().then(function (d) {
-      var s = schedule(d && d.settings);
-      mount(el, '<div class="vn-strip" aria-live="polite">' +
-        '<div class="vn-strip-theme">This week: <span class="vn-sodium">' + esc(s.theme) + '</span>' +
-        (s.themeNote ? ' <span class="vn-muted">(' + esc(s.themeNote) + ')</span>' : '') + '</div>' +
-        '<div class="vn-strip-status"><span class="vn-dot' + (s.open ? ' is-on' : '') + '"></span>' + esc(s.stripStatus) + '</div>' +
-        '<div class="vn-note">' + esc(s.voteStrip) + '</div></div>');
-    });
+    data().then(function (d) { mount(el, strip(schedule(d && d.settings))); });
   };
 
-  // Home, "How it works": a launch-week line that disappears on October 12
+  // Home: how a week works, with "you are here"
+  render.timeline = function (el) {
+    var t = et(), w = t.iso, L = C.launch, here;
+    if (w < L.regularStart) here = w <= L.close ? (t.wd === 4 ? 2 : 1) : 3;
+    else here = [3, 0, 1, 1, 2, 3, 3][t.wd];
+    var steps = [
+      ['Mon', 'The theme is announced, in Vela’s Close Friends story and on this site. Last week’s vote picked it. The vote for next week’s theme opens.'],
+      ['Tue', 'Submissions open. Record one sound for the theme and send it. Ten seconds, anything that fits.'],
+      ['Thu', 'Submissions close at 11:59 pm ET.'],
+      ['Fri', 'The track is made from the sounds that came in. The vote for next week’s theme closes Sunday at 11:59 pm ET.'],
+      ['Mon', 'The finished track lands in your inbox, with the credits and timestamps. About a month later, once the distributor has reviewed everything, it reaches streaming platforms. You’ll get an email when it’s out.']
+    ];
+    mount(el, '<ol class="vn-timeline">' + steps.map(function (st, i) {
+      return '<li><span class="day">' + st[0] + '</span><p>' + st[1] + '</p>' +
+        (i === here ? '<span class="here" role="img" aria-label="This week is here"></span>' : '') + '</li>';
+    }).join('') + '</ol><p class="vn-meta">All times Eastern Time.</p>');
+  };
+
+  // Home: a launch-week line that disappears on October 12
   render.launchNote = function (el) {
     var s = schedule();
     if (!s.launch) { el = pick(el); if (el) el.style.display = 'none'; return; }
-    mount(el, '<p class="vn-note">Launch week runs long. Submissions for Track 01 are open until Thursday, October 8, 11:59 pm ET. ' +
+    mount(el, '<p class="vn-fog vn-read">Launch week runs long. Submissions for Track 01 are open until Thursday, October 8, 11:59 pm ET. ' +
       'The first vote, for week 2’s theme, runs until Sunday, October 11, 11:59 pm ET. Track 01 reaches subscribers on Monday, October 12. ' +
       'The regular week starts after that.</p>');
   };
 
-  function trackCard(t, heading) {
-    var cover = safeUrl(t.cover)
-      ? '<img src="' + esc(safeUrl(t.cover)) + '" alt="' + esc(t.coverAlt || ('Cover art for ' + trackNo(t.n) + ', ' + t.title)) + '" loading="lazy">'
+  function cover(t, size) {
+    return safeUrl(t.cover)
+      ? '<img src="' + esc(safeUrl(t.cover)) + '" alt="' + esc(t.coverAlt || ('Cover art for ' + trackNo(t.n) + ', ' + t.title)) + '"' + (size ? ' width="' + size + '" height="' + size + '"' : '') + ' loading="lazy">'
       : '<div class="vn-cover-ph" aria-hidden="true"></div>';
-    return '<a class="vn-track" href="' + trackUrl(t.n) + '">' + cover + '<div>' +
-      '<' + heading + '>' + esc(trackNo(t.n)) + ' · ' + esc(t.title) + '</' + heading + '>' +
-      '<div class="vn-meta">Theme: ' + esc(t.theme) + '</div>' +
-      '<div class="vn-meta">Sent to subscribers ' + esc(longDate(t.sent, true)) + '</div>' +
-      '<div class="vn-meta">' + plural(t.contributors, 'contributor', 'contributors') + ' · ' + plural(t.cities, 'city', 'cities') + '</div>' +
-      '</div></a>';
+  }
+  function trackRow(t) {
+    return '<li><a class="vn-row" href="' + trackUrl(t.n) + '">' + cover(t, 96) + '<div>' +
+      '<p class="vn-row-title">' + esc(trackNo(t.n)) + ' · ' + esc(t.title) + '</p>' +
+      '<p class="vn-meta">' + esc(t.theme) + ' · Sent ' + esc(longDate(t.sent, true)) + '</p>' +
+      '<p class="vn-count">' + plural(t.contributors, 'contributor', 'contributors') + ' · ' + plural(t.cities, 'city', 'cities') + '</p>' +
+      '</div></a></li>';
   }
 
   // Home: latest track
@@ -423,66 +579,100 @@ window.VELA_CONFIG = {
     el = mount(el, '');
     data().then(function (d) {
       var t = tracks(d)[0];
-      if (t) return mount(el, trackCard(t, 'h3') + '<p style="margin-top:.75rem"><a class="vn-link-quiet" href="' + trackUrl(t.n) + '">See who’s in it, second by second</a></p>');
-      var line = et().date <= C.launch.firstEmail
+      if (t) return mount(el, '<ul class="vn-rows">' + trackRow(t) + '</ul><p style="margin-top:1.25rem"><a class="vn-btn-2" href="' + trackUrl(t.n) + '">See the credits</a></p>');
+      mount(el, '<p class="vn-fog">' + (et().date <= C.launch.firstEmail
         ? 'Track 01 lands in subscribers’ inboxes on Monday, October 12.'
-        : 'Track 01 is on its way to subscribers’ inboxes.';
-      mount(el, '<div class="vn-empty">' + line + '</div>');
+        : 'Track 01 is on its way to subscribers’ inboxes.') + '</p>');
     });
   };
 
-  var EMPTY_MAP = 'The map is dark. The first signals arrive with the first track.';
-
-  // Home: small live map, links to the full one
-  render.mapPreview = function (el) {
-    el = mount(el, '');
+  // Home hero: the full-bleed map. The headline sits over it in the page, not in here.
+  render.heroMap = function (el) {
+    el = mount(el, '<div class="vn-map-wrap is-full"></div>');
     Promise.all([data(), geo()]).then(function (res) {
-      var d = res[0];
-      var box = document.createElement('div');
-      el.appendChild(box);
-      drawMap(box, res[1], {
-        people: people(d), empty: EMPTY_MAP, popups: false,
+      drawMap(el, res[1], {
+        people: people(res[0]), full: true, animate: true, popups: false, empty: '',
         label: 'Night map of the world. Each point of light is the city of someone who sent a sound.'
       });
-      el.insertAdjacentHTML('beforeend', '<p style="margin-top:.75rem"><a class="vn-link-quiet" href="' + esc(C.paths.map) + '">Open the Signal Map</a></p>');
-    }).catch(function () { mount(el, '<div class="vn-empty">' + MSG_ERROR + '</div>'); });
+    }).catch(function () { /* the hero stays dark */ });
   };
+  render.mapPreview = render.heroMap;
 
-  // Signal Map page: counters, filter, map, legend
+  // Signal Map page: counters, filters, map, legend, list view
   render.signalMap = function (el) {
-    el = mount(el, '<div class="vn-empty">Tuning in…</div>');
+    el = mount(el, '<p class="vn-fog">Tuning in…</p>');
     Promise.all([data(), geo()]).then(function (res) {
       var d = res[0], land = res[1], c = (d && d.counters) || {};
-      var nums = [['Sounds received this week', c.weekSounds], ['Cities this week', c.weekCities],
-        ['Tracks released', c.tracks], ['Contributors credited', c.credited]];
-      var opts = '<option value="all">All signals</option><option value="week">This week’s pool</option>' +
-        tracks(d).map(function (t) {
-          return '<option value="t' + esc(t.n) + '">The cities in ' + esc(trackNo(t.n)) + ' · ' + esc(t.title) + '</option>';
-        }).join('');
+      var n = function (v) { return d ? (v || 0) : '—'; };
+      var counters = [
+        [n(c.weekSounds), c.weekSounds === 1 ? 'sound received this week' : 'sounds received this week'],
+        [n(c.weekCities), c.weekCities === 1 ? 'city this week' : 'cities this week'],
+        [n(c.tracks), c.tracks === 1 ? 'track released' : 'tracks released'],
+        [n(c.credited), c.credited === 1 ? 'contributor credited' : 'contributors credited']
+      ];
+      var filters = [['all', 'Everyone'], ['week', 'This week’s pool']].concat(tracks(d).map(function (t) { return ['t' + t.n, trackNo(t.n)]; }));
       mount(el,
-        '<div class="vn-counters">' + nums.map(function (n) {
-          return '<div class="vn-counter"><b>' + (d ? (n[1] || 0) : '—') + '</b><span class="vn-label">' + n[0] + '</span></div>';
+        '<div class="vn-counters">' + counters.map(function (x) { return '<span class="vn-counter"><b>' + x[0] + '</b>' + x[1] + '</span>'; }).join('') + '</div>' +
+        '<div class="vn-filters" role="group" aria-label="Show on the map">' + filters.map(function (f, i) {
+          return '<button type="button" class="vn-filter" data-f="' + esc(f[0]) + '" aria-pressed="' + (i === 0) + '">' + esc(f[1]) + '</button>';
         }).join('') + '</div>' +
-        '<div class="vn-map-controls"><label class="vn-label" for="vn-filter">Show</label><select id="vn-filter">' + opts + '</select></div>' +
-        '<div class="vn-map-box"></div>' +
-        '<div class="vn-legend"><span class="l0">Static: sent a sound, not credited yet</span><span class="l1">Signal: 1+ credits</span>' +
-        '<span class="l2">Frequency: 5+ credits</span><span class="l3">Broadcast: 10+ credits</span></div>');
-      var box = el.querySelector('.vn-map-box'), sel = el.querySelector('#vn-filter');
-      function show() {
-        var v = sel.value, all = people(d), o;
-        if (v === 'week') o = { people: all.filter(function (p) { return p.inPool; }), empty: 'No one in this week’s pool has chosen to show their city yet.' };
-        else if (v.charAt(0) === 't') { var list = credited(d, v.slice(1)); o = { people: list, empty: 'No one credited on this track chose to show their city.' }; }
-        else o = { people: all, empty: d ? EMPTY_MAP : MSG_ERROR };
-        o.popups = true;
-        o.label = 'Night map of the world with points of light for contributors’ cities. Tap a light for details.';
-        drawMap(box, land, o);
+        '<div class="vn-bleed vn-map-box"></div>' +
+        '<div class="vn-legend">' + LEVELS.map(function (l, i) {
+          return '<span>' + meter(l) + '<span>· ' + ['sent a sound', '1+ credits', '5+ credits', '10+ credits'][i] + '</span></span>';
+        }).join('') + '</div>' +
+        '<p class="vn-list-toggle"><button type="button" class="vn-btn-2" aria-expanded="false">View as list</button></p><div class="vn-list" hidden></div>');
+      var box = el.querySelector('.vn-map-box'), list = el.querySelector('.vn-list'), tog = el.querySelector('.vn-list-toggle button');
+      var current = 'all';
+      function selected() {
+        var all = people(d);
+        if (current === 'week') return { people: all.filter(function (p) { return p.inPool; }), empty: 'No one in this week’s pool has chosen to show their city yet.' };
+        if (current.charAt(0) === 't') return { people: credited(d, current.slice(1)), empty: 'No one credited on this track chose to show their city.' };
+        return { people: all, empty: d ? EMPTY_MAP : MSG_ERROR };
       }
-      sel.addEventListener('change', show);
-      show();
-    }).catch(function () { mount(el, '<div class="vn-empty">' + MSG_ERROR + '</div>'); });
+      function drawList(ppl) {
+        var g = groupByCity(ppl);
+        list.innerHTML = g.length
+          ? '<div class="vn-table-wrap"><table class="vn-table"><thead><tr><th scope="col">City</th><th scope="col">Contributors</th><th scope="col">Credits</th></tr></thead><tbody>' +
+            g.map(function (x) {
+              return '<tr><td>' + esc(x.city) + '</td><td>' + x.list.map(function (p) { return '<a href="' + profileUrl(p.slug) + '">' + esc(p.name) + '</a>'; }).join(', ') + '</td><td>' + x.credits + '</td></tr>';
+            }).join('') + '</tbody></table></div>'
+          : '<p class="vn-fog">Nothing to list yet.</p>';
+      }
+      function show(first) {
+        var o = selected();
+        o.popups = true; o.full = true; o.animate = first;
+        o.label = 'Night map of the world with points of light for contributors’ cities. Tap a light for details, or use View as list.';
+        drawMap(box, land, o);
+        drawList(o.people);
+      }
+      el.querySelector('.vn-filters').addEventListener('click', function (e) {
+        var b = e.target.closest('.vn-filter');
+        if (!b) return;
+        current = b.getAttribute('data-f');
+        Array.prototype.forEach.call(el.querySelectorAll('.vn-filter'), function (x) { x.setAttribute('aria-pressed', x === b); });
+        show(false);
+      });
+      tog.addEventListener('click', function () {
+        var open = list.hidden;
+        list.hidden = !open;
+        tog.setAttribute('aria-expanded', open);
+        tog.textContent = open ? 'Hide the list' : 'View as list';
+      });
+      show(true);
+    }).catch(function () { mount(el, '<p class="vn-fog">' + MSG_ERROR + '</p>'); });
   };
 
-  // Signal Map page: Broadcast wall. Hides itself until someone reaches Broadcast.
+  function card(p) {
+    return '<article class="vn-card" id="c-' + esc(p.slug) + '">' +
+      '<h3 class="vn-card-name">' + esc(p.name) + '</h3><p class="vn-card-city">' + esc(p.city) + '</p>' + meter(p.level) +
+      '<p class="vn-card-stats">' + plural(p.credits, 'credit', 'credits') + ' · ' + plural(p.submitted, 'sound sent', 'sounds sent') + '</p>' +
+      (p.tracks.length ? '<ul class="vn-card-tracks">' + p.tracks.map(function (x) {
+        return '<li><a href="' + trackUrl(x.n, p.slug) + '">' + esc(trackNo(x.n)) + '</a><span>at ' + esc(x.t) + '</span></li>';
+      }).join('') + '</ul>' : '<p class="vn-meta" style="margin:0">Not credited on a track yet.</p>') +
+      '</article>';
+  }
+
+  // Signal Map page: Broadcast wall. Hidden until someone reaches Broadcast.
   render.broadcastWall = function (el) {
     el = pick(el);
     if (!el) return;
@@ -491,11 +681,7 @@ window.VELA_CONFIG = {
       var list = people(d).filter(function (p) { return p.level === 'Broadcast'; });
       if (!list.length) return;
       el.style.display = '';
-      mount(el, '<h2>Broadcast wall</h2><p>Ten credits or more. The brightest lights on the map.</p><div class="vn-grid">' +
-        list.map(function (p) {
-          return '<div class="vn-card"><h3>' + esc(p.name) + '</h3><div class="vn-meta">' + esc(p.city) + ' · ' +
-            plural(p.credits, 'credit', 'credits') + '</div><p style="margin:.5rem 0 0"><a class="vn-link-quiet" href="' + profileUrl(p.slug) + '">Open profile</a></p></div>';
-        }).join('') + '</div>');
+      mount(el, '<h2>Broadcast wall</h2><p class="vn-fog">Ten credits or more. The brightest lights on the map.</p><div class="vn-grid">' + list.map(card).join('') + '</div>');
     });
   };
 
@@ -503,10 +689,10 @@ window.VELA_CONFIG = {
   render.tracksIndex = function (el) {
     el = mount(el, '');
     data().then(function (d) {
-      if (!d) return mount(el, '<div class="vn-empty">' + MSG_ERROR + '</div>');
+      if (!d) return mount(el, '<p class="vn-fog">' + MSG_ERROR + '</p>');
       var list = tracks(d);
-      if (!list.length) return mount(el, '<div class="vn-empty">No tracks yet. Track 01 is being built from the rooms you’re in right now.</div>');
-      mount(el, '<div class="vn-tracks">' + list.map(function (t) { return trackCard(t, 'h3'); }).join('') + '</div>');
+      if (!list.length) return mount(el, '<p class="vn-fog">No tracks yet. Track 01 is being built from the rooms you’re in right now.</p>');
+      mount(el, '<ul class="vn-rows">' + list.map(trackRow).join('') + '</ul>');
     });
   };
 
@@ -540,81 +726,90 @@ window.VELA_CONFIG = {
     if (!url) return Promise.resolve(null);
     return peaksFromAudio(url).catch(function () { return durationFromAudio(url); });
   }
+  function creditLine(c) { return [c.sound, c.name, c.city, c.t].filter(Boolean).join(' · '); }
 
-  function creditLine(c) {
-    return [c.sound, c.name, c.city, c.t].filter(Boolean).join(' · ');
-  }
-
-  function drawWave(el, wf, credits) {
-    var bars = '', n = wf.p ? wf.p.length : 0, bw = 1000 / Math.max(n, 1);
-    if (n) wf.p.forEach(function (v, i) {
-      var h = Math.max(1, v * 100);
-      bars += '<rect class="vn-wave-bar" x="' + (i * bw).toFixed(2) + '" y="' + (60 - h / 2).toFixed(1) + '" width="' + Math.max(bw * 0.6, 0.5).toFixed(2) + '" height="' + h.toFixed(1) + '"/>';
-    });
-    else bars = '<rect class="vn-wave-bar" x="0" y="59" width="1000" height="2"/>';
-    var marks = credits.filter(function (c) { return c.slug && isFinite(c.s) && c.s <= wf.d; }).map(function (c) {
-      return '<button class="vn-mark" style="left:' + (c.s / wf.d * 100).toFixed(3) + '%" aria-label="' + esc(creditLine(c)) + '" data-tip="' + esc(creditLine(c)) + '"></button>';
+  // Waveform credits: thin concrete bars, sodium markers under them at each timestamp.
+  // Hover, focus or tap a marker: nearby bars brighten, the panel shows the credit, its row lights up.
+  function drawWave(el, wf, credits, rows, preselect) {
+    var n = wf.p ? wf.p.length : 200, bw = 1000 / n, bars = '';
+    for (var i = 0; i < n; i++) {
+      var v = wf.p ? wf.p[i] : 0.02, h = Math.max(1.5, v * 110);
+      bars += '<rect class="vn-bar" x="' + (i * bw).toFixed(2) + '" y="' + (60 - h / 2).toFixed(1) + '" width="' + Math.max(bw * 0.55, 0.6).toFixed(2) + '" height="' + h.toFixed(1) + '"/>';
+    }
+    var marks = credits.map(function (c, i) {
+      if (!c.slug || !isFinite(c.s) || c.s > wf.d) return '';
+      return '<button type="button" class="vn-mark" data-i="' + i + '" style="left:' + (c.s / wf.d * 100).toFixed(3) + '%" aria-label="' + esc(creditLine(c)) + '"></button>';
     }).join('');
-    el.innerHTML = '<div class="vn-wave"><svg viewBox="0 0 1000 120" preserveAspectRatio="none" aria-hidden="true">' + bars + '</svg>' + marks + '</div>';
-    var wave = el.firstChild, tip = null;
-    function hide() { if (tip) { tip.remove(); tip = null; } }
-    function showTip(b) {
-      hide();
-      tip = document.createElement('div'); tip.className = 'vn-tip'; tip.textContent = b.getAttribute('data-tip');
+    el.innerHTML = '<div class="vn-wave-scroll"><div class="vn-wave"><svg viewBox="0 0 1000 120" preserveAspectRatio="none" aria-hidden="true">' + bars + '</svg>' + marks + '</div></div>';
+    var wave = el.querySelector('.vn-wave'), rects = wave.querySelectorAll('.vn-bar'), tip = null, lit = [];
+    function clear() {
+      if (tip) { tip.remove(); tip = null; }
+      lit.forEach(function (x) { x.classList.remove('is-lit'); }); lit = [];
+    }
+    function show(b) {
+      clear();
+      var c = credits[+b.getAttribute('data-i')], centre = Math.round(c.s / wf.d * n), span = Math.max(2, Math.round(n / 100));
+      for (var j = centre - span; j <= centre + span; j++) if (rects[j]) { rects[j].classList.add('is-lit'); lit.push(rects[j]); }
+      var row = rows && rows.querySelector('[data-i="' + b.getAttribute('data-i') + '"]');
+      if (row) { row.classList.add('is-lit'); lit.push(row); }
+      tip = document.createElement('div'); tip.className = 'vn-tip'; tip.textContent = creditLine(c);
       wave.appendChild(tip);
-      var x = b.offsetLeft, half = tip.offsetWidth / 2;
-      tip.style.left = Math.min(Math.max(x, half + 4), wave.clientWidth - half - 4) + 'px';
+      var half = tip.offsetWidth / 2, x = b.offsetLeft;
+      tip.style.left = Math.min(Math.max(x, half + 2), wave.clientWidth - half - 2) + 'px';
     }
     Array.prototype.forEach.call(wave.querySelectorAll('.vn-mark'), function (b) {
-      b.addEventListener('mouseenter', function () { showTip(b); });
-      b.addEventListener('focus', function () { showTip(b); });
-      b.addEventListener('click', function () { showTip(b); });
-      b.addEventListener('mouseleave', hide);
-      b.addEventListener('blur', hide);
+      b.addEventListener('mouseenter', function () { show(b); });
+      b.addEventListener('focus', function () { show(b); });
+      b.addEventListener('click', function () { show(b); });
+      b.addEventListener('mouseleave', function () { if (document.activeElement !== b) clear(); });
+      b.addEventListener('blur', clear);
     });
+    if (preselect) {
+      var idx = credits.map(function (c) { return c.slug; }).indexOf(preselect);
+      var pre = idx >= 0 && wave.querySelector('.vn-mark[data-i="' + idx + '"]');
+      if (pre) { show(pre); pre.scrollIntoView({ block: 'center', inline: 'center' }); }
+    }
   }
 
-  // Tracks & Credits: one track (the page reads ?n=)
+  // Tracks & Credits: one track (the page reads ?n= and, from a profile, ?c=)
   render.track = function (el, opts) {
     el = mount(el, '');
-    var n = (opts && opts.n) || new URLSearchParams(location.search).get('n');
+    var q = new URLSearchParams(location.search);
+    var n = (opts && opts.n) || q.get('n'), pre = (opts && opts.c) || q.get('c');
     data().then(function (d) {
-      if (!d) return mount(el, '<div class="vn-empty">' + MSG_ERROR + '</div>');
+      if (!d) return mount(el, '<p class="vn-fog">' + MSG_ERROR + '</p>');
       var t = tracks(d).filter(function (x) { return String(x.n) === String(n); })[0];
-      if (!t) return mount(el, '<h1>No track here</h1><div class="vn-empty">This track hasn’t gone out yet, or the link is wrong. <a href="' + esc(C.paths.tracks) + '">All tracks</a></div>');
+      if (!t) return mount(el, '<h1>No track here</h1><p class="vn-fog">This track hasn’t gone out yet, or the link is wrong. <a href="' + esc(C.paths.tracks) + '">All tracks</a></p>');
       document.title = trackNo(t.n) + ', ' + t.title + ': credits | Vela Nox';
       var credits = t.credits; // already in timestamp order; name-only entries carry no time
       var links = (t.links || []).filter(function (l) { return safeUrl(l.url); });
-      var cover = safeUrl(t.cover)
-        ? '<img src="' + esc(safeUrl(t.cover)) + '" alt="' + esc(t.coverAlt || ('Cover art for ' + trackNo(t.n) + ', ' + t.title)) + '">'
-        : '<div class="vn-cover-ph" aria-hidden="true"></div>';
       var names = [], seen = {};
       credits.forEach(function (c) { if (!seen[c.name]) { seen[c.name] = 1; names.push(c.name); } });
       mount(el,
-        '<div class="vn-track-head">' + cover + '<div>' +
-        '<p class="vn-label">' + esc(trackNo(t.n)) + '</p><h1>' + esc(t.title) + '</h1>' +
-        '<p class="vn-meta">Theme: ' + esc(t.theme) + '<br>Sent to subscribers ' + esc(longDate(t.sent, true)) + '<br>' +
-        plural(t.contributors, 'contributor', 'contributors') + ' · ' + plural(t.cities, 'city', 'cities') + '</p>' +
+        '<div class="vn-track-head"><div>' +
+        '<p class="vn-track-no">' + esc(trackNo(t.n)) + '</p><h1>' + esc(t.title) + '</h1>' +
+        '<p class="vn-fog" style="margin:0">Theme: ' + esc(t.theme) + '<br>Sent to subscribers ' + esc(longDate(t.sent, true)) + '<br>' +
+        '<span class="vn-num" style="color:var(--mist)">' + plural(t.contributors, 'contributor', 'contributors') + ' · ' + plural(t.cities, 'city', 'cities') + '</span></p>' +
         (links.length
-          ? '<div class="vn-links">' + links.map(function (l) { return '<a href="' + esc(safeUrl(l.url)) + '" rel="noopener" target="_blank">' + esc(l.label || 'Listen') + '</a>'; }).join('') + '</div>'
-          : '<p class="vn-note">Not on streaming platforms yet. Tracks go out there about a month after the subscriber email, once the distributor has reviewed everything. Subscribers get an email when it\u2019s out.</p>') +
-        '</div></div>' +
-        '<section class="vn-section"><h2>Waveform credits</h2><p class="vn-note">Each mark is a sound someone sent. Hover or tap it to see whose. People who chose not to show their city are credited by name only, in the list below.</p><div class="vn-wave-box"><div class="vn-empty">Reading the waveform…</div></div></section>' +
+          ? '<div class="vn-links">' + links.map(function (l) { return '<a class="vn-btn-2" href="' + esc(safeUrl(l.url)) + '" rel="noopener" target="_blank">' + esc(l.label || 'Listen') + '</a>'; }).join('') + '</div>'
+          : '<p class="vn-fog vn-read" style="margin-top:1.25rem">Not on streaming platforms yet. Tracks go out there about a month after the subscriber email, once the distributor has reviewed everything. Subscribers get an email when it’s out.</p>') +
+        '</div>' + cover(t) + '</div>' +
+        '<section class="vn-section"><h2>Waveform credits</h2><p class="vn-fog vn-read">Each mark is a sound someone sent. Hover or tap it to see whose. People who chose not to show their city are credited by name only, in the list below.</p><div class="vn-wave-box"><p class="vn-fog">Reading the waveform…</p></div></section>' +
         '<section class="vn-section"><h2>Credits</h2>' + (credits.length
-          ? '<ol class="vn-credits">' + credits.map(function (c) {
-            if (!c.slug) return '<li><span class="vn-ts"></span><span>' + esc(c.name) + '</span></li>';
-            return '<li><span class="vn-ts">' + esc(c.t) + '</span><span>' + esc(c.sound) + ' · ' +
-              '<a href="' + profileUrl(c.slug) + '">' + esc(c.name) + '</a> · ' + esc(c.city) + '</span></li>';
+          ? '<ol class="vn-credits">' + credits.map(function (c, i) {
+            if (!c.slug) return '<li data-i="' + i + '"><span class="vn-ts"></span><span>' + esc(c.name) + '</span></li>';
+            return '<li data-i="' + i + '"><span class="vn-ts">' + esc(c.t) + '</span><span>' + esc(c.sound) + ' · ' +
+              '<a href="' + profileUrl(c.slug) + '">' + esc(c.name) + '</a> · <span class="vn-fog">' + esc(c.city) + '</span></span></li>';
           }).join('') + '</ol>'
-          : '<div class="vn-empty">No public credits on this track.</div>') + '</section>' +
-        '<section class="vn-section"><h2>Streaming credits</h2><p class="vn-note">Names only. This is the list used on streaming platforms, where they allow it. The artist field says Vela Nox.</p>' +
-        '<div class="vn-stream-credits">' + (names.length ? names.map(esc).join('\n') : '—') + '</div></section>' +
+          : '<p class="vn-fog">No public credits on this track.</p>') + '</section>' +
+        '<section class="vn-section"><h2>Streaming credits</h2><p class="vn-fog vn-read">Names only. This is the text used on streaming platforms, where they allow it. The artist field says Vela Nox.</p>' +
+        '<p class="vn-stream-credits">' + (names.length ? names.map(esc).join(', ') : '—') + '</p></section>' +
         '<section class="vn-section"><h2>Where this track came from</h2><div class="vn-track-map"></div></section>');
 
-      var waveBox = el.querySelector('.vn-wave-box');
+      var waveBox = el.querySelector('.vn-wave-box'), rows = el.querySelector('.vn-credits');
       waveformData(t.waveform).then(function (wf) {
-        if (!wf) return (waveBox.innerHTML = '<div class="vn-empty">No waveform for this track. The credits below have every timestamp.</div>');
-        drawWave(waveBox, wf, credits);
+        if (!wf) return (waveBox.innerHTML = '<p class="vn-fog">No waveform for this track. The credits below have every timestamp.</p>');
+        drawWave(waveBox, wf, credits, rows, pre);
       });
       var list = credited(d, t.n), mapBox = el.querySelector('.vn-track-map');
       geo().then(function (land) {
@@ -622,7 +817,7 @@ window.VELA_CONFIG = {
           people: list, popups: true, empty: 'No one credited on this track chose to show their city.',
           label: 'Night map with the cities of people credited on ' + trackNo(t.n) + '.'
         });
-      }).catch(function () { mapBox.innerHTML = '<div class="vn-empty">' + MSG_ERROR + '</div>'; });
+      }).catch(function () { mapBox.innerHTML = '<p class="vn-fog">' + MSG_ERROR + '</p>'; });
     });
   };
 
@@ -630,18 +825,10 @@ window.VELA_CONFIG = {
   render.contributors = function (el) {
     el = mount(el, '');
     data().then(function (d) {
-      if (!d) return mount(el, '<div class="vn-empty">' + MSG_ERROR + '</div>');
+      if (!d) return mount(el, '<p class="vn-fog">' + MSG_ERROR + '</p>');
       var list = people(d).slice().sort(function (a, b) { return b.credits - a.credits || a.name.localeCompare(b.name); });
-      if (!list.length) return mount(el, '<div class="vn-empty">No one here yet. Cards appear once people send sounds and choose to show their city.</div>');
-      mount(el, '<div class="vn-grid">' + list.map(function (p) {
-        return '<article class="vn-card" id="c-' + esc(p.slug) + '"><h3>' + esc(p.name) + '</h3>' +
-          '<div class="vn-meta">' + esc(p.city) + '</div><div class="vn-level" style="margin-top:.35rem">' + esc(p.level) + '</div>' +
-          '<dl><dt>Sounds sent</dt><dd>' + p.submitted + '</dd><dt>Credits</dt><dd>' + p.credits + '</dd></dl>' +
-          (p.tracks.length ? '<ul>' + p.tracks.map(function (x) {
-            return '<li><a href="' + trackUrl(x.n) + '">' + esc(trackNo(x.n)) + ' · ' + esc(x.title) + '</a> <span class="vn-mono vn-sodium">at ' + esc(x.t) + '</span></li>';
-          }).join('') + '</ul>' : '<p class="vn-note" style="margin:0">Not credited on a track yet.</p>') +
-          '</article>';
-      }).join('') + '</div>');
+      if (!list.length) return mount(el, '<p class="vn-fog">No one here yet. Cards appear once people send sounds and choose to show their city.</p>');
+      mount(el, '<div class="vn-grid">' + list.map(card).join('') + '</div>');
       function target() {
         Array.prototype.forEach.call(el.querySelectorAll('.is-target'), function (c) { c.classList.remove('is-target'); });
         var h = decodeURIComponent(location.hash.slice(1)), c = h && document.getElementById(h);
@@ -657,21 +844,16 @@ window.VELA_CONFIG = {
     el = mount(el, '');
     data().then(function (d) {
       var s = schedule(d && d.settings);
-      var head = '<h1 class="vn-submit-theme">This week’s theme: ' + esc(s.theme) + '</h1>';
-      var vote = '<p class="vn-note">' + esc(s.voteSubmit) + '</p>';
-      if (!s.open) {
-        return mount(el, '<p class="vn-label">Submissions closed</p>' + head +
-          '<div class="vn-closed"><p>' + (s.phase === 'making' ? 'The track is being made from this week’s sounds. ' : '') +
-          (s.nextOpen ? 'The form opens again ' + esc(s.nextOpen) + '.' : 'The form is closed for now. It opens again with the next theme.') + '</p>' +
-          '<p style="margin:0">' + esc(s.voteStrip) + '</p></div>');
-      }
-      mount(el, head + '<p class="vn-submit-deadline">' + esc(s.submitDeadline) + '</p>' +
-        '<p class="vn-reminder">Your sound only. No one else’s voice, no music playing.</p>' + vote +
+      var intro = strip(s, true);
+      if (!s.open) return mount(el, intro);
+      mount(el, intro +
+        '<p class="vn-reminder">Your sound only. No one else’s voice, no music playing.</p>' +
+        '<p class="vn-fog">' + esc(s.voteSubmit) + '</p>' +
         '<div class="vn-form-frame"></div>');
       var frame = el.querySelector('.vn-form-frame');
       if (opts && opts.formHtml) return (frame.innerHTML = opts.formHtml); // preview only
       var src = safeUrl(opts && opts.form);
-      if (!src) return (frame.innerHTML = '<div class="vn-empty">Form not connected. Add the GoHighLevel form URL to this element.</div>');
+      if (!src) return (frame.innerHTML = '<p class="vn-fog">Form not connected. Add the GoHighLevel form URL to this element.</p>');
       var f = document.createElement('iframe');
       f.src = src; f.title = 'Send this week’s sound'; f.loading = 'lazy';
       if (opts.formId) f.id = 'inline-' + opts.formId;
@@ -680,12 +862,15 @@ window.VELA_CONFIG = {
     });
   };
 
-  // After a submission: the form redirects here
+  // After a submission: the one centred moment. A light, and a line rising to the tower.
   render.confirmation = function (el) {
     el = mount(el, '');
     data().then(function (d) {
       var s = schedule(d && d.settings);
-      mount(el, '<h1 class="vn-submit-theme">' + esc(s.confirmation) + '</h1><p class="vn-note">' + esc(s.voteSubmit) + '</p>');
+      mount(el, '<div class="vn-confirm"><div class="vn-confirm-signal" aria-hidden="true"><b></b><i></i></div>' +
+        '<h1>Got it. Your sound is in the pool for ' + esc(s.theme) + '.</h1>' +
+        '<p>The track lands in your inbox on Monday' + (s.launch ? ', October 12.' : '.') + '</p>' +
+        '<p style="margin-top:2rem"><a class="vn-btn-2" href="' + esc(C.paths.map) + '">See the Signal Map</a></p></div>');
     });
   };
 
@@ -694,9 +879,10 @@ window.VELA_CONFIG = {
     el = mount(el, '');
     data().then(function (d) {
       var s = schedule(d && d.settings);
-      mount(el, '<h1 class="vn-submit-theme">You’ve already sent this week’s sound</h1>' +
-        '<p>This week’s theme: ' + esc(s.theme) + '. The track lands in your inbox on Monday' + (s.launch ? ', October 12.' : '.') + '</p>' +
-        '<p class="vn-note">' + esc(s.voteSubmit) + '</p>');
+      mount(el, '<h1>You’ve already sent this week’s sound</h1>' +
+        '<p class="vn-read">Your sound is in the pool for ' + esc(s.theme) + '. The track lands in your inbox on Monday' + (s.launch ? ', October 12.' : '.') +
+        ' The next theme opens Tuesday.</p>' +
+        '<p class="vn-fog vn-read">' + esc(s.voteSubmit) + '</p>');
     });
   };
 
@@ -711,15 +897,15 @@ window.VELA_CONFIG = {
         '<p>It’s a Google Form linked in Vela’s Close Friends story on Instagram and pinned in a Close Friends highlight. The winning theme is announced on Monday, in the story and on this site.</p>');
   };
 
-  // Rules & FAQ: the current deadline, where the FAQ mentions it
+  // Rules & FAQ: the current deadline
   render.deadlineAnswer = function (el) {
     var s = schedule();
     mount(el, s.launch
-      ? '<p>For Track 01: Thursday, October 8, 11:59 pm ET. From October 12, the regular week applies: submissions open Tuesday and close Thursday at 11:59 pm ET.</p>'
-      : '<p>Submissions open Tuesday and close Thursday at 11:59 pm ET, every week.</p>');
+      ? '<p>For Track 01: Thursday, October 8, 11:59 pm ET. From October 12, the regular week applies: submissions open Tuesday at 12:00 am ET and close Thursday at 11:59 pm ET.</p>'
+      : '<p>Submissions open Tuesday at 12:00 am ET and close Thursday at 11:59 pm ET, every week.</p>');
   };
 
-  window.VELA = { reset: function () { dataPromise = null; }, config: C, render: render, schedule: schedule, data: data, esc: esc, CTA: CTA };
+  window.VELA = { reset: function () { dataPromise = null; }, config: C, render: render, schedule: schedule, data: data, esc: esc, CTA: CTA, meter: meter };
 })();
 </script>
 <div id="vn-already"></div>

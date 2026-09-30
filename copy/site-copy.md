@@ -3,29 +3,36 @@
 All times are Eastern Time (ET). Anything in `[BRACKETS]` is filled in automatically by a custom code element (see `ghl/elements/`) or by you where marked.
 Every subscribe button, sitewide, reads exactly: **Send me a sound — $3/week**
 The submission button reads exactly: **Send it**
+Layout, colour, type and motion follow the Vela Nox design system (see `copy/build-note.md` → Design). Sentence case everywhere, no all-caps labels.
 
-**Navigation (every page):** Home · Submit · The Signal Map · Tracks & Credits · Contributors · Rules & FAQ · [button] Send me a sound — $3/week
+**Header (every page):** "Vela Nox" (links home) on the left. Submit · Map · Tracks · Rules on the right. On phones: a "Menu" button that opens a full-screen list: Home, Submit, Map, Tracks, Contributors, Rules.
 
 ---
 
 ## HOME
 
-**H1 (hero headline)**
+### Hero: the Signal Map, full width
+*Custom code element: `home-hero-map`.* The map fills the hero. Lights fade in city by city on the first visit. On phones the text sits under the map instead of over it.
+
+**H1 (over the map, lower left)**
 Your sound could be in this week's techno track.
 
-**Hero subhead**
+**Subhead**
 $3 a week. Send one sound for the week's theme. Vote on next week's. If your sound is used, you're credited to the exact second. The finished track reaches your inbox before it's on streaming platforms.
 
 [Button] Send me a sound — $3/week
 
-### This week strip
-*Custom code element: `home-this-week-strip`. Updates itself from the Settings tab and the clock.*
+Before any data, the map is dark: no lights, just the world at night.
 
-> This week: **[THEME OF THE WEEK]**
-> [SUBMISSION STATUS]
+### Theme strip
+*Custom code element: `home-this-week-strip`. Updates itself from the Settings tab and the clock. On desktop, the right side is kept for a Vela portrait.*
+
+> This week *(during launch week: "This week · Vela's pick")*
+> **[THEME OF THE WEEK]** *(large)*
+> ● [SUBMISSION STATUS] *(red, pulsing dot while open; grey, still dot when closed)*
 > Next week's theme is being voted on now, in Vela's Close Friends story.
 
-Submission status shown, by date:
+Submission status, by date:
 - Launch week, until October 8: "Submissions open until Thursday, October 8, 11:59 pm ET"
 - October 9–11: "Submissions closed — the track is being made"
 - From October 12, Tuesday–Thursday: "Submissions open until Thursday, 11:59 pm ET"
@@ -36,44 +43,41 @@ During launch week, the vote line adds: "The vote closes Sunday, October 11, 11:
 The vote form link is never shown on the site.
 
 ### H2: How a week works
-1. **Monday.** The theme is announced, in Vela's Close Friends story and on this site. Last week's vote picked it.
-2. **Tuesday to Thursday.** Record one sound for the theme and send it. The form closes Thursday at 11:59 pm ET.
-3. **Monday to Sunday.** The vote for next week's theme runs all week in Vela's Close Friends story. It closes Sunday at 11:59 pm ET. You're voting for next week, not this one.
-4. **Friday to Sunday.** The track is made from the sounds that came in.
-5. **The next Monday.** The finished track lands in your inbox, with the credits and timestamps. About a month later, once the distributor has reviewed everything, it reaches streaming platforms. You'll get an email when it's out.
+*Custom code element: `home-timeline`. A vertical timeline. An orange dot marks where this week is.*
+- **Mon.** The theme is announced, in Vela's Close Friends story and on this site. Last week's vote picked it. The vote for next week's theme opens.
+- **Tue.** Submissions open. Record one sound for the theme and send it. Ten seconds, anything that fits.
+- **Thu.** Submissions close at 11:59 pm ET.
+- **Fri.** The track is made from the sounds that came in. The vote for next week's theme closes Sunday at 11:59 pm ET.
+- **Mon.** The finished track lands in your inbox, with the credits and timestamps. About a month later, once the distributor has reviewed everything, it reaches streaming platforms. You'll get an email when it's out.
+
+All times Eastern Time.
 
 *Custom code element: `home-launch-note` (shows only until October 11, then disappears):*
 > Launch week runs long. Submissions for Track 01 are open until Thursday, October 8, 11:59 pm ET. The first vote, for week 2's theme, runs until Sunday, October 11, 11:59 pm ET. Track 01 reaches subscribers on Monday, October 12. The regular week starts after that.
 
 ### H2: What $3 a week gets you
-Four things. That's the whole list.
+Two by two on desktop, stacked on phones. No boxes, no numbers.
 
 **H3: One sound a week**
-Record something for the week's theme and send it through the Submit page. One sound, up to 10 seconds, up to 3 MB, any audio format.
+Record something for the week's theme and send it through the Submit page. Up to 10 seconds, up to 3 MB, any audio format.
 
 **H3: A vote on next week's theme**
-The vote runs Monday to Sunday through a Google Form in Vela's Close Friends story on Instagram, pinned in a Close Friends highlight. You give your Instagram handle when you subscribe and get added to Close Friends. You'll need an Instagram account for this.
+The vote runs Monday to Sunday through a Google Form in Vela's Close Friends story on Instagram, pinned in a Close Friends highlight. You give your Instagram handle when you subscribe and get added to Close Friends.
 
 **H3: Credit, to the second**
-If your sound is used, you're credited.
-- **Instagram:** your credit name, your city and the exact second it plays. "Your kettle, Lyon, at 2:14."
-- **Subscriber email:** credit name, city and timestamp.
-- **Streaming platforms:** your credit name only, in the release credits or notes where the platform allows it. The artist field says Vela Nox.
-- **This website:** your credit name. If you choose to show your city, also your city and timestamp, on the track's credits page and the Signal Map.
+If your sound is used, you're credited. "Your kettle, Lyon, at 2:14."
+- Instagram: name, city, timestamp
+- Subscriber email: name, city, timestamp
+- Streaming platforms: name only. The artist field says Vela Nox
+- This website: name, plus city and timestamp
 
-Your city only appears if you choose to show it.
+Your city appears only if you choose to show it. Without it, you're credited by name only.
 
 **H3: The track, first**
-Every Monday, the finished track arrives by email. Download it in WAV, FLAC or MP3, with the full credits and timestamps. It gets to you before it's on streaming platforms.
+Every Monday, the finished track arrives by email in WAV, FLAC and MP3, with the full credits and timestamps. Before it's on streaming platforms.
 
-### H2: The Signal Map
-Every light is someone who sent a sound and chose to show their city. The more credits, the brighter the light.
-
-*Custom code element: `home-map-preview`* → link: "Open the Signal Map"
-Empty state: "The map is dark. The first signals arrive with the first track."
-
-### H2: Latest transmission
-*Custom code element: `home-latest-track`.* Shows cover, "Track [NN] · [TITLE]", theme, date sent, "[N] contributors · [N] cities", and the link "See who's in it, second by second".
+### H2: Latest track
+*Custom code element: `home-latest-track`.* One row: cover, "Track [NN] · [TITLE]", "[THEME] · Sent [DATE]", "[N] contributors · [N] cities", then the button "See the credits".
 Empty state (before the first track): "Track 01 lands in subscribers' inboxes on Monday, October 12."
 
 ### H2: The rules, briefly
@@ -84,18 +88,19 @@ Empty state (before the first track): "Track 01 lands in subscribers' inboxes on
 
 Link: "Read the rules and FAQ"
 
-### H2 (final CTA): Stay for the last record.
+### Final CTA
+Stay for the last record. *(the motto, once, large and grey)*
 [Button] Send me a sound — $3/week
 
 ---
 
 ## SUBMIT
 
-### Public page: /submit (for people who aren't logged in as subscribers)
+### Locked page: /submit (for people who aren't logged in as subscribers)
+The theme strip first, so visitors see what this week is about (*custom code element `home-this-week-strip`*). Then:
 
-**H1:** Send this week's sound
-
-The Submit form is for subscribers. For $3 a week, you send one sound for that week's theme. If it's used, you're credited to the second.
+**H1:** Submitting is for subscribers.
+$3 a week, cancel anytime.
 
 [Button] Send me a sound — $3/week
 
@@ -105,54 +110,69 @@ Can't get in? Write to [velanox@gmail.com](mailto:velanox@gmail.com).
 ### Subscriber page: "Submit" lesson in the subscriber portal
 *Custom code element: `portal-submit-panel`. It renders everything above the form, and loads the form only while submissions are open.*
 
-**H1 (large):** This week's theme: [THEME OF THE WEEK]
-**Deadline:** "Closes Thursday, October 8, 11:59 pm ET" during launch week. From October 12: "Closes Thursday, 11:59 pm ET"
+Theme strip, large:
+**H1:** This week's theme: [THEME OF THE WEEK]
+● Deadline, in red with a pulsing dot: "Closes Thursday, October 8, 11:59 pm ET" during launch week. From October 12: "Closes Thursday, 11:59 pm ET"
+Next week's theme is being voted on now, in Vela's Close Friends story.
 
 **Reminder (directly under the theme):** Your sound only. No one else's voice, no music playing.
 
 **Small line:** Want a say in next week's theme? The vote is open all week in Vela's Close Friends story.
 (During launch week: "Want a say in next week's theme? The vote is open until Sunday, October 11, 11:59 pm ET, in Vela's Close Friends story.")
 
-#### Form (GoHighLevel form)
+#### Form (GoHighLevel form), in three groups, sound first
+**H2: Your sound**
 | Field | Label | Help text | Required |
 |---|---|---|---|
-| Email | Email | The one you subscribed with. | Yes |
-| Credit name | Credit name | How you want to be credited. This is the name people will see. | Yes |
-| City | City | Just the city. | Yes |
-| Country | Country | | Yes |
-| Instagram handle | Instagram handle | @yourhandle | Yes |
-| Sound title | Sound title | For example: my kettle | Yes |
-| Description | One line about the sound | What it is, in one line. | Yes |
-| Audio file | Your sound | Any audio format. 10 seconds max. 3 MB max. | Yes |
+| Audio file | Your sound | Upload box: "Drop your sound here, or choose a file" / "Any audio format · 10 seconds max · 3 MB max" | Yes |
+| Sound title | Sound title | Placeholder: my kettle | Yes |
+| Description | One line about it | What it is, in one line. | Yes |
 
-**Checkboxes**
+**H2: Your credit**
+| Field | Label | Help text | Required |
+|---|---|---|---|
+| Credit name | Credit name | How you want to be credited. This is the name people will see. | Yes |
+| City | City | | Yes |
+| Country | Country | | Yes |
+| Instagram handle | Instagram handle | Placeholder: @yourhandle | Yes |
+| Email | Email | The one you subscribed with. | Yes |
+
+- [Optional] Show my city with my credit (Instagram, subscriber email, and the Signal Map on this website). City only, never my address.
+  Small print under it: Leave this unticked and you're credited by name only, everywhere, and you won't appear on the Signal Map.
+
+**H2: Before you send it**
 - [Required] This recording is mine. It has no one else's music in it, and no one's voice without their permission. You can use it and release it. [Read the terms](/terms)
 - [Required] I understand not every sound makes the track. Every sound is heard.
 - [Required] I understand I'll be credited if my sound is used, but I won't receive payment or a share of streaming income.
-- [Optional] Show my city with my credit (Instagram, subscriber email, and the Signal Map on this website). City only, never my address.
-  Small print under it: Leave this unticked and you're credited by name only, everywhere, and you won't appear on the Signal Map.
 
 **Line directly above the button**
 If your sound makes the track, you'll be credited when it's released: name, city and the exact second it plays on Instagram and in the subscriber email, and your name on streaming platforms.
 
-**Button:** Send it
+**Button:** Send it (while uploading: "Sending…")
+
+**Errors** (under the field, with a red bar on the left):
+- "That file is [N] seconds. The limit is 10. Trim it and send it again."
+- "That file is [N] MB. The limit is 3 MB. Export it smaller and try again."
+- "That file couldn't be read as audio. Try exporting it as WAV or MP3."
+- "Choose a sound to send. Any audio format, 10 seconds max, 3 MB max."
+- "Tick the three boxes under "Before you send it" to continue."
 
 #### Confirmation screen (/sent, custom code element `submit-sent-confirmation`)
-Got it. Your sound is in the pool for [THEME OF THE WEEK]. The track lands in your inbox on Monday.
-(During launch week: "Got it. Your sound is in the pool for [THEME OF THE WEEK]. The track lands in your inbox on Monday, October 12.")
+The one centred moment on the site. An orange light, and a thin line rising from it (1.2 seconds, once). Then:
+**H1:** Got it. Your sound is in the pool for [THEME OF THE WEEK].
+The track lands in your inbox on Monday. *(During launch week: "…on Monday, October 12.")*
+[Secondary button] See the Signal Map
 
 #### Second attempt in the same week ("Already sent" lesson, element `portal-already-sent`)
 **H1:** You've already sent this week's sound
-This week's theme: [THEME OF THE WEEK]. The track lands in your inbox on Monday.
+Your sound is in the pool for [THEME OF THE WEEK]. The track lands in your inbox on Monday. The next theme opens Tuesday.
 Want a say in next week's theme? The vote is open all week in Vela's Close Friends story.
 
 #### Outside the submission window
-**Label:** Submissions closed
-**H1:** This week's theme: [THEME OF THE WEEK]
-Friday to Sunday: "The track is being made from this week's sounds. The form opens again [Tuesday, DATE], 12:00 am ET."
-Monday: "The form opens again [Tuesday, DATE], 12:00 am ET."
-Then: "Next week's theme is being voted on now, in Vela's Close Friends story."
-If you force the status closed in Settings: "The form is closed for now. It opens again with the next theme."
+The large theme strip, with a grey, still dot and:
+"Submissions for this week are closed. The next theme opens [Tuesday, DATE], 12:00 am ET."
+"Next week's theme is being voted on now, in Vela's Close Friends story."
+If you force the status closed in Settings: "Submissions are closed for now."
 
 ---
 
@@ -160,28 +180,25 @@ If you force the status closed in Settings: "The form is closed for now. It open
 
 **H1:** The Signal Map
 
-Each point of light is someone who sent a sound and chose to show their city. City only, placed at the city center. Nothing more precise than that.
-The more credits someone has, the brighter their light. Pick a track to see only the cities in it.
+Each point of light is someone who sent a sound and chose to show their city. City only, placed at the city center. Nothing more precise than that. The more credits someone has, the brighter their light.
 
-*Custom code element: `signal-map`* (counters, filter, map, legend)
+*Custom code element: `signal-map`* (counters, filters, full-width map, legend, list view)
 
-**Counters (from the sheet only)**
-- Sounds received this week
-- Cities this week
-- Tracks released
-- Contributors credited
+**Counters (one row, from the sheet only):** "[N] sounds received this week" · "[N] cities this week" · "[N] tracks released" · "[N] contributors credited". Before any data they show 0. If the data can't load, "—".
 
-Before any data: counters show 0. If the data can't load, they show "—".
+**Filters (text buttons):** Everyone · This week's pool · Track 02 · Track 01 … (one per released track, newest first)
 
-**Filter, labeled "Show":** All signals · This week's pool · The cities in Track [NN] · [TITLE] (one per released track)
+**Tap a light:** [CREDIT NAME] · [CITY] · level meter and level name · "[N] credits" · "See their credits"
 
-**Tap a light:** [CREDIT NAME] · [CITY] · [LEVEL] · [N] credits · "Open profile"
+**Legend (under the map):** each level with its signal meter
+- Static · sent a sound
+- Signal · 1+ credits
+- Frequency · 5+ credits
+- Broadcast · 10+ credits
 
-**Legend (H2 not needed; sits under the map)**
-- Static: sent a sound, not credited yet (faint)
-- Signal: 1+ credits (brighter)
-- Frequency: 5+ credits (brighter still)
-- Broadcast: 10+ credits (brightest)
+**"View as list"** (button): the same data as a table (City · Contributors · Credits). "Hide the list" closes it. Empty: "Nothing to list yet."
+
+Link under the map: "Everyone on the map, as cards" → Contributors
 
 **Empty states**
 - Map, before any data: "The map is dark. The first signals arrive with the first track."
@@ -192,7 +209,7 @@ Before any data: counters show 0. If the data can't load, they show "—".
 ### H2: Broadcast wall
 *Custom code element: `signal-map-broadcast-wall`. The whole section stays hidden until someone reaches Broadcast.*
 Ten credits or more. The brightest lights on the map.
-Card per person: credit name (H3), city, number of credits, "Open profile".
+Then a contributor card for each person (see Contributor profiles).
 
 ---
 
@@ -202,20 +219,21 @@ Card per person: credit name (H3), city, number of credits, "Open profile".
 **H1:** Tracks & Credits
 Every track so far, newest first. Each one is built from sounds people sent that week. A track shows up here once subscribers have it in their inbox.
 
-*Custom code element: `tracks-index`.* Card per track (H3): cover, "Track [NN] · [TITLE]", "Theme: [THEME]", "Sent to subscribers [DATE]", "[N] contributors · [N] cities".
+*Custom code element: `tracks-index`.* One row per track, separated by thin lines: cover, "Track [NN] · [TITLE]", "[THEME] · Sent [DATE]", "[N] contributors · [N] cities".
 Empty state: "No tracks yet. Track 01 is being built from the rooms you're in right now."
 
 ### Track page: /track?n=[NUMBER]
 *Custom code element: `track-page`. It writes the H1 and the page title.*
 
-- Label: Track [NN]
+- Track [NN] *(grey, above the title)*
 - **H1:** [TITLE]
-- Theme: [THEME] · Sent to subscribers [DATE] · [N] contributors · [N] cities
-- Streaming links: only the ones you add to the sheet. If there are none: "Not on streaming platforms yet. Tracks go out there about a month after the subscriber email, once the distributor has reviewed everything. Subscribers get an email when it's out."
+- Theme: [THEME] / Sent to subscribers [DATE] / [N] contributors · [N] cities
+- Streaming links: only the ones you add to the sheet, as outlined buttons. If there are none: "Not on streaming platforms yet. Tracks go out there about a month after the subscriber email, once the distributor has reviewed everything. Subscribers get an email when it's out."
+- Cover on the right.
 
 **H2: Waveform credits**
 Each mark is a sound someone sent. Hover or tap it to see whose. People who chose not to show their city are credited by name only, in the list below.
-Marker label: [SOUND TITLE] · [CREDIT NAME] · [CITY] · [TIMESTAMP] (only for people who opted in)
+Hover, tap or tab to a marker: the waveform brightens around it, a panel shows "[SOUND TITLE] · [CREDIT NAME] · [CITY] · [TIMESTAMP]", and the matching row below lights up. Only people who opted in get a marker. Coming from a contributor's card, their marker is already selected.
 No waveform in the sheet: "No waveform for this track. The credits below have every timestamp."
 
 **H2: Credits**
@@ -225,8 +243,8 @@ In timestamp order.
 Nobody public: "No public credits on this track."
 
 **H2: Streaming credits**
-Names only. This is the list used on streaming platforms, where they allow it. The artist field says Vela Nox.
-[One credit name per line, in timestamp order]
+Names only. This is the text used on streaming platforms, where they allow it. The artist field says Vela Nox.
+[Credit names, comma-separated, in timestamp order]
 
 **H2: Where this track came from**
 Mini map with the cities of the credited contributors who chose to show them.
@@ -241,12 +259,12 @@ Nobody opted in: "No one credited on this track chose to show their city."
 **H1:** Contributors
 Everyone here sent a sound and chose to show their city. People who didn't are credited by name only and aren't listed here.
 
-*Custom code element: `contributors`.* Card per person (H3 = credit name):
+*Custom code element: `contributors`.* A card per person:
+- Credit name (in orange: their own name is the signal)
 - City
-- Level: Static, Signal, Frequency or Broadcast
-- Sounds sent: [N]
-- Credits: [N]
-- Tracks: "Track [NN] · [TITLE] at [TIMESTAMP]", one per line. None yet: "Not credited on a track yet."
+- Level meter (four bars: Static 0, Signal 1, Frequency 3, Broadcast 4) and the level name
+- "[N] credits · [N] sounds sent"
+- One line per track: "Track [NN]   at [TIMESTAMP]", linking to the track with their marker selected. None yet: "Not credited on a track yet."
 
 **H2: The levels**
 - **Static:** sent a sound, not credited yet.
@@ -271,30 +289,36 @@ Empty state: "No one here yet. Cards appear once people send sounds and choose t
 - One sound a week, for that week's theme. Up to 10 seconds, up to 3 MB, any audio format.
 - Not every sound makes the track. Every sound is heard.
 
-### H2: Credit, not payment
-- If your sound is used, you're credited. You don't receive payment or a share of streaming income.
+### H2: Credits
+- If your sound is used, you're credited.
 - On Instagram: your credit name, your city (if you chose to show it) and the exact second your sound plays.
 - In the subscriber email: credit name, city (if you chose to show it) and timestamp.
 - On this website: your credit name. If you chose to show your city, also your city and timestamp, on the track's credits page and the Signal Map.
 - On streaming platforms: your credit name only, in the release credits or notes where the platform allows it. Cities and timestamps don't appear there. The artist field lists Vela Nox only.
 
-### H2: Your city and your name
-- Your city appears only if you tick "Show my city with my credit". City only, never your address.
-- If you don't tick it, you're credited by your credit name only, everywhere, and you don't appear on the Signal Map.
-- You can ask to be removed from the Signal Map and the public website credits at any time by emailing [velanox@gmail.com](mailto:velanox@gmail.com). Sounds already released in a track stay in that track.
+### H2: Money
+- $3 a week, billed weekly through Stripe.
+- You don't receive payment or a share of streaming income for your sound.
+- Payments aren't refunded, except for charges made in error.
 
-### H2: The track and streaming
+### H2: Timing
 - Subscribers get the finished track by email every Monday, before it's on streaming platforms.
 - Tracks reach streaming platforms about a month after that email, once the distributor has reviewed everything. Subscribers get an email when a track is out. No specific release date is promised.
 - The early-access files are for personal listening. Please don't share or upload them before the public release.
 
-### H2: Vela
-- Vela Nox is an AI persona. The music is made by a human producer from subscribers' sounds.
+### H2: Privacy
+- Your city appears only if you tick "Show my city with my credit". City only, never your address.
+- If you don't tick it, you're credited by your credit name only, everywhere, and you don't appear on the Signal Map.
+- You can ask to be removed from the Signal Map and the public website credits at any time by emailing [velanox@gmail.com](mailto:velanox@gmail.com). Sounds already released in a track stay in that track.
 
 ### H2: Cancelling
-- Cancel anytime, using the "manage subscription" link in your Stripe billing emails, or by emailing [velanox@gmail.com](mailto:velanox@gmail.com) from the address you subscribed with. You keep access until the end of the week you've paid for. Payments aren't refunded, except for charges made in error. See the [Cancellation Policy](/cancellation).
+- Cancel anytime, using the "manage subscription" link in your Stripe billing emails, or by emailing [velanox@gmail.com](mailto:velanox@gmail.com) from the address you subscribed with. You keep access until the end of the week you've paid for. See the [Cancellation Policy](/cancellation).
+
+### H2: About Vela
+- Vela Nox is an AI persona. The music is made by a human producer from subscribers' sounds.
 
 ### H2: FAQ
+*An accordion: each question opens and closes with a plus icon.*
 
 **H3: What sound can I send?**
 Something you recorded yourself, for that week's theme. No one else's music, and no one's voice without their permission. Any audio format.
@@ -354,7 +378,7 @@ Three plain pages. Same header and footer as the rest of the site. The text is y
 
 The only additions are layout: the document title is the page's H1, the section names are H2s, the "- " lines are list items, and every velanox@gmail.com is a mailto link. The build checks that the words match the source exactly.
 
-Layout: one column, max width 680px, body text 17px, line height 1.6, fog grey (#b3b8be) on deep navy (#0c1524). No images.
+Layout: the same reading column as the rest of the site (38rem), body text 18px. Headings in Atkinson Hyperlegible bold, not the display face, which is too loud for legal text. "Last updated" in grey at the top. No images.
 
 Still to fill in, in the text itself: `[YOUR DOMAIN]` (Terms intro and §2, Privacy intro).
 
@@ -362,11 +386,9 @@ Still to fill in, in the text itself: `[YOUR DOMAIN]` (Terms intro and §2, Priv
 
 ## FOOTER (every page, including the subscriber portal)
 
-Vela Nox
-[velanox@gmail.com](mailto:velanox@gmail.com)
-[Instagram](https://www.instagram.com/velanoxmusic/) · [TikTok](https://www.tiktok.com/@velanox_music)
-[Terms](/terms) · [Privacy](/privacy) · [Cancellation](/cancellation)
-AI persona · music by humans
+Left: Vela's profile photo (48px, square, once you send it), then **Vela Nox** and [velanox@gmail.com](mailto:velanox@gmail.com)
+Right: [Instagram](https://www.instagram.com/velanoxmusic/) · [TikTok](https://www.tiktok.com/@velanox_music) · [Terms](/terms) · [Privacy](/privacy) · [Cancellation](/cancellation)
+Bottom line, small and grey: AI persona · music by humans
 
 ---
 

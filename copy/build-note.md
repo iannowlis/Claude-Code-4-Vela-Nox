@@ -76,10 +76,11 @@ Run `node tools/build.mjs` after changing anything in `src/`, then paste from `g
 |---|---|
 | `ghl/legal/terms.html`, `privacy.html`, `cancellation.html` | `/terms`, `/privacy`, `/cancellation` (one Custom Code element each) |
 | `ghl/site-head.html` | Website settings → Head tracking code (whole site, once). Fill in `dataUrl`, `subscribeUrl`, `portalUrl` |
-| `home-this-week-strip` | Home, under the hero |
-| `home-launch-note` | Home, under "How a week works" |
-| `home-map-preview` | Home, Signal Map section |
-| `home-latest-track` | Home, Latest transmission section |
+| `home-hero-map` | Home hero: a full-width section with no padding. Put the H1, subhead and button in a text block over its lower-left (under it on phones) |
+| `home-this-week-strip` | Home, under the hero. Also at the top of the locked `/submit` page |
+| `home-timeline` | Home, "How a week works" |
+| `home-launch-note` | Home, under the timeline |
+| `home-latest-track` | Home, "Latest track" section |
 | `signal-map` | Signal Map page (`/signal-map`) |
 | `signal-map-broadcast-wall` | Signal Map page, last section |
 | `tracks-index` | `/tracks` |
@@ -92,9 +93,34 @@ Run `node tools/build.mjs` after changing anything in `src/`, then paste from `g
 
 If you use different page URLs, change `paths` in `src/vela.js` and rebuild. The map shows subscriber cities only, with no fixed points or lines. It uses d3-geo and a world outline from cdn.jsdelivr.net, and fonts from Google Fonts. Nothing else is loaded from outside.
 
-**Page look (native GoHighLevel sections):** background #0c1524 (deep navy), with #060a12 for alternating sections. Text is #b3b8be (fog grey), headings #e6e8ea. Accent and buttons are #ff8a1e (sodium orange). Borders and dividers are #3a3936 (raw concrete). Fonts: IBM Plex Sans for text, IBM Plex Mono for labels and times. Night only, with no light version.
+## 6. Design (from the Vela Nox design system)
+The site head code loads the fonts and defines the tokens; it also paints every page `--night`, so no white page flashes. Style the native GoHighLevel sections to match:
 
-## 6. Every Monday
+| Token | Hex | Use |
+|---|---|---|
+| `--night` | #0F1A2A | Page background everywhere, including funnel, checkout and portal pages |
+| `--deep` | #16243A | Raised surfaces: theme strip, cards, the map sea |
+| `--concrete` | #34404F | Borders, input outlines, list separators, map land |
+| `--fog` | #95A0AD | Secondary text, helper text |
+| `--mist` | #E7EAED | Primary text and headings; links (1px `--fog` underline, orange on hover) |
+| `--sodium` | #E8963D | Only: subscribe and Send it buttons (dark `--night` text), map lights, waveform markers, a contributor's own name on their card, keyboard focus |
+| `--beacon` | #D23B32 | Only: the live submission deadline |
+
+- **Fonts:** Big Shoulders Display 800 for page titles and the theme, 600 for section headings (never below 24px). Atkinson Hyperlegible for everything else. No monospace; numbers use tabular figures.
+- **Type sizes (phone → desktop at 900px):** hero 44→88px, page H1 36→60px, H2 26→36px, H3 19→21px, body 17→18px, small 14→15px, theme 34→56px.
+- **Shape:** radius 0 on buttons, inputs, panels and cards. No shadows. No divider lines between sections: 96px between sections on phones, 144px on desktop.
+- **Layout:** one left-aligned reading column (38rem) inside a 72rem page, side padding 20/40/64px. Only the Signal Map runs full width.
+- **Buttons:** primary is sodium with dark text, Atkinson bold 17px, padding 18×28px, full width on phones, lighter (#F0A456) on hover. Secondary ("See the credits", "See the Signal Map", "View as list") is transparent with a 1px concrete border.
+- **Header:** "Vela Nox" in Big Shoulders 800 at 22px on the left; Submit, Map, Tracks, Rules on the right. Transparent over the home map, night with a bottom border once scrolled. On phones, a "Menu" text button opens a full-screen night panel with the links in Big Shoulders 36px.
+- **Form (GoHighLevel form builder → Styles/Custom CSS):** night inputs, 52px tall, 1px concrete border that turns sodium on focus, bold 16px labels above, grey 14px help below, 28px between fields, square 22px checkboxes. Order: Your sound, then Your credit, then Before you send it (use the form's section/heading blocks for the three H2s).
+- **FAQ:** GoHighLevel's FAQ/accordion element, with a thin plus icon that rotates when open.
+- **Stripe checkout:** set the order form and checkout colors to the palette so paying doesn't jump to a white page.
+- **Motion:** only the map's first-visit fade-in, the pulsing deadline dot, the confirmation line, waveform highlights and the accordion. All of them respect "reduce motion".
+- **Images:** night only, colour-matched (shadows toward navy, warm highlights). At most two photos of Vela on the home page, cropped at the shoulder and placed on the right, looking into the page. Her profile photo goes in the footer (48px) and becomes the favicon. The multiview character sheet never goes on the site.
+
+**What only the preview shows (GoHighLevel limits):** the preview's upload box, which shows the file's length and a small waveform, checks the 10-second and 3 MB limits, and shows the red-bar error messages. The live GoHighLevel form loads in a frame that the site's code can't reach, so on the live site the upload field is GoHighLevel's own, restyled with the form's CSS. The limits are stated next to the field, and anything over is skipped at review, as before.
+
+## 7. Every Monday
 1. Settings: set `current_week` and `theme` (the vote winner). Clear `theme_note` after launch week.
 2. Tracks: add last week's track row (with `date sent` = today), plus its Credits rows.
 3. Send the early-access email.
@@ -114,8 +140,14 @@ If you use different page URLs, change `paths` in `src/vela.js` and rebuild. The
 8. **Launch-week vote timing on Home.** Added "The vote closes Sunday, October 11, 11:59 pm ET." to the strip's vote line during launch week, so the Home page uses the launch dates as required. It drops off on October 12.
 9. **"When is it on Spotify?"** is written as "When is it on streaming platforms?", because of the rule against naming brands. Switch it back if you prefer your wording.
 10. **FAQ "When is the deadline?"** was added so the FAQ shows the launch-week deadline, as required.
-11. **Images.** Waiting for yours. For now, the hero is type only and covers show a plain concrete block. Each cover gets alt text from the `cover alt text` column.
+11. **Images.** Waiting for yours. For now, the hero is the map (no photo), the space beside the theme strip is empty, the footer has no profile photo, and covers show a plain block. Each cover gets alt text from the `cover alt text` column.
 12. **Extra sheet columns and a fifth tab.** A Settings tab (the one place for the weekly settings), plus private columns (status, email, file, and so on) and a `remove from public` column for opt-out requests.
 13. **"Cities" counts** only count people who chose to show their city, so no one's city is revealed indirectly.
 14. **Check in your GoHighLevel plan:** whether portal lessons accept custom code, whether there's a "subscription ended" trigger, and whether the form's redirect to `/sent` works from inside the portal. The build above works if all three do.
 15. **Testimonials and subscriber counts.** Intentionally none. There's no real data for them.
+16. **Where the design system and your earlier instructions differ.** I followed your instructions:
+    - **Tower and transmission lines:** the design system puts a blinking red tower on the map and draws lines to it. You asked for subscriber locations only, so neither is on the map. The red beacon color now appears only on the live deadline. Say so if you want the tower back.
+    - **Streaming timing:** the design's timeline says "1–3 weeks". The site says about a month, as you told me.
+    - **Status wording:** the design's closed line is "Closed. The track is being made." The site keeps your content wording, "Submissions closed — the track is being made".
+    - **Navigation:** the design lists four links (Submit, Map, Tracks, Rules). Contributors is reached from the map, from the credits, and from the phone menu.
+17. **Not built (yet):** the waveform play button (only if you want to host a low-quality preview, which would put audio in public before streaming), and the Monday email template (build it in GoHighLevel's email builder with the same palette: night background, the title in Big Shoulders, tabular timestamps, and sodium WAV/FLAC/MP3 buttons).
