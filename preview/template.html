@@ -1,4 +1,5 @@
 <title>Vela Nox Site Preview</title>
+<link rel="icon" href="{{PNG:favicon-64}}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -23,7 +24,8 @@ body { margin: 0; color: var(--mist); font-family: var(--text); }
 .site-head.is-solid { background: rgba(7, 12, 22, 0.92); backdrop-filter: blur(8px); border-bottom-color: var(--concrete); }
 .has-hero .site-head:not(.is-solid) { background: transparent; }
 .site-head .wrap { display: flex; align-items: center; justify-content: space-between; min-height: 68px; gap: 1rem; }
-.wordmark { font-family: var(--display); font-weight: 800; font-size: 22px; color: var(--mist) !important; text-decoration: none !important; }
+.wordmark { display: inline-flex; align-items: center; gap: 0.6rem; font-family: var(--display); font-weight: 800; font-size: 22px; color: var(--mist) !important; text-decoration: none !important; }
+.wordmark img { width: 28px; height: 28px; display: block; }
 .site-nav { display: flex; gap: 1.75rem; font-size: 16px; }
 .site-nav a { text-decoration: none; color: var(--mist); padding: 0.6rem 0; }
 .site-nav a[aria-current="page"] { text-decoration: underline; text-decoration-color: var(--fog); text-underline-offset: 6px; }
@@ -151,7 +153,7 @@ main > .page > section > h2 + .lede, main > .page > section > h2 + p { margin-to
 .site-foot .wrap { padding-block: 2.5rem; display: grid; gap: 1.25rem; }
 @media (min-width: 800px) { .site-foot .top { display: flex; justify-content: space-between; gap: 2rem; } }
 .site-foot .who { display: grid; grid-template-columns: 48px auto; gap: 0 0.9rem; align-items: center; }
-.site-foot .who img { grid-row: span 2; width: 48px; height: 48px; object-fit: cover; border: 1px solid var(--concrete); }
+.site-foot .who img { grid-row: span 2; width: 44px; height: 44px; display: block; }
 .site-foot .who b { font-family: var(--text); font-weight: 700; display: block; }
 .site-foot nav { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; }
 @media (max-width: 599px) { .site-foot nav { gap: 0 0.9rem; font-size: 15px; } }
@@ -176,7 +178,7 @@ main > .page > section > h2 + .lede, main > .page > section > h2 + p { margin-to
 
   <header class="site-head" id="site-head">
     <div class="wrap">
-      <a class="wordmark" href="#home">Vela Nox</a>
+      <a class="wordmark" href="#home"><img src="{{LOGO}}" alt="" width="28" height="28">Vela Nox</a>
       <nav class="site-nav" aria-label="Main">
         <a href="#home">Home</a>
         <a href="#submit">Submit</a>
@@ -188,7 +190,7 @@ main > .page > section > h2 + .lede, main > .page > section > h2 + p { margin-to
     </div>
   </header>
   <div class="menu" id="menu" hidden>
-    <div class="top"><span class="wordmark">Vela Nox</span><button class="menu-btn" style="display:block" type="button" id="menu-close">Close</button></div>
+    <div class="top"><span class="wordmark"><img src="{{LOGO}}" alt="" width="28" height="28">Vela Nox</span><button class="menu-btn" style="display:block" type="button" id="menu-close">Close</button></div>
     <nav aria-label="Main"><a href="#home">Home</a><a href="#submit">Submit</a><a href="#map">Map</a><a href="#tracks">Tracks</a><a href="#contributors">Contributors</a><a href="#rules">Rules</a></nav>
   </div>
 
@@ -417,7 +419,7 @@ main > .page > section > h2 + .lede, main > .page > section > h2 + p { margin-to
   <footer class="site-foot">
     <div class="wrap">
       <div class="top">
-        <div class="who"><img src="{{IMG:vela-face}}" alt="Vela Nox" width="48" height="48"><b>Vela Nox</b><a href="mailto:velanox@gmail.com">velanox@gmail.com</a></div>
+        <div class="who"><img src="{{LOGO}}" alt="" width="44" height="44"><b>Vela Nox</b><a href="mailto:velanox@gmail.com">velanox@gmail.com</a></div>
         <nav aria-label="Footer">
           <a href="https://www.instagram.com/velanoxmusic/" rel="noopener" target="_blank">Instagram</a>
           <a href="https://www.tiktok.com/@velanox_music" rel="noopener" target="_blank">TikTok</a>

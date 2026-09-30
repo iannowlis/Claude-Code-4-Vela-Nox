@@ -253,7 +253,7 @@ Tumult is a track by the human producer behind Vela Nox. It's on the site from l
 - **H1:** [TITLE]
 - Theme: [THEME] / Sent to subscribers [DATE] / [N] contributors · [N] cities
 - Streaming links: only the ones you add to the sheet, as outlined buttons. If there are none: "Not on streaming platforms yet. Tracks go out there about a month after the subscriber email, once the distributor has reviewed everything. Subscribers get an email when it's out."
-- Cover on the right.
+- Cover on the right (above the title on phones): the standard cover with the mark, "TRACK [NN]" and the title, unless the sheet has a cover image.
 
 **H2: Waveform credits**
 Each mark is a sound someone sent. Hover or tap it to see whose. People who chose not to show their city are credited by name only, in the list below.
@@ -443,7 +443,7 @@ Headings: one H1 per page. Sections are H2, cards and FAQ questions are H3. The 
 | Logo / wordmark (header) | Vela Nox |
 | Instagram icon (footer) | Vela Nox on Instagram |
 | TikTok icon (footer) | Vela Nox on TikTok |
-| Track covers | From the "cover alt text" column in the Tracks tab. Write it per cover, describing what's in it. If you leave it empty, the site uses "Cover art for Track [NN], [TITLE]" |
+| Track covers | From the "cover alt text" column in the Tracks tab, for covers you upload. The standard cover reads "Cover art for Track [NN], [TITLE]" |
 | Signal Map (full) | Night map of the world with points of light for contributors' cities. Tap a light for details. |
 | Signal Map (home preview) | Night map of the world. Each point of light is the city of someone who sent a sound. |
 | Track mini map | Night map with the cities of people credited on Track [NN]. |
