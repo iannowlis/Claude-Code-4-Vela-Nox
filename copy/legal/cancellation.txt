@@ -1,5 +1,5 @@
 CANCELLATION POLICY
-Last updated: [DATE]
+Last updated: September 30, 2026
 
 Your Vela Nox subscription costs $3 per week, billed weekly through Stripe. It renews automatically every week until you cancel.
 

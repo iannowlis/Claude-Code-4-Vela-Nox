@@ -211,7 +211,7 @@ function buildPublic_() {
   var tracksOut = trackList.map(function (t) {
     var cities = {}, names = {};
     // Timestamp order. People who didn't opt in keep their place but are sent as a name only:
-    // no city, no timestamp, no sound title (Terms 6, Privacy 3).
+    // no city, no timestamp, no sound title (Terms 5, Privacy 3).
     var credits = t.credits.slice().sort(function (a, b) {
       return (isFinite(a.s) ? a.s : Infinity) - (isFinite(b.s) ? b.s : Infinity);
     }).map(function (c) {

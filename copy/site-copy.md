@@ -265,7 +265,6 @@ Empty state: "No one here yet. Cards appear once people send sounds and choose t
 **H1:** Rules & FAQ
 
 ### H2: Your sound
-- You need to be 18 or over to subscribe or send a sound.
 - Send only a recording you made. It can't have anyone else's music in it, or anyone's voice without their permission. By sending it, you let Vela Nox use it and release it. The full terms are at [/terms](/terms).
 - Nothing unlawful, hateful, harassing, sexually explicit or harmful.
 - One sound a week, for that week's theme. Up to 10 seconds, up to 3 MB, any audio format.
@@ -356,7 +355,7 @@ The only additions are layout: the document title is the page's H1, the section 
 
 Layout: one column, max width 680px, body text 17px, line height 1.6, fog grey (#b3b8be) on deep navy (#0c1524). No images.
 
-Still to fill in, in the text itself: `[DATE]` (all three), `[YOUR DOMAIN]` (Terms, Privacy), `[YOUR LEGAL NAME OR BUSINESS NAME]` (Terms, Privacy), `[STATE / COUNTRY]` (Terms §14).
+Still to fill in, in the text itself: `[YOUR DOMAIN]` (Terms intro and §2, Privacy intro).
 
 ---
 
