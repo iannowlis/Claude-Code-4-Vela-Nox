@@ -1,0 +1,5 @@
+
+# Unreleased audio stays out of the repo (upload it to GoHighLevel's media library instead)
+*.mp3
+*.wav
+*.flac

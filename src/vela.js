@@ -586,6 +586,48 @@
       var pre = idx >= 0 && wave.querySelector('.vn-mark[data-i="' + idx + '"]');
       if (pre) { show(pre); pre.scrollIntoView({ block: 'center', inline: 'center' }); }
     }
+    return {
+      wave: wave,
+      showIndex: function (i) { var b = wave.querySelector('.vn-mark[data-i="' + i + '"]'); if (b) show(b); },
+      clear: clear
+    };
+  }
+
+  // Test transmission only: play the track and watch the example marks light up as it passes them.
+  var PLAY = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>';
+  var PAUSE = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 2.5v11M11 2.5v11" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>';
+  function attachPlayer(box, api, src, duration, marks, title) {
+    var audio = new Audio(); audio.preload = 'none'; audio.src = src;
+    function clock(sec) { sec = Math.max(0, Math.floor(sec || 0)); return Math.floor(sec / 60) + ':' + pad2(sec % 60); }
+    var bar = document.createElement('div');
+    bar.className = 'vn-player';
+    bar.innerHTML = '<button type="button" class="vn-play" aria-label="Play ' + esc(title) + '">' + PLAY + '</button>' +
+      '<span class="vn-time vn-num">0:00 / ' + clock(duration) + '</span>';
+    box.insertBefore(bar, box.firstChild);
+    var btn = bar.querySelector('.vn-play'), time = bar.querySelector('.vn-time');
+    var head = document.createElement('div'); head.className = 'vn-playhead'; head.hidden = true;
+    api.wave.appendChild(head);
+    var lastMark = -1, raf = 0;
+    function tick() {
+      var t = audio.currentTime, d = audio.duration || duration;
+      head.style.left = (t / d * 100).toFixed(3) + '%';
+      time.textContent = clock(t) + ' / ' + clock(d);
+      var hit = -1;
+      marks.forEach(function (m, i) { if (isFinite(m.s) && t >= m.s && t < m.s + 3) hit = i; });
+      if (hit !== lastMark) { lastMark = hit; if (hit >= 0) api.showIndex(hit); else api.clear(); }
+      if (!audio.paused) raf = requestAnimationFrame(tick);
+    }
+    btn.addEventListener('click', function () { if (audio.paused) audio.play(); else audio.pause(); });
+    audio.addEventListener('play', function () { head.hidden = false; btn.innerHTML = PAUSE; btn.setAttribute('aria-label', 'Pause ' + title); raf = requestAnimationFrame(tick); });
+    audio.addEventListener('pause', function () { btn.innerHTML = PLAY; btn.setAttribute('aria-label', 'Play ' + title); cancelAnimationFrame(raf); tick(); });
+    audio.addEventListener('ended', function () { head.hidden = true; lastMark = -1; api.clear(); });
+    api.wave.addEventListener('click', function (e) {
+      if (e.target.closest('.vn-mark')) return;
+      var r = api.wave.getBoundingClientRect(), ratio = Math.min(Math.max((e.clientX - r.left) / r.width, 0), 1);
+      audio.currentTime = ratio * (audio.duration || duration);
+      head.hidden = false; tick();
+      if (audio.paused) audio.play();
+    });
   }
 
   // Tracks & Credits: one track (the page reads ?n= and, from a profile, ?c=)
@@ -654,7 +696,7 @@
       '<div class="vn-demo-note"><p><b>This one isn’t built from your sounds.</b> ' + esc(t.title) + ' is a track by the human producer behind Vela Nox, sent out ahead of Track 01 so you can see how a release page works.</p>' +
       '<p>The marks on the waveform show where credits go. From Track 01, every mark is someone’s sound: their credit name, their city if they chose to show it, and the exact second it plays.</p></div>' +
       '</div>' + cover(t) + '</div>' +
-      '<section class="vn-section"><h2>Waveform credits</h2><p class="vn-fog vn-read">Example marks. Hover or tap one to see how a credit will read.</p><div class="vn-wave-box"><p class="vn-fog">Reading the waveform…</p></div></section>' +
+      '<section class="vn-section"><h2>Waveform credits</h2><p class="vn-fog vn-read">Example marks. Press play and watch them light up as the track passes them, or tap one to see how a credit will read.</p><div class="vn-wave-box"><p class="vn-fog">Reading the waveform…</p></div></section>' +
       '<section class="vn-section"><h2>Credits</h2><p class="vn-fog vn-read">No subscriber sounds in this one. From Track 01, the list looks like this, in the order the sounds play:</p>' +
       '<ol class="vn-credits vn-credits-example">' + ex.map(function (c, i) {
         return '<li data-i="' + i + '"><span class="vn-ts">' + esc(c.t) + '</span><span>' + c.sound + ' · ' + c.name + ' · <span class="vn-fog">' + c.city + '</span></span></li>';
@@ -664,7 +706,9 @@
     var waveBox = el.querySelector('.vn-wave-box'), rows = el.querySelector('.vn-credits');
     waveformData(t.waveform).then(function (wf) {
       if (!wf) return (waveBox.innerHTML = '<p class="vn-fog">The waveform for ' + esc(t.title) + ' appears here once its audio is added.</p>');
-      drawWave(waveBox, wf, ex, rows, null);
+      var api = drawWave(waveBox, wf, ex, rows, null);
+      var src = String(t.audio || '').trim();
+      if (safeUrl(src) || /^data:audio\//.test(src)) attachPlayer(waveBox, api, src, wf.d, ex, t.title);
     });
     var mapBox = el.querySelector('.vn-track-map');
     geo().then(function (land) {

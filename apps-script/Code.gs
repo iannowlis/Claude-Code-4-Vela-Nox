@@ -17,7 +17,7 @@ var LAUNCH = { open: '2026-09-30T00:00:00', close: '2026-10-08T23:59:59', regula
 var HEADERS = {
   Settings: ['key', 'value', 'note'],
   Contributors: ['credit name', 'instagram handle', 'email', 'city', 'country', 'show city', 'remove from public', 'lat', 'lng', 'first seen', 'last seen'],
-  Tracks: ['number', 'title', 'theme', 'date sent', 'streaming links', 'cover image', 'cover alt text', 'waveform', 'type', 'example marks'],
+  Tracks: ['number', 'title', 'theme', 'date sent', 'streaming links', 'cover image', 'cover alt text', 'waveform', 'type', 'example marks', 'preview audio'],
   Credits: ['track', 'contributor', 'sound title', 'timestamp'],
   Submissions: ['week', 'contributor', 'sound title', 'received', 'status', 'email', 'description', 'file', 'city', 'country', 'show city', 'instagram handle']
 };
@@ -53,7 +53,7 @@ function setup() {
   // The test transmission: Tumult, the producer's own track, shows how a release page works before Track 01.
   // type "demo" keeps it out of the counters, the map and contributor credits. Delete the row to remove it.
   var tr = ss.getSheetByName('Tracks');
-  if (tr.getLastRow() < 2) tr.appendRow(['0', 'Tumult', 'Test transmission', '', '', '', '', '', 'demo', '']);
+  if (tr.getLastRow() < 2) tr.appendRow(['0', 'Tumult', 'Test transmission', '', '', '', '', '', 'demo', '', '']);
   var props = PropertiesService.getScriptProperties();
   if (!props.getProperty('WEBHOOK_SECRET')) props.setProperty('WEBHOOK_SECRET', Utilities.getUuid());
   Logger.log('Webhook secret (paste into the GoHighLevel webhook body): ' + props.getProperty('WEBHOOK_SECRET'));
@@ -170,6 +170,7 @@ function buildPublic_() {
     return {
       n: parseInt(r.number, 10), title: r.title, theme: r.theme,
       demo: norm_(r.type) === 'demo',
+      audio: r['preview audio'],
       marks: String(r['example marks'] || '').split(/[,;|\s]+/).filter(Boolean).map(function (x) { return seconds_(x, null); }).filter(isFinite),
       sent: dateStr_(r['date sent'], r._raw['date sent']),
       links: links_(r['streaming links']),
@@ -217,7 +218,7 @@ function buildPublic_() {
   trackList.sort(function (a, b) { return b.n - a.n; });
   var tracksOut = trackList.map(function (t) {
     if (t.demo) return {
-      n: t.n, title: t.title, theme: t.theme, demo: true, links: t.links,
+      n: t.n, title: t.title, theme: t.theme, demo: true, links: t.links, audio: t.audio,
       cover: t.cover, coverAlt: t.coverAlt, waveform: t.waveform,
       marks: t.marks.map(function (x) { return { s: x, t: clock_(x) }; }), credits: []
     };

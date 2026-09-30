@@ -241,7 +241,7 @@ Tumult is a track by the human producer behind Vela Nox. It's on the site from l
 - Track 00 · Test transmission
 - **H1:** Tumult
 - Note (blue edge): "**This one isn't built from your sounds.** Tumult is a track by the human producer behind Vela Nox, sent out ahead of Track 01 so you can see how a release page works. / The marks on the waveform show where credits go. From Track 01, every mark is someone's sound: their credit name, their city if they chose to show it, and the exact second it plays."
-- **H2: Waveform credits:** "Example marks. Hover or tap one to see how a credit will read." Marker label: "Example · your sound · your name · your city · [TIMESTAMP]". Before the audio is added: "The waveform for Tumult appears here once its audio is added."
+- **H2: Waveform credits:** "Example marks. Press play and watch them light up as the track passes them, or tap one to see how a credit will read." A round play button with the time ("0:00 / 5:47") sits above the waveform; clicking the waveform jumps there. Marks at 0:31, 1:46, 2:06, 3:31 and 4:12. Marker label: "Example · your sound · your name · your city · [TIMESTAMP]". Before the audio is added: "The waveform for Tumult appears here once its audio is added."
 - **H2: Credits:** "No subscriber sounds in this one. From Track 01, the list looks like this, in the order the sounds play:" then example rows in grey italics: "[TIMESTAMP] your sound · your name · your city"
 - **H2: Streaming credits:** "Tumult is credited to Vela Nox. From Track 01, contributors' names go here, in the order their sounds play, and on streaming platforms where they allow it."
 - **H2: Where this track came from:** dark map, "No lights for this one: Tumult has no contributors. The first ones arrive with Track 01."
