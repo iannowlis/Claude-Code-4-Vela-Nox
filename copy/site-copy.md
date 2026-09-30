@@ -107,9 +107,11 @@ Stay for the last record. *(the motto, once, large and grey)*
 ## SUBMIT
 
 ### Locked page: /submit (for people who aren't logged in as subscribers)
-The theme strip first, so visitors see what this week is about (*custom code element `home-this-week-strip`*). Then:
+Header image (`stairwell.webp`) with **H1:** Send this week's sound
 
-**H1:** Submitting is for subscribers.
+Then, side by side on desktop: the theme strip, so visitors see what this week is about (*custom code element `home-this-week-strip`*). Then:
+
+**H2:** Submitting is for subscribers.
 $3 a week, cancel anytime.
 
 [Button] Send me a sound — $3/week
@@ -436,7 +438,9 @@ Headings: one H1 per page. Sections are H2, cards and FAQ questions are H3. The 
 | Home hero (`hero-vela-tower.webp`) | Vela Nox seen from behind on a rusted radio tower platform above a foggy sea at night, strands of cold blue light hanging from the tower, a red warning light above. |
 | Vela portrait (`vela-portrait.webp`) | Vela Nox, platinum buzzcut and a thin braid, in a translucent smoke-blue coat on the tower at night, strands of blue light behind her. |
 | Vela profile photo (footer) | Vela Nox |
-| Contributors header (`tower-strands.webp`) | A radio tower in fog on the coast at night, veiled in hanging strands of blue light. |
+| Signal Map header (`tower-strands.webp`) | A radio tower in fog on the coast at night, veiled in hanging strands of blue light. |
+| Contributors header (`strands-texture.webp`) | Strands of blue light hanging in fog. |
+| Submit header (`stairwell.webp`) | A concrete stairwell at 4am under a caged blue bulb, glowing cables running down the steps. |
 | Rules & FAQ header (`stromen-ruins.webp`) | The ruins of Ströme, a demolished club on the coast, in the rain under one cold blue streetlamp. |
 | Tracks & Credits header (`vault.webp`) | An underground club in an old bank vault, glowing cables spilling from rusted safe-deposit boxes. |
 | Confirmation background (`strands-texture.webp`) | Decorative, no alt text. |

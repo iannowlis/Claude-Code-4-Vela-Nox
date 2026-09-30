@@ -54,6 +54,16 @@
 .vn-read { max-width: var(--read); }
 .vn-empty { color: var(--fog); padding: 1.25rem 0; }
 
+/* Section rhythm and separators, used everywhere:
+   --space between sections; a hairline across the content with a short glowing ice tick on the left.
+   In GoHighLevel, put the section-divider element at the top of each section, or give the section the class vn-sep. */
+:root { --space: 56px; --space-sm: 36px; }
+@media (min-width: 900px) { :root { --space: 80px; --space-sm: 48px; } }
+.vn-divider { position: relative; height: 1px; background: var(--concrete); margin: 0 0 var(--space); }
+.vn-divider::after, .vn-sep::after { content: ""; position: absolute; left: 0; top: 0; width: 48px; height: 1px; background: var(--ice); box-shadow: 0 0 10px var(--ice); }
+.vn-sep { position: relative; border-top: 1px solid var(--concrete); padding-top: var(--space); }
+.vn-sep::after { top: -1px; }
+
 /* Buttons */
 .vn-btn { display: inline-block; background: var(--ice); box-shadow: 0 0 28px var(--ice-glow); color: var(--night) !important; text-decoration: none !important; font-family: var(--text); font-weight: 700; font-size: 17px; line-height: 1.2; padding: 18px 28px; border: 0; border-radius: 0; cursor: pointer; }
 .vn-btn:hover { background: var(--ice-hover); color: var(--night) !important; box-shadow: 0 0 40px var(--ice-glow); }
@@ -114,7 +124,7 @@
 .vn-pop-close svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 1.5; }
 .vn-legend { display: flex; flex-wrap: wrap; gap: 0.5rem 1.75rem; margin-top: 1rem; font-size: var(--t-small); color: var(--fog); }
 .vn-legend span { display: inline-flex; align-items: center; gap: 0.5rem; }
-.vn-list-toggle { margin-top: 1rem; }
+.vn-list-toggle { margin-top: 1.75rem; }
 .vn-table-wrap { overflow-x: auto; margin-top: 1rem; }
 .vn-table { border-collapse: collapse; min-width: 100%; font-size: var(--t-small); }
 .vn-table th, .vn-table td { text-align: left; padding: 0.55rem 1.5rem 0.55rem 0; border-bottom: 1px solid var(--concrete); }
@@ -147,12 +157,14 @@
 .vn-row .vn-count { color: var(--mist); font-size: var(--t-small); margin: 0.2rem 0 0; font-variant-numeric: tabular-nums; }
 
 /* Track page */
-.vn-track-head { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.5rem; margin-bottom: 3rem; }
+.vn-track-head { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.5rem; margin: 0; }
 @media (min-width: 700px) { .vn-track-head { grid-template-columns: minmax(0, 1fr) 240px; align-items: end; } }
 .vn-track-head img, .vn-track-head .vn-cover-ph { width: 100%; max-width: 240px; height: auto; aspect-ratio: 1; }
 .vn-track-no { color: var(--fog); margin: 0 0 0.4rem; }
 .vn-links { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.25rem; }
-.vn-section { margin: 0 0 4rem; }
+.vn-section { position: relative; margin-top: var(--space); padding-top: var(--space); border-top: 1px solid var(--concrete); }
+.vn-section::after { content: ""; position: absolute; left: 0; top: -1px; width: 48px; height: 1px; background: var(--ice); box-shadow: 0 0 10px var(--ice); }
+.vn-section > h2 { margin-bottom: 0.6rem; }
 .vn-wave-scroll { overflow-x: auto; }
 .vn-wave { position: relative; min-width: 560px; padding-bottom: 34px; }
 .vn-wave svg { display: block; width: 100%; height: 120px; }

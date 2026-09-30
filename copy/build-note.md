@@ -110,7 +110,7 @@ One accent: **cold ice-blue light, everywhere** (buttons, links, focus, map ligh
 
 - **Fonts:** Big Shoulders Display 800 for page titles and the theme, 600 for section headings (never below 24px). Atkinson Hyperlegible for everything else. No monospace; numbers use tabular figures.
 - **Type sizes (phone → desktop at 900px):** hero 44→88px, page H1 36→60px, H2 26→36px, H3 19→21px, body 17→18px, small 14→15px, theme 34→56px.
-- **Shape:** radius 0 on buttons, inputs, panels and cards. No drop shadows; the only glow is the soft ice light on buttons and titles. No divider lines between sections: 96px between sections on phones, 144px on desktop.
+- **Shape:** radius 0 on buttons, inputs, panels and cards. No drop shadows; the only glow is the soft ice light on buttons and titles. One spacing rhythm on every page: each section gets 56px of padding above and below on phones, 80px on desktop. Between sections, a 1px concrete hairline across the content with a 48px glowing ice-blue tick on its left: paste the `section-divider` element at the top of every section after the first (or give the GoHighLevel section the custom class `vn-sep`).
 - **Layout:** one left-aligned reading column (38rem) inside a 72rem page, side padding 20/40/64px. Only the Signal Map runs full width.
 - **Buttons:** primary is ice-blue (#A6DCFF) with dark text and a soft ice glow, Atkinson bold 17px, padding 18×28px, full width on phones, lighter (#C9ECFF) on hover. Secondary ("See the credits", "See the Signal Map", "View as list") is transparent with a 1px concrete border.
 - **Header:** "Vela Nox" in Big Shoulders 800 at 22px on the left; Submit, Map, Tracks, Rules on the right. Transparent over the home hero and the page header images, night with a bottom border once scrolled. On phones, a "Menu" text button opens a full-screen night panel with the links in Big Shoulders 36px.
@@ -127,9 +127,11 @@ One accent: **cold ice-blue light, everywhere** (buttons, links, focus, map ligh
   | `favicon-64.png`, `apple-touch-icon.png` | Site favicon and phone home-screen icon (GoHighLevel → Settings → favicon) |
   | `vault.webp` | Header image behind the "Tracks & Credits" title |
   | `stromen-ruins.webp` | Header image behind the "Rules & FAQ" title |
-  | `tower-strands.webp` | Header image behind the "Contributors" title |
+  | `strands-texture.webp` (also) | Header image behind the "Contributors" title |
   | `strands-texture.webp` | Background of the `/sent` confirmation page |
-  Page header images: a section about 46% of the screen tall with the image as its background, a dark gradient into `--night` at the bottom, and the page H1 sitting on it. The Signal Map moved out of the home hero into its own full-width section under the theme strip.
+  | `stairwell.webp` | Header image behind the Submit page title ("Send this week's sound") |
+  | `tower-strands.webp` | Header image behind "The Signal Map" title (Contributors now uses `strands-texture.webp`) |
+  Page header images: a section about 46% of the screen tall with the image as its background, a dark gradient into `--night` at the bottom, and the page H1 sitting on it. Every page except Home, the track page, the portal and the legal pages opens this way: Submit, The Signal Map, Tracks & Credits, Contributors, Rules & FAQ. The first section under a header image gets 36px (phones) / 48px (desktop) of space above it. The Signal Map moved out of the home hero into its own full-width section under the theme strip.
 
 **What only the preview shows (GoHighLevel limits):** the preview's upload box, which shows the file's length and a small waveform, checks the 10-second and 3 MB limits, and shows the red-bar error messages. The live GoHighLevel form loads in a frame that the site's code can't reach, so on the live site the upload field is GoHighLevel's own, restyled with the form's CSS. The limits are stated next to the field, and anything over is skipped at review, as before.
 

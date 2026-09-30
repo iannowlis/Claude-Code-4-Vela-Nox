@@ -7,9 +7,9 @@
 /* ---------- Page chrome for the preview (native GoHighLevel sections on the live site) ---------- */
 html, body { background: var(--night); }
 body { margin: 0; color: var(--mist); font-family: var(--text); }
-.vn .wrap { max-width: var(--page); margin: 0 auto; padding-inline: 20px; }
-@media (min-width: 600px) { .vn .wrap { padding-inline: 40px; } }
-@media (min-width: 900px) { .vn .wrap { padding-inline: 64px; } }
+.vn .wrap { --gutter: 20px; max-width: var(--page); margin: 0 auto; padding-inline: var(--gutter); }
+@media (min-width: 600px) { .vn .wrap { --gutter: 40px; } }
+@media (min-width: 900px) { .vn .wrap { --gutter: 64px; } }
 
 /* Preview controls: not part of the site */
 .pv-bar { background: #0A121E; border-bottom: 1px solid var(--concrete); padding: 0.5rem 20px; display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; align-items: center; font-size: 14px; color: var(--fog); }
@@ -34,10 +34,15 @@ body { margin: 0; color: var(--mist); font-family: var(--text); }
 .menu nav { display: grid; gap: 0.6rem; }
 .menu nav a { font-family: var(--display); font-weight: 800; font-size: 36px; line-height: 1.1; color: var(--mist); text-decoration: none; }
 
-/* Sections: space does the work, no divider lines */
-main > .page > section, main > .page > .wrap { padding-block: 96px 0; }
-main > .page > :last-child { padding-bottom: 144px; }
-@media (min-width: 900px) { main > .page > section, main > .page > .wrap { padding-top: 144px; } }
+/* Sections: one rhythm on every page. Equal space above and below each section,
+   and between sections a hairline across the content with a short glowing blue tick. */
+main > .page > section { position: relative; padding-block: var(--space); }
+main > .page > section + section::before { content: ""; position: absolute; top: 0; left: var(--gutter); right: var(--gutter); height: 1px; background: var(--concrete); }
+main > .page > section + section::after { content: ""; position: absolute; top: 0; left: var(--gutter); width: 48px; height: 1px; background: var(--ice); box-shadow: 0 0 10px var(--ice); }
+main > .page > section:first-child, main > .page > .band + section, main > .page > .hero + section { padding-top: var(--space-sm); }
+main > .page > section:last-child { padding-bottom: calc(var(--space) * 1.25); }
+main > .page > section > h2, .who-grid h2 { margin-bottom: 1rem; }
+main > .page > section > h2 + .lede, main > .page > section > h2 + p { margin-top: 0; }
 .lede { max-width: var(--read); }
 .fine { color: var(--fog); font-size: var(--t-small); }
 
@@ -61,15 +66,12 @@ main > .page > :last-child { padding-bottom: 144px; }
 .band::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7, 12, 22, 0.25) 0%, rgba(7, 12, 22, 0.55) 55%, var(--night) 100%); }
 .band .wrap { position: relative; z-index: 1; width: 100%; padding-bottom: 8px; }
 .band h1 { margin: 0; }
-main > .page > .band + section { padding-top: 32px; }
 @media (max-width: 599px) { .band { margin-top: 0; min-height: 34vh; } }
 .who-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; align-items: center; }
 @media (min-width: 900px) { .who-grid { grid-template-columns: minmax(0, 38rem) minmax(0, 24rem); justify-content: space-between; } }
 .who-img { margin: 0; }
 .who-img img { display: block; width: 100%; max-width: 24rem; aspect-ratio: 4 / 5; object-fit: cover; border: 1px solid var(--concrete); box-shadow: 0 0 60px rgba(166, 220, 255, 0.12); }
 .sent-bg { background: linear-gradient(180deg, rgba(7, 12, 22, 0.6), rgba(7, 12, 22, 0.85)), var(--img) center / cover no-repeat; }
-.home-strip { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem; }
-@media (min-width: 900px) { .home-strip { grid-template-columns: minmax(0, 38rem) 1fr; } }
 
 /* Perks: 2x2, no boxes, no numbers */
 .perks { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem 4rem; max-width: 60rem; }
@@ -84,7 +86,9 @@ main > .page > .band + section { padding-top: 32px; }
 .motto { font-family: var(--display); font-weight: 600; font-size: var(--t-h2); line-height: 1.05; color: var(--fog); margin: 0 0 1.75rem; }
 
 /* Locked Submit page */
-.locked { margin-top: 2rem; max-width: var(--read); }
+.locked-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; align-items: center; }
+@media (min-width: 900px) { .locked-grid { grid-template-columns: minmax(0, 32rem) minmax(0, 26rem); justify-content: space-between; } }
+.locked h2 { font-size: var(--t-h2); }
 
 /* Rules and FAQ */
 .prose { max-width: var(--read); }
@@ -137,7 +141,7 @@ main > .page > .band + section { padding-top: 32px; }
 .send[disabled] .prog { animation: fill 1.4s ease-out forwards; }
 @keyframes fill { to { width: 100%; } }
 
-.portal-note { color: var(--fog); font-size: var(--t-small); border: 1px solid var(--concrete); padding: 0.4rem 0.7rem; display: inline-block; }
+.portal-note { color: var(--fog); font-size: var(--t-small); border: 1px solid var(--concrete); padding: 0.35rem 0.7rem; display: inline-block; margin: 0 0 1.75rem; }
 
 /* Footer */
 .site-foot { border-top: 1px solid var(--concrete); background: var(--night); }
@@ -201,7 +205,7 @@ main > .page > .band + section { padding-top: 32px; }
         </div></div>
       </div>
 
-      <div class="wrap"><div class="home-strip"><div id="vn-strip"></div></div></div>
+      <section class="wrap"><div class="vn-read" id="vn-strip"></div></section>
 
       <section class="wrap">
         <h2>The Signal Map</h2>
@@ -267,13 +271,16 @@ main > .page > .band + section { padding-top: 32px; }
 
     <!-- SUBMIT (locked: not a subscriber) -->
     <div class="page" data-page="submit" hidden>
+      <div class="band" style="--img:url({{IMG:stairwell}})" role="img" aria-label="A concrete stairwell at 4am under a caged blue bulb, glowing cables running down the steps."><div class="wrap"><h1>Send this week’s sound</h1></div></div>
       <section class="wrap">
-        <div id="vn-strip-locked" class="vn-read"></div>
-        <div class="locked">
-          <h1 style="font-size:var(--t-h2)">Submitting is for subscribers.</h1>
-          <p>$3 a week, cancel anytime.</p>
-          <p><a class="vn-btn" href="#subscribe">Send me a sound — $3/week</a></p>
-          <p style="margin-top:1.5rem">Already subscribed? <a href="#portal">Log in to send your sound</a>.<br><span class="vn-fog">Can’t get in? Write to <a href="mailto:velanox@gmail.com">velanox@gmail.com</a>.</span></p>
+        <div class="locked-grid">
+          <div id="vn-strip-locked"></div>
+          <div class="locked">
+            <h2>Submitting is for subscribers.</h2>
+            <p>$3 a week, cancel anytime.</p>
+            <p><a class="vn-btn" href="#subscribe">Send me a sound — $3/week</a></p>
+            <p style="margin:1.5rem 0 0">Already subscribed? <a href="#portal">Log in to send your sound</a>.<br><span class="vn-fog">Can’t get in? Write to <a href="mailto:velanox@gmail.com">velanox@gmail.com</a>.</span></p>
+          </div>
         </div>
       </section>
     </div>
@@ -282,7 +289,7 @@ main > .page > .band + section { padding-top: 32px; }
     <div class="page" data-page="portal" hidden>
       <section class="wrap">
         <p class="portal-note">Preview: what a logged-in subscriber sees</p>
-        <div class="vn-read" style="margin-top:1.5rem"><div id="vn-submit"></div></div>
+        <div class="vn-read"><div id="vn-submit"></div></div>
       </section>
       <section class="wrap sent-bg" id="sent-demo" style="--img:url({{IMG:strands-texture}})">
         <p class="portal-note">After “Send it”</p>
@@ -290,7 +297,7 @@ main > .page > .band + section { padding-top: 32px; }
       </section>
       <section class="wrap">
         <p class="portal-note">A second attempt in the same week</p>
-        <div id="vn-already" style="margin-top:1.5rem"></div>
+        <div id="vn-already" class="vn-read"></div>
       </section>
     </div>
 
@@ -304,8 +311,8 @@ main > .page > .band + section { padding-top: 32px; }
 
     <!-- SIGNAL MAP -->
     <div class="page" data-page="map" hidden>
+      <div class="band" style="--img:url({{IMG:tower-strands}})" role="img" aria-label="A radio tower in fog on the coast at night, veiled in hanging strands of blue light."><div class="wrap"><h1>The Signal Map</h1></div></div>
       <section class="wrap">
-        <h1>The Signal Map</h1>
         <p class="lede">Each point of light is someone who sent a sound and chose to show their city. City only, placed at the city center. Nothing more precise than that. The more credits someone has, the brighter their light.</p>
         <div id="vn-signal-map" style="margin-top:2rem"></div>
         <p style="margin-top:1.5rem"><a href="#contributors">Everyone on the map, as cards</a></p>
@@ -328,7 +335,7 @@ main > .page > .band + section { padding-top: 32px; }
 
     <!-- CONTRIBUTORS -->
     <div class="page" data-page="contributors" hidden>
-      <div class="band" style="--img:url({{IMG:tower-strands}})" role="img" aria-label="A radio tower in fog on the coast at night, veiled in hanging strands of blue light."><div class="wrap"><h1>Contributors</h1></div></div>
+      <div class="band" style="--img:url({{IMG:strands-texture}})" role="img" aria-label="Strands of blue light hanging in fog."><div class="wrap"><h1>Contributors</h1></div></div>
       <section class="wrap">
         <p class="lede">Everyone here sent a sound and chose to show their city. People who didn’t are credited by name only and aren’t listed here.</p>
         <div id="vn-contributors" style="margin-top:2rem"></div>
@@ -504,7 +511,7 @@ var MOCK_FORM =
     else if (h === 'track') trackC = null;
     if (!document.querySelector('[data-page="' + h + '"]')) h = 'home';
     current = h;
-    document.body.classList.toggle('has-hero', ['home', 'tracks', 'rules', 'contributors'].indexOf(h) >= 0);
+    document.body.classList.toggle('has-hero', ['home', 'tracks', 'rules', 'contributors', 'map', 'submit'].indexOf(h) >= 0);
     document.querySelectorAll('[data-page]').forEach(function (el) { el.hidden = el.getAttribute('data-page') !== h; });
     document.querySelectorAll('.site-nav a').forEach(function (a) {
       var on = a.getAttribute('href') === '#' + h || (h === 'portal' && a.getAttribute('href') === '#submit') || (h === 'track' && a.getAttribute('href') === '#tracks');

@@ -44,6 +44,7 @@ const elements = {
   'contributors': ['Contributors page, under the intro', call('vn-contributors', 'contributors')],
   'submit-sent-confirmation': ['/sent page (the form redirects here). Renders the H1', call('vn-sent', 'confirmation')],
   'faq-vote-answer': ['Rules & FAQ, under "How does the theme vote work?"', call('vn-faq-vote', 'voteAnswer')],
+  'section-divider': ['Top of every page section after the first: a hairline with a glowing blue tick. Same look as the preview', '<div class="vn vn-divider" role="presentation"></div>\n'],
   'faq-deadline-answer': ['Rules & FAQ, under "When is the deadline?"', call('vn-faq-deadline', 'deadlineAnswer')]
 };
 
