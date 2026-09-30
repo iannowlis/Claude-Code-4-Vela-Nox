@@ -96,7 +96,7 @@ If you use different page URLs, change `paths` in `src/vela.js` and rebuild. The
 ## 6. Design (from the Vela Nox design system)
 The site head code loads the fonts and defines the tokens; it also paints every page `--night`, so no white page flashes. Style the native GoHighLevel sections to match:
 
-Two kinds of light: **cold ice-blue is Vela** (the machine: buttons, links, focus, the glow on titles), **warm sodium orange is people** (everything that comes from subscribers). This replaces the design file's "sodium is the only accent" rule, to give the site its futuristic, cold-light look.
+One accent: **cold ice-blue light, everywhere** (buttons, links, focus, map lights, waveform markers, contributors' names, level meters, the glow on titles). No orange anywhere in the interface. This replaces the design file's sodium accent, to give the site its futuristic, cold-light look.
 
 | Token | Hex | Use |
 |---|---|---|
@@ -105,8 +105,7 @@ Two kinds of light: **cold ice-blue is Vela** (the machine: buttons, links, focu
 | `--concrete` | #243048 | Borders, input outlines, list separators, map land |
 | `--fog` | #8E9AAE | Secondary text, helper text |
 | `--mist` | #E6EDF5 | Primary text and headings; links (1px `--fog` underline, ice-blue on hover) |
-| `--ice` | #A6DCFF | Vela's light: primary buttons (dark `--night` text, soft ice glow), link hover, keyboard focus, active filters, the "this week" dot on the timeline. Glow: `rgba(166, 220, 255, 0.32)` |
-| `--sodium` | #F2A14E | People only: map lights, waveform markers, a contributor's own name, level meters, the light on the confirmation screen |
+| `--ice` | #A6DCFF | The only accent: primary buttons (dark `--night` text, soft ice glow), link hover, keyboard focus, active filters, the timeline dot, map lights (Broadcast level glows near-white #E3F5FF), waveform markers, a contributor's own name, level meters, checkboxes, the confirmation light. Glow: `rgba(166, 220, 255, 0.32)` |
 | `--beacon` | #E5483D | Only: the live submission deadline |
 
 - **Fonts:** Big Shoulders Display 800 for page titles and the theme, 600 for section headings (never below 24px). Atkinson Hyperlegible for everything else. No monospace; numbers use tabular figures.
@@ -164,6 +163,6 @@ Two kinds of light: **cold ice-blue is Vela** (the machine: buttons, links, focu
     - **Streaming timing:** the design's timeline says "1–3 weeks". The site says about a month, as you told me.
     - **Status wording:** the design's closed line is "Closed. The track is being made." The site keeps your content wording, "Submissions closed — the track is being made".
     - **Navigation:** the design lists four links (Submit, Map, Tracks, Rules). Contributors is reached from the map, from the credits, and from the phone menu.
-17. **Not built (yet):** the waveform play button (only if you want to host a low-quality preview, which would put audio in public before streaming), and the Monday email template (build it in GoHighLevel's email builder with the same palette: night background, the title in Big Shoulders, tabular timestamps, and sodium WAV/FLAC/MP3 buttons).
+17. **Not built (yet):** the waveform play button (only if you want to host a low-quality preview, which would put audio in public before streaming), and the Monday email template (build it in GoHighLevel's email builder with the same palette: night background, the title in Big Shoulders, tabular timestamps, and ice-blue WAV/FLAC/MP3 buttons).
 18. **Your Vela Nox overview disagrees with the site in two places.** The site follows your later instructions: tracks reach streaming about a month after the email (the overview says one to three weeks), and there are no lines to a tower on the Signal Map (the overview describes them). If you reuse the overview elsewhere (press notes, pinned posts), update those two lines.
-19. **Color and look changes from the design file (your go-ahead):** ice-blue is now the button, link and focus color, with a soft glow; orange is kept for everything from subscribers; the navy is darker; the home hero is a photo of Vela on the tower instead of the map (the map is its own section right below). The images are original. Your reference images were used only as a style direction in words, not as inputs, so nothing copies another artist's work.
+19. **Color and look changes from the design file (your go-ahead):** ice-blue is now the only accent color, everywhere, with a soft glow (no orange in the interface); the navy is darker; the home hero is a photo of Vela on the tower instead of the map (the map is its own section right below). The images are original. Your reference images were used only as a style direction in words, not as inputs, so nothing copies another artist's work.

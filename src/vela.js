@@ -174,9 +174,9 @@
   // Lights, per the design system: radius in screen px, colour, opacity, glow in px
   var LIGHT = [
     { r: 3, c: '#8E9AAE', o: 0.6, g: 0 },   // Static
-    { r: 4, c: '#F2A14E', o: 0.75, g: 6 },   // Signal
-    { r: 5, c: '#F2A14E', o: 0.9, g: 10 },   // Frequency
-    { r: 6, c: '#FFC27A', o: 1, g: 16 }     // Broadcast
+    { r: 4, c: '#A6DCFF', o: 0.75, g: 6 },   // Signal
+    { r: 5, c: '#A6DCFF', o: 0.9, g: 10 },   // Frequency
+    { r: 6, c: '#E3F5FF', o: 1, g: 16 }     // Broadcast
   ];
   var METER = [0, 1, 3, 4];
   var CLOSE_ICON = '<svg viewBox="0 0 14 14" aria-hidden="true"><path d="M1 1l12 12M13 1L1 13" fill="none"/></svg>';
@@ -522,7 +522,7 @@
   }
   function creditLine(c) { return [c.sound, c.name, c.city, c.t].filter(Boolean).join(' · '); }
 
-  // Waveform credits: thin concrete bars, sodium markers under them at each timestamp.
+  // Waveform credits: thin concrete bars, ice-blue markers under them at each timestamp.
   // Hover, focus or tap a marker: nearby bars brighten, the panel shows the credit, its row lights up.
   function drawWave(el, wf, credits, rows, preselect) {
     var n = wf.p ? wf.p.length : 200, bw = 1000 / n, bars = '';

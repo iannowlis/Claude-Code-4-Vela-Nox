@@ -111,12 +111,12 @@ main > .page > .band + section { padding-top: 32px; }
 .field { display: grid; gap: 0.4rem; margin-bottom: 28px; }
 .field > label { font-weight: 700; font-size: 16px; color: var(--mist); }
 .field input[type=text], .field input[type=email] { background: var(--night); border: 1px solid var(--concrete); border-radius: 0; color: var(--mist); font: inherit; font-size: 17px; height: 52px; padding: 0 14px; width: 100%; }
-.field input:focus { outline: none; border-color: var(--sodium); }
+.field input:focus { outline: none; border-color: var(--ice); }
 .help { color: var(--fog); font-size: 14px; margin: 0; }
 .err { color: var(--mist); font-size: 15px; border-left: 2px solid var(--beacon); padding: 0.1rem 0 0.1rem 0.7rem; margin: 0.35rem 0 0; }
 .err[hidden] { display: none; }
 .drop { position: relative; display: grid; place-content: center; gap: 0.35rem; min-height: 140px; border: 1px dashed var(--concrete); padding: 1.25rem; text-align: left; cursor: pointer; }
-.drop.is-over, .drop:focus-within { border-color: var(--sodium); }
+.drop.is-over, .drop:focus-within { border-color: var(--ice); }
 .drop input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
 .drop .t { color: var(--mist); }
 .drop .l { color: var(--fog); font-size: 14px; }
@@ -126,14 +126,14 @@ main > .page > .band + section { padding-top: 32px; }
 .check { display: grid; grid-template-columns: 22px 1fr; gap: 0.85rem; align-items: start; margin-bottom: 1.1rem; }
 .check input { appearance: none; -webkit-appearance: none; width: 22px; height: 22px; margin: 2px 0 0; border: 1px solid var(--fog); border-radius: 0; background: var(--night); display: grid; place-content: center; cursor: pointer; }
 .check input::after { content: ""; width: 11px; height: 6px; border-left: 2px solid var(--night); border-bottom: 2px solid var(--night); transform: rotate(-45deg) translate(1px, -1px); opacity: 0; }
-.check input:checked { background: var(--sodium); border-color: var(--sodium); }
+.check input:checked { background: var(--ice); border-color: var(--ice); }
 .check input:checked::after { opacity: 1; }
-.check input:focus-visible { outline: 3px solid var(--sodium); outline-offset: 3px; }
+.check input:focus-visible { outline: 3px solid var(--ice); outline-offset: 3px; }
 .check label { cursor: pointer; }
 .credit-line { color: var(--fog); font-size: 15px; margin: 0 0 1.25rem; }
 .send { position: relative; overflow: hidden; }
 .send .prog { position: absolute; left: 0; bottom: 0; height: 2px; width: 0; background: var(--night); }
-.send[disabled] { cursor: default; background: var(--sodium); }
+.send[disabled] { cursor: default; background: var(--ice); }
 .send[disabled] .prog { animation: fill 1.4s ease-out forwards; }
 @keyframes fill { to { width: 100%; } }
 
@@ -342,7 +342,7 @@ main > .page > .band + section { padding-top: 32px; }
 
     <!-- RULES & FAQ -->
     <div class="page" data-page="rules" hidden>
-      <div class="band" style="--img:url({{IMG:stromen-ruins}})" role="img" aria-label="The ruins of Ströme, a demolished club on the coast, in the rain under one orange streetlamp."><div class="wrap"><h1>Rules &amp; FAQ</h1></div></div>
+      <div class="band" style="--img:url({{IMG:stromen-ruins}})" role="img" aria-label="The ruins of Ströme, a demolished club on the coast, in the rain under one cold blue streetlamp."><div class="wrap"><h1>Rules &amp; FAQ</h1></div></div>
       <section class="wrap prose">
         <h2>Your sound</h2>
         <ul>

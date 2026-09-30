@@ -46,7 +46,7 @@ Every light is someone who sent a sound and chose to show their city. The more c
 Link: "Open the Signal Map"
 
 ### H2: How a week works
-*Custom code element: `home-timeline`. A vertical timeline. An orange dot marks where this week is.*
+*Custom code element: `home-timeline`. A vertical timeline. A glowing blue dot marks where this week is.*
 - **Mon.** The theme is announced, in Vela's Close Friends story and on this site. Last week's vote picked it. The vote for next week's theme opens.
 - **Tue.** Submissions open. Record one sound for the theme and send it. Ten seconds, anything that fits.
 - **Thu.** Submissions close at 11:59 pm ET.
@@ -168,7 +168,7 @@ If your sound makes the track, you'll be credited when it's released: name, city
 - "Tick the three boxes under "Before you send it" to continue."
 
 #### Confirmation screen (/sent, custom code element `submit-sent-confirmation`)
-The one centred moment on the site. An orange light, and a thin line rising from it (1.2 seconds, once). Then:
+The one centred moment on the site. A blue light, and a thin line rising from it (1.2 seconds, once). Then:
 **H1:** Got it. Your sound is in the pool for [THEME OF THE WEEK].
 The track lands in your inbox on Monday. *(During launch week: "…on Monday, October 12.")*
 [Secondary button] See the Signal Map
@@ -270,7 +270,7 @@ Nobody opted in: "No one credited on this track chose to show their city."
 Everyone here sent a sound and chose to show their city. People who didn't are credited by name only and aren't listed here.
 
 *Custom code element: `contributors`.* A card per person:
-- Credit name (in orange: their own name is the signal)
+- Credit name (in ice blue: their own name is the signal)
 - City
 - Level meter (four bars: Static 0, Signal 1, Frequency 3, Broadcast 4) and the level name
 - "[N] credits · [N] sounds sent"
@@ -437,7 +437,7 @@ Headings: one H1 per page. Sections are H2, cards and FAQ questions are H3. The 
 | Vela portrait (`vela-portrait.webp`) | Vela Nox, platinum buzzcut and a thin braid, in a translucent smoke-blue coat on the tower at night, strands of blue light behind her. |
 | Vela profile photo (footer) | Vela Nox |
 | Contributors header (`tower-strands.webp`) | A radio tower in fog on the coast at night, veiled in hanging strands of blue light. |
-| Rules & FAQ header (`stromen-ruins.webp`) | The ruins of Ströme, a demolished club on the coast, in the rain under one orange streetlamp. |
+| Rules & FAQ header (`stromen-ruins.webp`) | The ruins of Ströme, a demolished club on the coast, in the rain under one cold blue streetlamp. |
 | Tracks & Credits header (`vault.webp`) | An underground club in an old bank vault, glowing cables spilling from rusted safe-deposit boxes. |
 | Confirmation background (`strands-texture.webp`) | Decorative, no alt text. |
 | Waveform | Decorative. Each marker is a labeled button: "[sound title] · [credit name] · [city] · [timestamp]" |
